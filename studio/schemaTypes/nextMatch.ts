@@ -21,13 +21,22 @@ export default defineType({
     defineField({
       name: 'homeTeam',
       title: 'Home Team',
-      type: 'string',
+      type: 'reference',
+      to: [{ type: 'team' }],
       validation: Rule => Rule.required(),
     }),
     defineField({
       name: 'awayTeam',
       title: 'Away Team',
+      type: 'reference',
+      to: [{ type: 'team' }],
+      validation: Rule => Rule.required(),
+    }),
+    defineField({
+      name: 'time',
+      title: 'Hora',
       type: 'string',
+      description: 'Ejemplo: 19:00',
       validation: Rule => Rule.required(),
     }),
     defineField({

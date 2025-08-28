@@ -1,3 +1,4 @@
+
 import carouselImage from './carouselImage'
 import category from './category'
 import hero from './hero'
@@ -6,6 +7,7 @@ import nextMatch from './nextMatch'
 import plan from './plan'
 import result from './result'
 import standings from './standings'
+import team from './team'
 
 export const schemaTypes = [
 	importantInfo,
@@ -16,4 +18,5 @@ export const schemaTypes = [
 	category,
 	carouselImage,
 	hero,
+	team,
 ]

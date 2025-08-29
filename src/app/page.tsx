@@ -1,17 +1,22 @@
 // app/page.tsx
+import Gallery from "@/components/Gallery";
 import HeaderSection from "@/components/HeaderSection";
+import Noticias from "@/components/Noticias";
 import { getCarouselImages } from "@/lib/getCarouselImages";
 import { getImportantInfo } from "@/lib/getImportantInfo";
 import { getNextMatch } from "@/lib/getNextMatch";
 import { getPlans } from "@/lib/getPlans";
 import { getResults } from "@/lib/getResults";
+import ResultsCarousel from "@/components/ResultsCarousel";
+import { getSponsors } from "@/lib/getSponsors";
 import { getStandings } from "@/lib/getStandings";
+import { sectionTitle } from "@/lib/styles";
 import Image from "next/image";
 import Link from "next/link";
 
 /* ------------------------------ Navbar ------------------------------ */
 function Navbar({
-  clubName = "Avidela Sports",
+  clubName = "Avidela Sport",
   logoUrl = "/images/avidela-logo.png",
   instagramUrl = "https://www.instagram.com/avidelasportacademy/",
   primary = "#0a1a3c",
@@ -48,11 +53,13 @@ function Navbar({
           </span>
         </Link>
 
-        <ul className="hidden md:flex gap-6 font-semibold" style={{ color: primary }}>
-          {links.map((l) => (
-            <li key={l.href}><a href={l.href} className="hover:opacity-80">{l.label}</a></li>
-          ))}
-        </ul>
+          <ul className="hidden md:flex items-center gap-6">
+            {links.map((l) => (
+              <li key={l.href}>
+                <a href={l.href} className="hover:opacity-80">{l.label}</a>
+              </li>
+            ))}
+          </ul>
 
         <div className="hidden md:flex items-center gap-2">
           <a
@@ -158,13 +165,14 @@ const PlanIcon = ({ type }: { type: "matricula" | "partidos" | "combo" }) => {
 
 /* ------------------------------ Page ------------------------------ */
 export default async function Home() {
-  const [importantInfo, plans, carouselImages, nextMatch, standings, results] = await Promise.all([
+  const [importantInfo, plans, carouselImages, nextMatch, standings, results, sponsors] = await Promise.all([
     getImportantInfo(),
     getPlans(),
     getCarouselImages(),
     getNextMatch(),
     getStandings(),
     getResults(),
+    getSponsors(),
   ]);
 
   // Branding (puedes reemplazar desde Sanity)
@@ -173,7 +181,9 @@ export default async function Home() {
   const gradientB = "#00b4e6";
   const instagram = "https://www.instagram.com/avidelasportacademy/";
   const logoUrl = "/images/avidela-logo.png";
-  const clubName = "Avidela Sports";
+  const clubName = "Avidela Sport";
+  // Posición de los auspiciadores: 'right' = columna derecha, 'center' = centrado debajo de Resultados
+  const sponsorsPosition: 'right' | 'center' = 'right';
 
   // Helpers para identificar plan
   const normalize = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -193,22 +203,24 @@ export default async function Home() {
         <div className="grid md:grid-cols-2 gap-6">
           {/* Izquierda: Título + texto + Cards de planes */}
           <div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[#0b1c3a]">Momentos Inolvidables</h2>
+            <h2 className={`${sectionTitle}`}>Nuestros Planes</h2>
             <p className="text-slate-600 mt-2">Descubre la pasión e alegría de nuestro club en imagenes</p>
 
-            <div className="mt-6 grid sm:grid-cols-3 gap-4">
+            <div className="mt-6 grid sm:grid-cols-3 gap-4 items-stretch">
               {(plans ?? []).slice(0, 3).map((p: any) => {
                 const t = planType(p.name || "");
                 return (
-                  <div key={p._id} className="bg-white rounded-2xl shadow border p-5">
-                    <div className="mb-3"><PlanIcon type={t} /></div>
+                  <div key={p._id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex flex-col h-full">
+                    <div className="mb-3 flex items-center justify-center w-12 h-12 rounded-md bg-white">
+                      <PlanIcon type={t} />
+                    </div>
                     <h3 className="font-bold">{p.name}</h3>
                     <div className="mt-2 text-slate-700 text-sm leading-tight">
                       {p.description || (t === "matricula" ? "Anual" : t === "combo" ? "Partidos + Entrenos" : "Participación en partidos")}
                     </div>
-                    <div className="mt-3 text-2xl font-extrabold text-[#0b1c3a]">
+                    <div className="mt-auto text-2xl font-extrabold text-[#0b1c3a]">
                       {p.price?.toLocaleString("es-CL", { style: "currency", currency: "CLP", minimumFractionDigits: 0 })}
-                      {t !== "matricula" && <span className="text-sm">/mensual</span>}
+                      {t !== "matricula" && <span className="text-sm">/mes</span>}
                     </div>
                   </div>
                 );
@@ -216,13 +228,13 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* Derecha: Galería 2x2 como el mockup (usa tus imágenes del Swiper) */}
-          <div className="grid grid-cols-2 gap-4">
-            {(carouselImages ?? []).slice(0, 4).map((img: any, i: number) => (
-              <div key={i} className="relative aspect-[4/3] rounded-xl overflow-hidden">
-                <img src={img.url} alt={img.alt || "Galería"} className="h-full w-full object-cover" />
-              </div>
-            ))}
+          {/* Derecha: Galería como carrusel, alineada con las cards de planes */}
+          <div>
+            <Gallery
+              images={carouselImages}
+              showTitle={true}
+              heightClass="h-[220px]"
+            />
           </div>
         </div>
       </section>
@@ -232,13 +244,13 @@ export default async function Home() {
         <div className="rounded-3xl overflow-hidden" style={{ backgroundImage: `linear-gradient(135deg, ${primary} 0%, ${accent} 50%, ${gradientB} 100%)` }}>
           <div className="grid md:grid-cols-2 items-center">
             <div className="px-6 md:px-10 py-8 text-white">
-              <h3 className="text-3xl font-extrabold">Próximo Partido</h3>
+              <h3 className={`${sectionTitle} text-white`}>Próximo Partido</h3>
               {nextMatch ? (
                 <>
                   <div className="mt-3 text-white/90">
                     {new Date(nextMatch.date).toLocaleDateString("es-CL", { day: "2-digit", month: "long", year: "numeric" })} – {nextMatch.time || "15:00"}
                   </div>
-                  <div className="text-sm text-white/80">{nextMatch.location || "Cancha Municipal"}</div>
+                  <div className="text-sm text-white/80">{nextMatch.location || "Sin Información"}</div>
                 </>
               ) : (
                 <div className="mt-3 text-white/90">A programar</div>
@@ -264,68 +276,105 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* RESULTADOS + SPONSORS (como en el mock) */}
-      <section id="results" className="mx-auto max-w-6xl px-4 mt-10 grid md:grid-cols-2 gap-6">
-        <div>
-          <h3 className="text-3xl font-extrabold text-[#0b1c3a]">Últimos Resultados</h3>
-          <div className="mt-4 flex flex-wrap gap-4">
-            {(results ?? []).slice(0, 4).map((r: any) => (
-              <Pill key={r._id}>
-                {r.homeScore} – {r.awayScore}
-              </Pill>
-            ))}
-          </div>
-        </div>
-
-        <div id="sponsors">
-          <h3 className="text-3xl font-extrabold text-[#0b1c3a]">Nuestros Auspiciadores</h3>
-          <div className="mt-4 grid grid-cols-2 gap-4">
-            {/* Puedes traer sponsors de Sanity si los tienes; aquí placeholders */}
-            {[0, 1, 2, 3].map((i) => (
-              <div key={i} className="rounded-2xl bg-white shadow border px-5 py-6 text-center font-bold text-slate-500">
-                SPONSOR
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* NOTICIAS (opcional, lo mantengo pero debajo del bloque principal) */}
-      <section className="py-10 px-4 max-w-6xl mx-auto">
-        <h2 className="text-xl font-bold mb-4 text-blue-900">Lo último en Avidela Sports</h2>
-        <div className="flex flex-col gap-6">
-          {(importantInfo ?? []).map((info: any) => (
-            <div key={info._id} className="bg-white rounded shadow flex flex-col sm:flex-row gap-4 p-4 items-center">
-              {info.image?.asset?.url && (
-                <img src={info.image.asset.url} alt={info.image.alt || info.title} className="w-32 h-32 object-cover rounded-md border" loading="lazy" />
-              )}
-              <div className="flex-1">
-                <div className="font-semibold text-blue-800 text-lg mb-1">{info.title}</div>
-                <div className="text-gray-700 text-sm mb-2">{info.content}</div>
-                <div className="text-xs text-gray-400">{new Date(info.date).toLocaleDateString()}</div>
+      {/* RESULTADOS + SPONSORS (posicionables) */}
+      <section id="results" className="mx-auto max-w-6xl px-4 mt-10">
+        {sponsorsPosition === 'right' ? (
+          <div className="grid md:grid-cols-2 gap-6">
+            <div>
+              <h3 className={`${sectionTitle}`}>Últimos Resultados</h3>
+              <div className="mt-4">
+                <ResultsCarousel results={results} />
               </div>
             </div>
-          ))}
-        </div>
+
+            <div id="sponsors">
+              <h3 className={`${sectionTitle}`}>Nuestros Auspiciadores</h3>
+              <div className="mt-4 flex justify-center">
+                <div className="grid inline-grid grid-cols-2 sm:grid-cols-4 gap-3 items-center justify-items-center">
+                  {(sponsors ?? []).length === 0 ? (
+                    <div className="col-span-2 bg-white rounded-2xl shadow border px-5 py-6 text-center font-bold text-slate-500">No hay auspiciadores aún.</div>
+                  ) : (
+                    (sponsors ?? []).map((s: any) => (
+                      <div key={s._id} className="rounded-xl bg-white shadow-sm border border-gray-200 p-2 flex items-center justify-center">
+                        <div className="w-28 h-28 flex items-center justify-center rounded-md bg-white">
+                          {s.logo?.url ? (
+                            s.logo.metadata?.lqip ? (
+                              <Image src={s.logo.url} alt={s.name} width={112} height={112} className="object-contain" placeholder="blur" blurDataURL={s.logo.metadata.lqip} />
+                            ) : (
+                              <Image src={s.logo.url} alt={s.name} width={112} height={112} className="object-contain" />
+                            )
+                          ) : (
+                            <div className="text-sm text-slate-400">{s.name}</div>
+                          )}
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <h3 className={`${sectionTitle}`}>Últimos Resultados</h3>
+            <div className="mt-4 flex flex-wrap gap-4">
+              {(results ?? []).slice(0, 4).map((r: any) => (
+                <Pill key={r._id}>
+                  {r.homeScore} – {r.awayScore}
+                </Pill>
+              ))}
+            </div>
+
+            <div id="sponsors" className="mt-6">
+              <h3 className={`${sectionTitle} text-center`}>Nuestros Auspiciadores</h3>
+              <div className="mt-4 flex justify-center">
+                <div className="grid inline-grid grid-cols-2 sm:grid-cols-4 gap-3 items-center justify-items-center">
+                  {(sponsors ?? []).length === 0 ? (
+                    <div className="col-span-2 bg-white rounded-2xl shadow border px-5 py-6 text-center font-bold text-slate-500">No hay auspiciadores aún.</div>
+                  ) : (
+                    (sponsors ?? []).map((s: any) => (
+                      <div key={s._id} className="rounded-xl bg-white shadow-sm border border-gray-200 p-2 flex items-center justify-center">
+                        <div className="w-28 h-28 flex items-center justify-center rounded-md bg-white">
+                          {s.logo?.url ? (
+                            s.logo.metadata?.lqip ? (
+                              <Image src={s.logo.url} alt={s.name} width={112} height={112} className="object-contain" placeholder="blur" blurDataURL={s.logo.metadata.lqip} />
+                            ) : (
+                              <Image src={s.logo.url} alt={s.name} width={112} height={112} className="object-contain" />
+                            )
+                          ) : (
+                            <div className="text-sm text-slate-400">{s.name}</div>
+                          )}
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </section>
+
+  {/* NOTICIAS (componente) */}
+  <Noticias importantInfo={importantInfo} />
 
       {/* CONTACTO */}
       <section id="contact" className="scroll-mt-24 py-12 px-4 max-w-6xl mx-auto">
-        <h2 className="text-2xl font-bold mb-6 text-blue-900">Contacto</h2>
-        <form className="bg-white rounded-2xl shadow p-6 flex flex-col gap-4">
+        <h2 className={`${sectionTitle} mb-6`}>Contacto</h2>
+        <form className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col gap-4">
           <div>
-            <label htmlFor="name" className="block text-sm font-semibold text-blue-900 mb-1">Nombre</label>
-            <input id="name" name="name" required className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            <label htmlFor="name" className="block text-sm font-semibold text-[#0a1a3c] mb-1">Nombre</label>
+            <input id="name" name="name" required className="w-full border border-gray-200 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0a1a3c] focus:ring-opacity-20" />
           </div>
           <div>
-            <label htmlFor="email" className="block text-sm font-semibold text-blue-900 mb-1">Correo electrónico</label>
-            <input type="email" id="email" name="email" required className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            <label htmlFor="email" className="block text-sm font-semibold text-[#0a1a3c] mb-1">Correo electrónico</label>
+            <input type="email" id="email" name="email" required className="w-full border border-gray-200 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0a1a3c] focus:ring-opacity-20" />
           </div>
           <div>
-            <label htmlFor="message" className="block text-sm font-semibold text-blue-900 mb-1">Mensaje</label>
-            <textarea id="message" name="message" rows={4} required className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            <label htmlFor="message" className="block text-sm font-semibold text-[#0a1a3c] mb-1">Mensaje</label>
+            <textarea id="message" name="message" rows={4} required className="w-full border border-gray-200 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0a1a3c] focus:ring-opacity-20" />
           </div>
-          <button type="submit" className="px-6 py-2 rounded font-semibold shadow transition text-white" style={{ backgroundColor: primary }}>
+          <button type="submit" className="px-6 py-3 rounded-md font-semibold shadow transition text-white w-full hover:opacity-95" style={{ backgroundColor: primary }}>
             Enviar
           </button>
         </form>

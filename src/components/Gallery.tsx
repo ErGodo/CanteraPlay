@@ -1,13 +1,32 @@
+
+import { sectionSubtitle, sectionTitle } from "@/lib/styles";
 import SwiperGallery from "./SwiperGallery";
 
-export default function Gallery({ images }: { images: any[] }) {
+type Props = {
+  images: any[];
+  showTitle?: boolean;
+  heightClass?: string;
+  titleClass?: string;
+  subtitleClass?: string;
+};
+
+export default function Gallery({ images, showTitle = true, heightClass = "h-[220px]", titleClass = `${sectionTitle} mb-0 mt-0 text-left w-full`, subtitleClass = sectionSubtitle }: Props) {
   return (
-    <div className="max-w-5xl mx-auto w-full flex flex-col items-center mb-8">
-      <h2 className="text-3xl font-extrabold text-blue-900 mb-4 mt-12 tracking-tight text-left w-full">
-        Momentos Inolvidables
-      </h2>
-      <p className="text-gray-600 mb-6 text-lg italic text-left w-full">Descubre la pasión y alegría de nuestro club en imágenes</p>
-      <SwiperGallery images={images} />
+    <div className="w-full flex flex-col items-start mb-8">
+      {showTitle && (
+        <>
+          <h2 className={titleClass}>{/* exact passed class */}Momentos Inolvidables</h2>
+          <p className={subtitleClass}>Descubre la pasión y alegría de nuestro club en imágenes</p>
+        </>
+      )}
+
+      {(!images || images.length === 0) ? (
+        <div className="p-6 bg-white rounded-xl border text-center text-slate-600 w-full">No hay imágenes en la galería.</div>
+      ) : (
+        <div className="w-full">
+          <SwiperGallery images={images} heightClass={heightClass} />
+        </div>
+      )}
     </div>
   );
 }

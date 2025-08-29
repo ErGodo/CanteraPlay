@@ -1,7 +1,9 @@
+import { sectionTitle } from '@/lib/styles';
+
 export default function Contacto() {
   return (
     <section id="contact" className="py-12 px-4 max-w-5xl mx-auto">
-      <h2 className="text-2xl font-bold mb-6 text-blue-900">Contacto</h2>
+  <h2 className={`${sectionTitle} mb-6 text-blue-900`}>Contacto</h2>
       <form className="bg-white rounded shadow p-6 flex flex-col gap-4">
         <div>
           <label htmlFor="name" className="block text-sm font-semibold text-blue-900 mb-1">Nombre</label>

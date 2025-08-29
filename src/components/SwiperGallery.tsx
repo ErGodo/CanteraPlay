@@ -5,11 +5,11 @@ import "swiper/css/pagination";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-export default function SwiperGallery({ images }: { images: any[] }) {
+export default function SwiperGallery({ images, heightClass = 'h-[340px]' }: { images: any[], heightClass?: string }) {
   if (!images || images.length === 0) return null;
   return (
-    <section className="w-full flex justify-center bg-white py-8">
-      <div className="w-full max-w-4xl">
+    <section className="w-full">
+      <div className="w-full">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           navigation
@@ -20,13 +20,15 @@ export default function SwiperGallery({ images }: { images: any[] }) {
         >
           {images.map((img, idx) => (
             <SwiperSlide key={img._id || idx}>
-              <img
-                src={img.image?.asset?.url}
-                alt={img.image?.alt || img.caption || "Club photo"}
-                className="w-full h-[500px] object-contain rounded-lg bg-black"
-                style={{ maxHeight: 600, maxWidth: '100%' }}
-                loading="lazy"
-              />
+              <div className="w-full flex items-center justify-center">
+                <img
+                  src={img.image?.asset?.url || img.url}
+                  alt={img.image?.alt || img.caption || "Club photo"}
+                  className={`w-full ${heightClass} object-contain object-center rounded-lg bg-gray-100`}
+                  style={{ maxWidth: '100%' }}
+                  loading="lazy"
+                />
+              </div>
               {img.caption && (
                 <div className="absolute bottom-4 left-0 right-0 text-center">
                   <span className="bg-black/60 text-white text-sm px-3 py-1 rounded">

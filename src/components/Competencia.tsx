@@ -1,7 +1,9 @@
+import { sectionTitle } from '@/lib/styles';
+
 export default function Competencia({ nextMatch, standings, results }: { nextMatch: any, standings: any[], results: any[] }) {
   return (
     <section className="py-6 px-4 max-w-5xl mx-auto">
-      <h2 className="text-2xl font-bold mb-6 text-blue-900">Competencia y Resultados</h2>
+  <h2 className={`${sectionTitle} mb-6 text-blue-900`}>Competencia y Resultados</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Próximo partido */}
         <div className="bg-white rounded shadow p-6 flex flex-col items-center">

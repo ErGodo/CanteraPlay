@@ -11,7 +11,7 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   title: "..:: Bienvenidos a Avidela Sport ::.. ",
-  description: "Powered By CanteraPlay - AdDeploy",
+  description: "Powered By CanteraPlay - ADD",
 };
 
 export default function RootLayout({

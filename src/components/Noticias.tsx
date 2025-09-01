@@ -1,3 +1,4 @@
+import { formatDMY } from '@/lib/formatDate';
 import { sectionTitle } from '@/lib/styles';
 import Image from 'next/image';
 
@@ -42,7 +43,7 @@ export default function Noticias({ importantInfo }: { importantInfo: any[] }) {
                 </p>
               </div>
               <time className="text-xs text-slate-500">
-                {new Date(info.date).toLocaleDateString()}
+                {formatDMY(info.date)}
               </time>
             </div>
           </article>

@@ -120,19 +120,11 @@ function Footer({
 }) {
   // Inline simple logos for CanteraPlay and AdDeploy to avoid external assets
   const CanteraPlayLogo = () => (
-    <svg width="84" height="28" viewBox="0 0 84 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-      <rect width="84" height="28" rx="6" fill="white" opacity="0.05" />
-      <circle cx="14" cy="14" r="10" fill="white" opacity="0.12" />
-      <text x="32" y="19" fill="white" fontSize="11" fontWeight="700">Cantera Play</text>
-    </svg>
+    <Image src="/images/canteraplay.png" alt="CanteraPlay" width={240} height={72} className="object-contain max-h-20" />
   );
 
   const AdDeployLogo = () => (
-    <svg width="84" height="28" viewBox="0 0 84 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-      <rect x="0" y="0" width="84" height="28" rx="6" fill="white" opacity="0.04" />
-      <rect x="8" y="6" width="16" height="16" rx="3" fill="white" opacity="0.14" />
-      <text x="32" y="19" fill="white" fontSize="11" fontWeight="700">AdDeploy</text>
-    </svg>
+    <Image src="/images/ADD.png" alt="AdDeploy" width={320} height={128} className="object-contain max-h-32" />
   );
 
   const InstagramIcon = () => (
@@ -153,7 +145,7 @@ function Footer({
 
         <div className="text-sm text-white/90 flex flex-col items-start md:items-center">
           {address ? <p>{address}</p> : null}
-          <p className="mt-2">© {new Date().getFullYear()} CanteraPlay — Powered By <span className="font-semibold">AdDeploy</span></p>
+          <p className="mt-2">© {new Date().getFullYear()} CanteraPlay — Powered By <span className="font-semibold">ADD</span></p>
           <div className="mt-3 flex items-center gap-3">
             <CanteraPlayLogo />
             <AdDeployLogo />

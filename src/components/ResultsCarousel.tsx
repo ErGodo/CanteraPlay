@@ -1,4 +1,5 @@
 "use client";
+import { formatDMY } from '@/lib/formatDate';
 import Image from "next/image";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -23,14 +24,7 @@ export default function ResultsCarousel({ results }: { results: any[] }) {
     return String(v);
   };
 
-  const fmtDMY = (dateStr: any) => {
-    const d = new Date(dateStr);
-    if (Number.isNaN(d.getTime())) return "";
-    const dd = String(d.getDate()).padStart(2, "0");
-    const mm = String(d.getMonth() + 1).padStart(2, "0");
-    const yyyy = d.getFullYear();
-    return `${dd}-${mm}-${yyyy}`;
-  };
+  const fmtDMY = (dateStr: any) => formatDMY(dateStr);
 
   return (
     <div className="w-full">

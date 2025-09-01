@@ -1,14 +1,9 @@
+import { formatDMY, formatLocaleLong } from '@/lib/formatDate';
 import { sectionTitle } from '@/lib/styles';
 import Image from 'next/image';
 
 export default function Competencia({ nextMatch, standings, results }: { nextMatch: any, standings: any[], results: any[] }) {
-  const fmtDMY = (d: string | number | Date) => {
-    const date = new Date(d);
-    const dd = String(date.getDate()).padStart(2, '0');
-    const mm = String(date.getMonth() + 1).padStart(2, '0');
-    const yyyy = date.getFullYear();
-    return `${dd}-${mm}-${yyyy}`;
-  };
+  // Use deterministic formatting helpers
   return (
     <section className="py-6 px-4 max-w-5xl mx-auto">
   <h2 className={`${sectionTitle} mb-6 text-blue-900`}>Competencia y Resultados</h2>
@@ -34,7 +29,7 @@ export default function Competencia({ nextMatch, standings, results }: { nextMat
                 </div>
               </div>
               <div className="text-gray-700 text-sm mb-1">
-                {new Date(nextMatch.date).toLocaleDateString()}
+                {formatLocaleLong(nextMatch.date)}
               </div>
               {nextMatch.time && (
                 <div className="text-xs text-gray-500 mb-1">A partir de las {nextMatch.time}</div>
@@ -72,7 +67,7 @@ export default function Competencia({ nextMatch, standings, results }: { nextMat
 
                       <div className="flex flex-col items-center">
                         <div className="text-2xl font-bold text-gray-800">{r.homeScore} <span className="mx-1 text-lg">-</span> {r.awayScore}</div>
-                        <div className="text-xs text-gray-400 mt-1">{fmtDMY(r.date)}</div>
+                        <div className="text-xs text-gray-400 mt-1">{formatDMY(r.date)}</div>
                       </div>
 
                       <div className="flex items-center gap-3">

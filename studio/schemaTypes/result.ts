@@ -21,13 +21,17 @@ export default defineType({
     defineField({
       name: 'homeTeam',
       title: 'Home Team',
-      type: 'string',
+      type: 'reference',
+      to: [{ type: 'team' }],
+      description: 'Selecciona el equipo local (debe existir como documento Team).',
       validation: Rule => Rule.required(),
     }),
     defineField({
       name: 'awayTeam',
       title: 'Away Team',
-      type: 'string',
+      type: 'reference',
+      to: [{ type: 'team' }],
+      description: 'Selecciona el equipo visitante (debe existir como documento Team).',
       validation: Rule => Rule.required(),
     }),
     defineField({

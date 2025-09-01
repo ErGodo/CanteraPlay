@@ -2,12 +2,13 @@
 import Gallery from "@/components/Gallery";
 import HeaderSection from "@/components/HeaderSection";
 import Noticias from "@/components/Noticias";
+import ResultsCarousel from "@/components/ResultsCarousel";
+import SponsorCarousel from "@/components/SponsorCarousel";
 import { getCarouselImages } from "@/lib/getCarouselImages";
 import { getImportantInfo } from "@/lib/getImportantInfo";
 import { getNextMatch } from "@/lib/getNextMatch";
 import { getPlans } from "@/lib/getPlans";
 import { getResults } from "@/lib/getResults";
-import ResultsCarousel from "@/components/ResultsCarousel";
 import { getSponsors } from "@/lib/getSponsors";
 import { getStandings } from "@/lib/getStandings";
 import { sectionTitle } from "@/lib/styles";
@@ -289,28 +290,8 @@ export default async function Home() {
 
             <div id="sponsors">
               <h3 className={`${sectionTitle}`}>Nuestros Auspiciadores</h3>
-              <div className="mt-4 flex justify-center">
-                <div className="grid inline-grid grid-cols-2 sm:grid-cols-4 gap-3 items-center justify-items-center">
-                  {(sponsors ?? []).length === 0 ? (
-                    <div className="col-span-2 bg-white rounded-2xl shadow border px-5 py-6 text-center font-bold text-slate-500">No hay auspiciadores aún.</div>
-                  ) : (
-                    (sponsors ?? []).map((s: any) => (
-                      <div key={s._id} className="rounded-xl bg-white shadow-sm border border-gray-200 p-2 flex items-center justify-center">
-                        <div className="w-28 h-28 flex items-center justify-center rounded-md bg-white">
-                          {s.logo?.url ? (
-                            s.logo.metadata?.lqip ? (
-                              <Image src={s.logo.url} alt={s.name} width={112} height={112} className="object-contain" placeholder="blur" blurDataURL={s.logo.metadata.lqip} />
-                            ) : (
-                              <Image src={s.logo.url} alt={s.name} width={112} height={112} className="object-contain" />
-                            )
-                          ) : (
-                            <div className="text-sm text-slate-400">{s.name}</div>
-                          )}
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
+              <div className="mt-4">
+                <SponsorCarousel sponsors={sponsors} />
               </div>
             </div>
           </div>
@@ -327,28 +308,8 @@ export default async function Home() {
 
             <div id="sponsors" className="mt-6">
               <h3 className={`${sectionTitle} text-center`}>Nuestros Auspiciadores</h3>
-              <div className="mt-4 flex justify-center">
-                <div className="grid inline-grid grid-cols-2 sm:grid-cols-4 gap-3 items-center justify-items-center">
-                  {(sponsors ?? []).length === 0 ? (
-                    <div className="col-span-2 bg-white rounded-2xl shadow border px-5 py-6 text-center font-bold text-slate-500">No hay auspiciadores aún.</div>
-                  ) : (
-                    (sponsors ?? []).map((s: any) => (
-                      <div key={s._id} className="rounded-xl bg-white shadow-sm border border-gray-200 p-2 flex items-center justify-center">
-                        <div className="w-28 h-28 flex items-center justify-center rounded-md bg-white">
-                          {s.logo?.url ? (
-                            s.logo.metadata?.lqip ? (
-                              <Image src={s.logo.url} alt={s.name} width={112} height={112} className="object-contain" placeholder="blur" blurDataURL={s.logo.metadata.lqip} />
-                            ) : (
-                              <Image src={s.logo.url} alt={s.name} width={112} height={112} className="object-contain" />
-                            )
-                          ) : (
-                            <div className="text-sm text-slate-400">{s.name}</div>
-                          )}
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
+              <div className="mt-4">
+                <SponsorCarousel sponsors={sponsors} />
               </div>
             </div>
           </div>

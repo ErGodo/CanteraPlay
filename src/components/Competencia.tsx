@@ -1,6 +1,14 @@
 import { sectionTitle } from '@/lib/styles';
+import Image from 'next/image';
 
 export default function Competencia({ nextMatch, standings, results }: { nextMatch: any, standings: any[], results: any[] }) {
+  const fmtDMY = (d: string | number | Date) => {
+    const date = new Date(d);
+    const dd = String(date.getDate()).padStart(2, '0');
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const yyyy = date.getFullYear();
+    return `${dd}-${mm}-${yyyy}`;
+  };
   return (
     <section className="py-6 px-4 max-w-5xl mx-auto">
   <h2 className={`${sectionTitle} mb-6 text-blue-900`}>Competencia y Resultados</h2>
@@ -38,18 +46,49 @@ export default function Competencia({ nextMatch, standings, results }: { nextMat
           )}
         </div>
         {/* Últimos resultados */}
-        <div className="bg-white rounded shadow p-6 flex flex-col items-start">
+        <div className="bg-white rounded shadow p-6 flex flex-col items-start w-full">
           <h3 className="text-lg font-bold text-blue-900 mb-2">Últimos Resultados</h3>
           {results && results.length > 0 ? (
-            <ul className="w-full">
-              {results.map((r: any) => (
-                <li key={r._id} className="mb-2">
-                  <span className="font-semibold text-blue-800">{r.homeTeam}</span>
-                  <span className="mx-1 text-gray-700">{r.homeScore} - {r.awayScore}</span>
-                  <span className="font-semibold text-blue-800">{r.awayTeam}</span>
-                  <span className="block text-xs text-gray-400">{new Date(r.date).toLocaleDateString()}</span>
-                </li>
-              ))}
+            <ul className="w-full divide-y divide-gray-100">
+              {results.map((r: any, idx: number) => {
+                const homeLogo = r.homeTeam?.logo?.asset?.url;
+                const homeLqip = r.homeTeam?.logo?.asset?.metadata?.lqip;
+                const awayLogo = r.awayTeam?.logo?.asset?.url;
+                const awayLqip = r.awayTeam?.logo?.asset?.metadata?.lqip;
+                const key = r._id || `${r.homeTeam?.name ?? r.homeTeam}-${r.awayTeam?.name ?? r.awayTeam}-${idx}`;
+                return (
+                  <li key={key} className="py-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        {homeLogo ? (
+                          <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden border border-gray-100">
+                            <Image src={homeLogo} alt={(r.homeTeam?.name ?? r.homeTeam) + ' logo'} width={40} height={40} className="object-contain" {...(homeLqip ? { placeholder: 'blur', blurDataURL: homeLqip } : {})} />
+                          </div>
+                        ) : (
+                          <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-xs text-gray-500">{(r.homeTeam?.name ?? r.homeTeam)?.slice(0,2)}</div>
+                        )}
+                        <div className="text-sm font-semibold text-blue-800">{r.homeTeam?.name ?? r.homeTeam}</div>
+                      </div>
+
+                      <div className="flex flex-col items-center">
+                        <div className="text-2xl font-bold text-gray-800">{r.homeScore} <span className="mx-1 text-lg">-</span> {r.awayScore}</div>
+                        <div className="text-xs text-gray-400 mt-1">{fmtDMY(r.date)}</div>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <div className="text-sm font-semibold text-blue-800 text-right">{r.awayTeam?.name ?? r.awayTeam}</div>
+                        {awayLogo ? (
+                          <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden border border-gray-100">
+                            <Image src={awayLogo} alt={(r.awayTeam?.name ?? r.awayTeam) + ' logo'} width={40} height={40} className="object-contain" {...(awayLqip ? { placeholder: 'blur', blurDataURL: awayLqip } : {})} />
+                          </div>
+                        ) : (
+                          <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-xs text-gray-500">{(r.awayTeam?.name ?? r.awayTeam)?.slice(0,2)}</div>
+                        )}
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           ) : (
             <div className="text-gray-400">Sin resultados</div>

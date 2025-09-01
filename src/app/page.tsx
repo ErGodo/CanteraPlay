@@ -108,6 +108,7 @@ function Footer({
   address,
   primary = "#0a1a3c",
   accent = "#e91e63",
+  gradientB = '#00b4e6',
 }: {
   clubName?: string;
   logoUrl?: string;
@@ -115,21 +116,54 @@ function Footer({
   address?: string;
   primary?: string;
   accent?: string;
+  gradientB?: string;
 }) {
+  // Inline simple logos for CanteraPlay and AdDeploy to avoid external assets
+  const CanteraPlayLogo = () => (
+    <svg width="84" height="28" viewBox="0 0 84 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <rect width="84" height="28" rx="6" fill="white" opacity="0.05" />
+      <circle cx="14" cy="14" r="10" fill="white" opacity="0.12" />
+      <text x="32" y="19" fill="white" fontSize="11" fontWeight="700">Cantera Play</text>
+    </svg>
+  );
+
+  const AdDeployLogo = () => (
+    <svg width="84" height="28" viewBox="0 0 84 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <rect x="0" y="0" width="84" height="28" rx="6" fill="white" opacity="0.04" />
+      <rect x="8" y="6" width="16" height="16" rx="3" fill="white" opacity="0.14" />
+      <text x="32" y="19" fill="white" fontSize="11" fontWeight="700">AdDeploy</text>
+    </svg>
+  );
+
+  const InstagramIcon = () => (
+    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <rect x="2" y="2" width="20" height="20" rx="5" stroke="white" strokeWidth="1.2" />
+      <circle cx="12" cy="12" r="3.2" stroke="white" strokeWidth="1.2" />
+      <circle cx="17.4" cy="6.6" r="0.9" fill="white" />
+    </svg>
+  );
+
   return (
-    <footer className="mt-16 border-t">
-      <div className="mx-auto max-w-6xl px-4 py-8 grid gap-6 md:grid-cols-3">
+    <footer className="mt-16" style={{ backgroundImage: `linear-gradient(135deg, ${primary} 0%, ${accent} 50%, ${gradientB ?? '#00b4e6'} 100%)` }}>
+      <div className="mx-auto max-w-6xl px-4 py-8 grid gap-6 md:grid-cols-3 text-white">
         <div className="flex items-center gap-3">
-          <Image src={logoUrl} alt={`${clubName} Logo`} width={36} height={36} className="rounded-full bg-white border border-gray-200" />
-          <span className="font-extrabold" style={{ color: primary }}>{clubName}</span>
+          <Image src={logoUrl} alt={`${clubName} Logo`} width={44} height={44} className="rounded-full bg-white/10 border border-white/10 p-1" />
+          <span className="font-extrabold text-lg">{clubName}</span>
         </div>
-        <div className="text-sm text-slate-600">
-          {address ? <p>{address}</p> : <p>Dirección no disponible.</p>}
-          <p className="mt-1">© {new Date().getFullYear()} CanteraPlay</p>
+
+        <div className="text-sm text-white/90 flex flex-col items-start md:items-center">
+          {address ? <p>{address}</p> : null}
+          <p className="mt-2">© {new Date().getFullYear()} CanteraPlay — Powered By <span className="font-semibold">AdDeploy</span></p>
+          <div className="mt-3 flex items-center gap-3">
+            <CanteraPlayLogo />
+            <AdDeployLogo />
+          </div>
         </div>
+
         <div className="flex md:justify-end items-center gap-3">
-          <a href={instagramUrl} target="_blank" className="rounded-lg px-3 py-1.5 text-white font-semibold" style={{ backgroundColor: accent }}>
-            Instagram
+          <a href={instagramUrl} target="_blank" className="flex items-center gap-2 rounded-lg px-3 py-1.5 bg-white/12 font-semibold">
+            <InstagramIcon />
+           
           </a>
         </div>
       </div>
@@ -341,7 +375,7 @@ export default async function Home() {
         </form>
       </section>
 
-      <Footer clubName={clubName} logoUrl={logoUrl} instagramUrl={instagram} />
+  <Footer clubName={clubName} logoUrl={logoUrl} instagramUrl={instagram} gradientB={gradientB} />
     </div>
   );
 }

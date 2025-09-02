@@ -13,92 +13,8 @@ import { getSponsors } from "@/lib/getSponsors";
 import { getStandings } from "@/lib/getStandings";
 import { sectionTitle } from "@/lib/styles";
 import Image from "next/image";
-import Link from "next/link";
 
-/* ------------------------------ Navbar ------------------------------ */
-function Navbar({
-  clubName = "Avidela Sport",
-  logoUrl = "/images/avidela-logo.png",
-  instagramUrl = "https://www.instagram.com/avidelasportacademy/",
-  primary = "#0a1a3c",
-  accent = "#e91e63",
-}: {
-  clubName?: string;
-  logoUrl?: string;
-  instagramUrl?: string;
-  primary?: string;
-  accent?: string;
-}) {
-  const links = [
-    { href: "#plans", label: "Planes" },
-    { href: "#moments", label: "Momentos" },
-    { href: "#results", label: "Resultados" },
-    { href: "#sponsors", label: "Auspiciadores" },
-    { href: "#contact", label: "Contacto" },
-  ];
 
-  return (
-    <header className="sticky top-0 z-40 bg-white/90 backdrop-blur border-b">
-      <nav className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-3">
-          <Image
-            src={logoUrl}
-            alt={`${clubName} Logo`}
-            width={44}
-            height={44}
-            className="rounded-full bg-white border border-gray-200"
-            priority
-          />
-          <span className="font-extrabold text-xl tracking-tight" style={{ color: primary }}>
-            {clubName}
-          </span>
-        </Link>
-
-          <ul className="hidden md:flex items-center gap-6">
-            {links.map((l) => (
-              <li key={l.href}>
-                <a href={l.href} className="hover:opacity-80">{l.label}</a>
-              </li>
-            ))}
-          </ul>
-
-        <div className="hidden md:flex items-center gap-2">
-          <a
-            href={instagramUrl}
-            target="_blank"
-            className="rounded-lg px-3 py-1.5 text-white font-semibold"
-            style={{ backgroundColor: accent }}
-          >
-            Instagram
-          </a>
-        </div>
-
-        <details className="md:hidden">
-          <summary className="list-none inline-flex items-center justify-center rounded-md p-2 ring-1 ring-gray-200 cursor-pointer select-none">
-            ☰
-          </summary>
-          <div className="mt-2 border-t bg-white">
-            <ul className="px-4 py-2 space-y-2 font-semibold" style={{ color: primary }}>
-              {links.map((l) => (
-                <li key={l.href}><a href={l.href} className="block py-2">{l.label}</a></li>
-              ))}
-              <li>
-                <a
-                  href={instagramUrl}
-                  target="_blank"
-                  className="block text-center rounded-lg px-3 py-2 text-white font-semibold"
-                  style={{ backgroundColor: accent }}
-                >
-                  Instagram
-                </a>
-              </li>
-            </ul>
-          </div>
-        </details>
-      </nav>
-    </header>
-  );
-}
 
 /* ------------------------------ Footer ------------------------------ */
 function Footer({
@@ -108,7 +24,7 @@ function Footer({
   address,
   primary = "#0a1a3c",
   accent = "#e91e63",
-  gradientB = '#00b4e6',
+  gradientB = "#00b4e6",
 }: {
   clubName?: string;
   logoUrl?: string;
@@ -118,17 +34,28 @@ function Footer({
   accent?: string;
   gradientB?: string;
 }) {
-  // Inline simple logos for CanteraPlay and AdDeploy to avoid external assets
   const CanteraPlayLogo = () => (
-    <Image src="/images/canteraplay.png" alt="CanteraPlay" width={240} height={72} className="object-contain max-h-20" />
+    <Image
+      src="/images/canteraplay.png"
+      alt="CanteraPlay"
+      width={240}
+      height={72}
+      className="object-contain max-h-20 w-auto"
+    />
   );
 
   const AdDeployLogo = () => (
-    <Image src="/images/ADD.png" alt="AdDeploy" width={320} height={128} className="object-contain max-h-32" />
+    <Image
+      src="/images/ADD.png"
+      alt="AdDeploy"
+      width={240}
+      height={96}
+      className="object-contain max-h-24 w-auto"
+    />
   );
 
   const InstagramIcon = () => (
-    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden>
       <rect x="2" y="2" width="20" height="20" rx="5" stroke="white" strokeWidth="1.2" />
       <circle cx="12" cy="12" r="3.2" stroke="white" strokeWidth="1.2" />
       <circle cx="17.4" cy="6.6" r="0.9" fill="white" />
@@ -136,26 +63,45 @@ function Footer({
   );
 
   return (
-    <footer className="mt-16" style={{ backgroundImage: `linear-gradient(135deg, ${primary} 0%, ${accent} 50%, ${gradientB ?? '#00b4e6'} 100%)` }}>
-      <div className="mx-auto max-w-6xl px-4 py-8 grid gap-6 md:grid-cols-3 text-white">
-        <div className="flex items-center gap-3">
-          <Image src={logoUrl} alt={`${clubName} Logo`} width={44} height={44} className="rounded-full bg-white/10 border border-white/10 p-1" />
-          <span className="font-extrabold text-lg">{clubName}</span>
+    <footer
+      className="mt-16"
+      style={{
+        backgroundImage: `linear-gradient(135deg, ${primary} 0%, ${accent} 50%, ${
+          gradientB ?? "#00b4e6"
+        } 100%)`,
+      }}
+    >
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-8 grid gap-8 md:gap-6 md:grid-cols-3 text-white">
+        <div className="flex items-center gap-3 min-w-0">
+          <Image
+            src={logoUrl}
+            alt={`${clubName} Logo`}
+            width={44}
+            height={44}
+            className="rounded-full bg-white/10 border border-white/10 p-1 shrink-0"
+          />
+          <span className="font-extrabold text-base sm:text-lg truncate">{clubName}</span>
         </div>
 
-        <div className="text-sm text-white/90 flex flex-col items-start md:items-center">
-          {address ? <p>{address}</p> : null}
-          <p className="mt-2">© {new Date().getFullYear()} CanteraPlay — Powered By <span className="font-semibold">ADD</span></p>
-          <div className="mt-3 flex items-center gap-3">
+        <div className="text-sm text-white/90 flex flex-col items-start md:items-center gap-1">
+          {address ? <p className="leading-snug">{address}</p> : null}
+          <p className="mt-1">
+            © {new Date().getFullYear()} CanteraPlay — Powered By <span className="font-semibold">ADD</span>
+          </p>
+          <div className="mt-3 flex items-center gap-4 flex-wrap">
             <CanteraPlayLogo />
             <AdDeployLogo />
           </div>
         </div>
 
-        <div className="flex md:justify-end items-center gap-3">
-          <a href={instagramUrl} target="_blank" className="flex items-center gap-2 rounded-lg px-3 py-1.5 bg-white/12 font-semibold">
+        <div className="flex md:justify-end items-center">
+          <a
+            href={instagramUrl}
+            target="_blank"
+            className="flex items-center gap-2 rounded-lg px-3 py-1.5 bg-white/12 font-semibold"
+          >
             <InstagramIcon />
-           
+            <span className="hidden sm:inline">Instagram</span>
           </a>
         </div>
       </div>
@@ -165,11 +111,12 @@ function Footer({
 
 /* ------------------------------ Chips & mini componentes ------------------------------ */
 const Pill = ({ children }: { children: React.ReactNode }) => (
-  <div className="px-6 py-4 bg-[#0a1a3c] text-white rounded-xl text-2xl font-extrabold">{children}</div>
+  <div className="px-6 py-4 bg-[#0a1a3c] text-white rounded-xl text-2xl font-extrabold">
+    {children}
+  </div>
 );
 
 const PlanIcon = ({ type }: { type: "matricula" | "partidos" | "combo" }) => {
-  // Usa SVGs simples para que se parezca a la card del mock
   if (type === "matricula")
     return (
       <svg className="w-8 h-8 text-[#0a1a3c]" viewBox="0 0 24 24" fill="currentColor">
@@ -192,28 +139,31 @@ const PlanIcon = ({ type }: { type: "matricula" | "partidos" | "combo" }) => {
 
 /* ------------------------------ Page ------------------------------ */
 export default async function Home() {
-  const [importantInfo, plans, carouselImages, nextMatch, standings, results, sponsors] = await Promise.all([
-    getImportantInfo(),
-    getPlans(),
-    getCarouselImages(),
-    getNextMatch(),
-    getStandings(),
-    getResults(),
-    getSponsors(),
-  ]);
+  const [importantInfo, plans, carouselImages, nextMatch, standings, results, sponsors] =
+    await Promise.all([
+      getImportantInfo(),
+      getPlans(),
+      getCarouselImages(),
+      getNextMatch(),
+      getStandings(),
+      getResults(),
+      getSponsors(),
+    ]);
 
-  // Branding (puedes reemplazar desde Sanity)
+  // Branding
   const primary = "#0a1a3c";
   const accent = "#e91e63";
   const gradientB = "#00b4e6";
   const instagram = "https://www.instagram.com/avidelasportacademy/";
   const logoUrl = "/images/avidela-logo.png";
   const clubName = "Avidela Sport";
+
   // Posición de los auspiciadores: 'right' = columna derecha, 'center' = centrado debajo de Resultados
-  const sponsorsPosition: 'right' | 'center' = 'right';
+  const sponsorsPosition: "right" | "center" = "right";
 
   // Helpers para identificar plan
-  const normalize = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const normalize = (s: string) =>
+    s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   const planType = (name: string): "matricula" | "partidos" | "combo" => {
     const n = normalize(name);
     if (n.includes("matricula")) return "matricula";
@@ -222,32 +172,60 @@ export default async function Home() {
   };
 
   return (
-    <div className="font-['Montserrat',sans-serif] min-h-screen bg-[#f7f8fa]">
+    <div className="font-['Montserrat',sans-serif] min-h-screen bg-[#f7f8fa] overflow-x-hidden">
+
+      {/* HERO / HEADER + Mobile Menu */}
       <HeaderSection />
 
-      {/* MOMENTOS + CARDS DE PLANES (layout como el mockup) */}
-      <section id="moments" className="mx-auto max-w-6xl px-4 mt-10">
+
+
+
+      {/* MOMENTOS + CARDS DE PLANES */}
+      <section
+        id="moments"
+        className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 mt-10 scroll-mt-24"
+      >
+        {/* Ancla extra para #plans sin duplicar secciones */}
+        <span id="plans" className="block -mt-24 pt-24" aria-hidden />
         <div className="grid md:grid-cols-2 gap-6">
           {/* Izquierda: Título + texto + Cards de planes */}
-          <div>
+          <div className="min-w-0">
             <h2 className={`${sectionTitle}`}>Nuestros Planes</h2>
-            <p className="text-slate-600 mt-2">Descubre la pasión e alegría de nuestro club en imagenes</p>
+            <p className="text-slate-600 mt-2">
+              Descubre la pasión e alegría de nuestro club en imágenes
+            </p>
 
-            <div className="mt-6 grid sm:grid-cols-3 gap-4 items-stretch">
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 items-stretch">
               {(plans ?? []).slice(0, 3).map((p: any) => {
                 const t = planType(p.name || "");
                 return (
-                  <div key={p._id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex flex-col h-full">
-                    <div className="mb-3 flex items-center justify-center w-12 h-12 rounded-md bg-white">
+                  <div
+                    key={p._id}
+                    className="min-w-0 bg-white rounded-xl shadow-sm border border-gray-200 p-3 sm:p-4 flex flex-col"
+                  >
+                    <div className="mb-3 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-md bg-white">
                       <PlanIcon type={t} />
                     </div>
-                    <h3 className="font-bold">{p.name}</h3>
-                    <div className="mt-2 text-slate-700 text-sm leading-tight">
-                      {p.description || (t === "matricula" ? "Anual" : t === "combo" ? "Partidos + Entrenos" : "Participación en partidos")}
+                    <h3 className="font-bold text-sm sm:text-base leading-tight truncate">
+                      {p.name}
+                    </h3>
+                    <div className="mt-2 text-slate-700 text-xs sm:text-sm leading-snug line-clamp-3">
+                      {p.description ||
+                        (t === "matricula"
+                          ? "Anual"
+                          : t === "combo"
+                          ? "Partidos + Entrenos"
+                          : "Participación en partidos")}
                     </div>
-                    <div className="mt-auto text-2xl font-extrabold text-[#0b1c3a]">
-                      {p.price?.toLocaleString("es-CL", { style: "currency", currency: "CLP", minimumFractionDigits: 0 })}
-                      {t !== "matricula" && <span className="text-sm">/mes</span>}
+                    <div className="mt-3 sm:mt-auto text-lg sm:text-2xl font-extrabold text-[#0b1c3a]">
+                      {p.price?.toLocaleString("es-CL", {
+                        style: "currency",
+                        currency: "CLP",
+                        minimumFractionDigits: 0,
+                      })}
+                      {t !== "matricula" && (
+                        <span className="text-xs sm:text-sm">/mes</span>
+                      )}
                     </div>
                   </div>
                 );
@@ -255,29 +233,42 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* Derecha: Galería como carrusel, alineada con las cards de planes */}
-          <div>
+          {/* Derecha: Galería como carrusel */}
+          <div className="min-w-0">
             <Gallery
               images={carouselImages}
               showTitle={true}
-              heightClass="h-[220px]"
+              // Altura responsiva: móvil bajita, desktop cómoda
+              heightClass="h-44 sm:h-56 md:h-[220px] lg:h-72"
             />
           </div>
         </div>
       </section>
 
       {/* PRÓXIMO PARTIDO: banner degradado con escudos y VS */}
-      <section className="mx-auto max-w-6xl px-4 mt-10">
-        <div className="rounded-3xl overflow-hidden" style={{ backgroundImage: `linear-gradient(135deg, ${primary} 0%, ${accent} 50%, ${gradientB} 100%)` }}>
+      <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 mt-10">
+        <div
+          className="rounded-3xl overflow-hidden"
+          style={{
+            backgroundImage: `linear-gradient(135deg, ${primary} 0%, ${accent} 50%, ${gradientB} 100%)`,
+          }}
+        >
           <div className="grid md:grid-cols-2 items-center">
-            <div className="px-6 md:px-10 py-8 text-white">
+            <div className="px-6 md:px-10 py-8 text-white min-w-0">
               <h3 className={`${sectionTitle} text-white`}>Próximo Partido</h3>
               {nextMatch ? (
                 <>
                   <div className="mt-3 text-white/90">
-                    {new Date(nextMatch.date).toLocaleDateString("es-CL", { day: "2-digit", month: "long", year: "numeric" })} – {nextMatch.time || "15:00"}
+                    {new Date(nextMatch.date).toLocaleDateString("es-CL", {
+                      day: "2-digit",
+                      month: "long",
+                      year: "numeric",
+                    })}{" "}
+                    – {nextMatch.time || "15:00"}
                   </div>
-                  <div className="text-sm text-white/80">{nextMatch.location || "Sin Información"}</div>
+                  <div className="text-sm text-white/80">
+                    {nextMatch.location || "Sin Información"}
+                  </div>
                 </>
               ) : (
                 <div className="mt-3 text-white/90">A programar</div>
@@ -287,14 +278,26 @@ export default async function Home() {
             <div className="px-6 md:px-10 py-6 bg-white/5">
               <div className="flex items-center justify-center gap-6">
                 <div className="flex flex-col items-center">
-                  <Image src={logoUrl} alt="Avidela" width={90} height={90} className="rounded-full bg-white p-2" />
+                  <Image
+                    src={logoUrl}
+                    alt="Avidela"
+                    width={90}
+                    height={90}
+                    className="rounded-full bg-white p-2"
+                  />
                 </div>
-                <span className="text-white text-2xl font-extrabold">VS</span>
+                <span className="text-white text-xl sm:text-2xl font-extrabold">VS</span>
                 <div className="flex flex-col items-center">
                   {nextMatch?.awayTeam?.logo?.asset?.url ? (
-                    <img src={nextMatch.awayTeam.logo.asset.url} alt={nextMatch.awayTeam.name} className="w-[90px] h-[90px] object-contain bg-white rounded-full p-2" />
+                    <img
+                      src={nextMatch.awayTeam.logo.asset.url}
+                      alt={nextMatch.awayTeam.name}
+                      className="w-[72px] h-[72px] sm:w-[90px] sm:h-[90px] object-contain bg-white rounded-full p-2"
+                    />
                   ) : (
-                    <div className="w-[90px] h-[90px] rounded-full grid place-items-center bg-white/30 text-white">Rival</div>
+                    <div className="w-[72px] h-[72px] sm:w-[90px] sm:h-[90px] rounded-full grid place-items-center bg-white/30 text-white">
+                      Rival
+                    </div>
                   )}
                 </div>
               </div>
@@ -304,27 +307,30 @@ export default async function Home() {
       </section>
 
       {/* RESULTADOS + SPONSORS (posicionables) */}
-      <section id="results" className="mx-auto max-w-6xl px-4 mt-10">
-        {sponsorsPosition === 'right' ? (
+      <section
+        id="results"
+        className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 mt-10 scroll-mt-24"
+      >
+        {sponsorsPosition === "right" ? (
           <div className="grid md:grid-cols-2 gap-6">
-            <div>
+            <div className="min-w-0">
               <h3 className={`${sectionTitle}`}>Últimos Resultados</h3>
-              <div className="mt-4">
+              <div className="mt-4 overflow-hidden">
                 <ResultsCarousel results={results} />
               </div>
             </div>
 
-            <div id="sponsors">
+            <div id="sponsors" className="min-w-0 scroll-mt-24">
               <h3 className={`${sectionTitle}`}>Nuestros Auspiciadores</h3>
-              <div className="mt-4">
+              <div className="mt-4 overflow-hidden">
                 <SponsorCarousel sponsors={sponsors} />
               </div>
             </div>
           </div>
         ) : (
-          <div>
+          <div className="min-w-0">
             <h3 className={`${sectionTitle}`}>Últimos Resultados</h3>
-            <div className="mt-4 flex flex-wrap gap-4">
+            <div className="mt-4 flex flex-wrap gap-2 sm:gap-4">
               {(results ?? []).slice(0, 4).map((r: any) => (
                 <Pill key={r._id}>
                   {r.homeScore} – {r.awayScore}
@@ -332,9 +338,9 @@ export default async function Home() {
               ))}
             </div>
 
-            <div id="sponsors" className="mt-6">
+            <div id="sponsors" className="mt-6 scroll-mt-24">
               <h3 className={`${sectionTitle} text-center`}>Nuestros Auspiciadores</h3>
-              <div className="mt-4">
+              <div className="mt-4 overflow-hidden">
                 <SponsorCarousel sponsors={sponsors} />
               </div>
             </div>
@@ -342,32 +348,77 @@ export default async function Home() {
         )}
       </section>
 
-  {/* NOTICIAS (componente) */}
-  <Noticias importantInfo={importantInfo} />
+      {/* NOTICIAS */}
+      <Noticias importantInfo={importantInfo} />
 
       {/* CONTACTO */}
-      <section id="contact" className="scroll-mt-24 py-12 px-4 max-w-6xl mx-auto">
+      <section
+        id="contact"
+        className="scroll-mt-24 py-12 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8"
+      >
         <h2 className={`${sectionTitle} mb-6`}>Contacto</h2>
         <form className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col gap-4">
           <div>
-            <label htmlFor="name" className="block text-sm font-semibold text-[#0a1a3c] mb-1">Nombre</label>
-            <input id="name" name="name" required className="w-full border border-gray-200 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0a1a3c] focus:ring-opacity-20" />
+            <label
+              htmlFor="name"
+              className="block text-sm font-semibold text-[#0a1a3c] mb-1"
+            >
+              Nombre
+            </label>
+            <input
+              id="name"
+              name="name"
+              required
+              className="w-full border border-gray-200 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0a1a3c] focus:ring-opacity-20"
+            />
           </div>
           <div>
-            <label htmlFor="email" className="block text-sm font-semibold text-[#0a1a3c] mb-1">Correo electrónico</label>
-            <input type="email" id="email" name="email" required className="w-full border border-gray-200 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0a1a3c] focus:ring-opacity-20" />
+            <label
+              htmlFor="email"
+              className="block text-sm font-semibold text-[#0a1a3c] mb-1"
+            >
+              Correo electrónico
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              className="w-full border border-gray-200 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0a1a3c] focus:ring-opacity-20"
+            />
           </div>
           <div>
-            <label htmlFor="message" className="block text-sm font-semibold text-[#0a1a3c] mb-1">Mensaje</label>
-            <textarea id="message" name="message" rows={4} required className="w-full border border-gray-200 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0a1a3c] focus:ring-opacity-20" />
+            <label
+              htmlFor="message"
+              className="block text-sm font-semibold text-[#0a1a3c] mb-1"
+            >
+              Mensaje
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              rows={4}
+              required
+              className="w-full border border-gray-200 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0a1a3c] focus:ring-opacity-20"
+            />
           </div>
-          <button type="submit" className="px-6 py-3 rounded-md font-semibold shadow transition text-white w-full hover:opacity-95" style={{ backgroundColor: primary }}>
+          <button
+            type="submit"
+            className="px-6 py-3 rounded-md font-semibold shadow transition text-white w-full hover:opacity-95"
+            style={{ backgroundColor: primary }}
+          >
             Enviar
           </button>
         </form>
       </section>
 
-  <Footer clubName={clubName} logoUrl={logoUrl} instagramUrl={instagram} gradientB={gradientB} />
+      {/* FOOTER */}
+      <Footer
+        clubName={clubName}
+        logoUrl={logoUrl}
+        instagramUrl={instagram}
+        gradientB={gradientB}
+      />
     </div>
   );
 }

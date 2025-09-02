@@ -14,8 +14,21 @@ export default function SwiperGallery({ images, heightClass = 'h-[340px]' }: { i
           modules={[Navigation, Pagination, Autoplay]}
           navigation
           pagination={{ clickable: true }}
-          autoplay={{ delay: 3500, disableOnInteraction: false }}
+          autoplay={{ delay: 3500, disableOnInteraction: false, pauseOnMouseEnter: false }}
           loop
+          allowTouchMove={true}
+          observer={true}
+          observeParents={true}
+          watchSlidesProgress={true}
+          onSwiper={(sw) => { sw.autoplay?.start?.(); }}
+          slidesPerView={1}
+          breakpoints={{
+            640: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 }
+          }}
+          centeredSlides={true}
+          spaceBetween={20}
           className="rounded-lg shadow"
         >
           {images.map((img, idx) => (

@@ -8,7 +8,7 @@ export default function SponsorCard({ sponsor }: { sponsor: any }) {
   const key = sponsor?._id || name;
 
   return (
-  <div key={key} className="rounded-xl bg-white shadow-sm border border-gray-200 p-6 relative overflow-hidden flex items-center justify-center min-h-[250px] md:min-h-[280px]" style={{ ['--s-accent1' as any]: sponsor?.colors?.primary ?? '#ff4fa3', ['--s-accent2' as any]: sponsor?.colors?.secondary ?? '#8fc8ff' }}>
+  <div key={key} className="rounded-xl bg-white shadow-sm border border-gray-200 p-3 sm:p-6 relative overflow-hidden flex items-center justify-center min-h-[180px] sm:min-h-[250px] md:min-h-[280px] max-w-xs w-full mx-auto" style={{ ['--s-accent1' as any]: sponsor?.colors?.primary ?? '#ff4fa3', ['--s-accent2' as any]: sponsor?.colors?.secondary ?? '#8fc8ff' }}>
       {/* decorative sponsor SVG: corner gradients top-left -> bottom-right (connected flow) */}
       <svg className="absolute inset-0 w-full h-full z-0 pointer-events-none" viewBox="0 0 600 360" preserveAspectRatio="none" aria-hidden>
         <defs>
@@ -49,14 +49,14 @@ export default function SponsorCard({ sponsor }: { sponsor: any }) {
         <rect width="100%" height="100%" fill={`url(#fadeMask-${key})`} opacity="0.08" />
       </svg>
 
-  <div className="w-48 h-48 mx-auto p-2 flex items-center justify-center overflow-hidden">
+  <div className="w-28 h-28 sm:w-40 sm:h-40 md:w-48 md:h-48 mx-auto p-1 sm:p-2 flex items-center justify-center overflow-hidden">
         {logoUrl ? (
           website ? (
             <a href={website} target="_blank" rel="noopener noreferrer" className="block w-full h-full flex items-center justify-center">
               {lqip ? (
-                <Image src={logoUrl} alt={name} width={200} height={200} className="object-contain" placeholder="blur" blurDataURL={lqip} />
+                <Image src={logoUrl} alt={name} width={96} height={96} className="object-contain" placeholder="blur" blurDataURL={lqip} />
               ) : (
-                <Image src={logoUrl} alt={name} width={200} height={200} className="object-contain" />
+                <Image src={logoUrl} alt={name} width={96} height={96} className="object-contain" />
               )}
             </a>
           ) : (

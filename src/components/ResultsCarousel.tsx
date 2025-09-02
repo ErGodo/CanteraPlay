@@ -32,9 +32,21 @@ export default function ResultsCarousel({ results }: { results: any[] }) {
         modules={[Navigation, Pagination, Autoplay]}
         navigation
         pagination={{ clickable: true }}
-        autoplay={hasMultiple ? { delay: 4000, disableOnInteraction: false } : false}
+        autoplay={hasMultiple ? { delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: false } : false}
         loop={hasMultiple}
+        allowTouchMove={true}
+        observer={true}
+        observeParents={true}
+        watchSlidesProgress={true}
+        onSwiper={(sw) => { sw.autoplay?.start?.(); }}
         slidesPerView={1}
+        breakpoints={{
+          640: { slidesPerView: 1 },
+          768: { slidesPerView: 2 },
+          1024: { slidesPerView: 2 }
+        }}
+        spaceBetween={24}
+        centeredSlides={false}
         className="rounded-lg"
       >
         {slides.map((r, idx) => {
@@ -90,51 +102,60 @@ export default function ResultsCarousel({ results }: { results: any[] }) {
                   />
                 </svg>
 
-                <div className="relative z-10 flex flex-col md:flex-row items-center gap-6">
-                  <div className="flex-1 flex flex-col items-center min-w-[140px]">
-                    <div className="w-28 h-28 rounded-full bg-white p-2 flex items-center justify-center overflow-hidden border border-gray-100">
-                      {homeLogo ? (
-                        <Image
-                          src={homeLogo}
-                          alt={safeText(homeName)}
-                          width={88}
-                          height={88}
-                          className="object-contain"
-                          {...(homeLqip ? { placeholder: "blur", blurDataURL: homeLqip } : {})}
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-sm text-gray-500 bg-gray-50">{String(homeName ?? "").slice(0, 2)}</div>
-                      )}
-                    </div>
-                    <div className="mt-2 text-2xl font-extrabold text-blue-900">{r.homeScore}</div>
-                    <div className="text-sm text-blue-800 mt-1 text-center">{homeName}</div>
+                <div className="relative z-10 flex flex-col items-center gap-6">
+                  {/* Mobile: single line result (visible on small screens) */}
+                  <div className="block md:hidden w-full text-center">
+                    <span className="font-bold text-blue-900">{homeName}</span>
+                    <span className="font-extrabold text-blue-900 mx-1">{r.homeScore}</span>
+                    <span className="font-bold text-[#0b1c3a] mx-1">-</span>
+                    <span className="font-extrabold text-blue-900 mx-1">{r.awayScore}</span>
+                    <span className="font-bold text-blue-900">{awayName}</span>
                   </div>
 
-                  <div className="flex-none text-center px-4">
-                    <div className="text-sm text-slate-500">{fmtDMY(r.date)}</div>
-                    <div className="text-3xl font-extrabold my-2 text-[#0b1c3a]">VS</div>
-                  </div>
-
-                  <div className="flex-1 flex flex-col items-center min-w-[140px]">
-                    <div className="w-28 h-28 rounded-full bg-white 
-                                p-2 flex items-center 
-                                justify-center 
-                                overflow-hidden border border-gray-100">
-                      {awayLogo ? (
-                        <Image
-                          src={awayLogo}
-                          alt={safeText(awayName)}
-                          width={88}
-                          height={88}
-                          className="object-contain"
-                          {...(awayLqip ? { placeholder: "blur", blurDataURL: awayLqip } : {})}
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-sm text-gray-500 bg-gray-50">{String(awayName ?? "").slice(0, 2)}</div>
-                      )}
+                  {/* Desktop: two-column layout (hidden on small screens) */}
+                  <div className="hidden md:flex w-full md:items-center">
+                    <div className="flex-1 flex flex-col items-center min-w-0 md:min-w-[140px]">
+                      <div className="w-20 h-20 md:w-28 md:h-28 rounded-full bg-white p-2 flex items-center justify-center overflow-hidden border border-gray-100">
+                        {homeLogo ? (
+                          <Image
+                            src={homeLogo}
+                            alt={safeText(homeName)}
+                            width={72}
+                            height={72}
+                            className="object-contain"
+                            {...(homeLqip ? { placeholder: "blur", blurDataURL: homeLqip } : {})}
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-sm text-gray-500 bg-gray-50">{String(homeName ?? "").slice(0, 2)}</div>
+                        )}
+                      </div>
+                      <div className="mt-2 text-2xl font-extrabold text-blue-900">{r.homeScore}</div>
+                      <div className="text-sm text-blue-800 mt-1 text-center">{homeName}</div>
                     </div>
-                    <div className="mt-2 text-2xl font-extrabold text-blue-900">{r.awayScore}</div>
-                    <div className="text-sm text-blue-800 mt-1 text-center">{awayName}</div>
+
+                    <div className="flex-none text-center px-4">
+                      <div className="text-sm text-slate-500">{fmtDMY(r.date)}</div>
+                      <div className="text-3xl font-extrabold my-2 text-[#0b1c3a]">VS</div>
+                    </div>
+
+                    <div className="flex-1 flex flex-col items-center min-w-0 md:min-w-[140px]">
+                      <div className="w-20 h-20 md:w-28 md:h-28 rounded-full bg-white p-2 flex items-center justify-center overflow-hidden border border-gray-100">
+                        {awayLogo ? (
+                          <Image
+                            src={awayLogo}
+                            alt={safeText(awayName)}
+                            width={72}
+                            height={72}
+                            className="object-contain"
+                            {...(awayLqip ? { placeholder: "blur", blurDataURL: awayLqip } : {})}
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-sm text-gray-500 bg-gray-50">{String(awayName ?? "").slice(0, 2)}</div>
+                        )}
+                      </div>
+                      <div className="mt-2 text-2xl font-extrabold text-blue-900">{r.awayScore}</div>
+                      <div className="text-sm text-blue-800 mt-1 text-center">{awayName}</div>
+                    </div>
                   </div>
                 </div>
               </div>

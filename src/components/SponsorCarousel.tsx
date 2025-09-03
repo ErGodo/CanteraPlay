@@ -11,26 +11,10 @@ export default function SponsorCarousel({ sponsors }: { sponsors: any[] }) {
   const hasMultiple = sponsors.length > 1;
 
   return (
-    <div className="w-full flex justify-center">
-      <div className="w-full max-w-3xl relative sponsor-nav-wrap">
-        <style>{`
-          /* Make nav buttons sit closer on small screens and breathe on larger */
-          .sponsor-nav-wrap { position: relative; }
-          .sponsor-nav-wrap .swiper-button-prev { left: 0.5rem !important; }
-          .sponsor-nav-wrap .swiper-button-next { right: 0.5rem !important; }
-          .sponsor-nav-wrap .swiper-button-prev, .sponsor-nav-wrap .swiper-button-next {
-            top: 50% !important;
-            transform: translateY(-50%) !important;
-            z-index: 30;
-          }
-          @media (min-width: 768px) {
-            .sponsor-nav-wrap .swiper-button-prev { left: 1.5rem !important; }
-            .sponsor-nav-wrap .swiper-button-next { right: 1.5rem !important; }
-          }
-        `}</style>
-  {/* use Swiper's default navigation so styling matches ResultsCarousel */}
-
-  <Swiper
+    <div className="w-full flex justify-center h-full" id="sponsors">
+      <div className="w-full relative h-full" id="sponsors-container">
+        {/* Avoid centering slides on desktop so sponsors align naturally */}
+        <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           navigation
           pagination={{ clickable: true }}
@@ -44,17 +28,20 @@ export default function SponsorCarousel({ sponsors }: { sponsors: any[] }) {
           slidesPerView={1}
           breakpoints={{
             640: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 }
+            768: { slidesPerView: 2, spaceBetween: 20 },
+            // Desktop: una tarjeta por columna y que ocupe todo el ancho (no centered)
+            1024: { slidesPerView: 1, centeredSlides: false, spaceBetween: 0 }
           }}
-          centeredSlides={true}
-          spaceBetween={20}
-          className="rounded-lg"
+          centeredSlides={false}
+          spaceBetween={0}
+      className="rounded-lg h-full"
         >
           {sponsors.map((s) => (
-            <SwiperSlide key={s._id} className="px-4 flex justify-center">
-              <div className="mx-auto w-full max-w-sm">
-                <SponsorCard sponsor={s} />
+            <SwiperSlide key={s._id} className="w-full px-0">
+              <div className="w-full h-full">
+                <div className="mx-auto max-w-[calc(100%-32px)] sm:max-w-full">
+                  <SponsorCard sponsor={s} />
+                </div>
               </div>
             </SwiperSlide>
           ))}

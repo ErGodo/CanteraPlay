@@ -24,16 +24,16 @@ export default function SwiperGallery({ images, heightClass = 'h-[340px]' }: { i
           slidesPerView={1}
           breakpoints={{
             640: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 }
+            768: { slidesPerView: 1, spaceBetween: 0 },
+            1024: { slidesPerView: 1, centeredSlides: false, spaceBetween: 0 }
           }}
-          centeredSlides={true}
-          spaceBetween={20}
-          className="rounded-lg shadow"
+          centeredSlides={false}
+          spaceBetween={0}
+          className="rounded-lg shadow h-full"
         >
           {images.map((img, idx) => (
-            <SwiperSlide key={img._id || idx}>
-              <div className="w-full flex items-center justify-center">
+            <SwiperSlide key={img._id || idx} className="w-full px-0">
+              <div className="w-full h-full flex items-center justify-center">
                 <img
                   src={img.image?.asset?.url || img.url}
                   alt={img.image?.alt || img.caption || "Club photo"}

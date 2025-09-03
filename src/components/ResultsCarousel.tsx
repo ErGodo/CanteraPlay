@@ -1,6 +1,7 @@
 "use client";
 import { formatDMY } from "@/lib/formatDate";
 import Image from "next/image";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";

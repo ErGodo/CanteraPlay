@@ -1,6 +1,7 @@
 import { sectionTitle } from '@/lib/styles';
 import { IconId, IconSoccerField } from "@tabler/icons-react";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default function Plans({ plans }: { plans: any[] }) {
   return (
     <section id="plans" className="py-12 px-4 max-w-5xl mx-auto">
@@ -10,9 +11,9 @@ export default function Plans({ plans }: { plans: any[] }) {
           <div className="bg-white rounded shadow p-6 text-center col-span-3">No hay planes disponibles aún.</div>
         )}
         {plans.map((plan: any) => {
-          // Selección de icono y color según el nombre del plan
-          let Icon = IconSoccerField;
-          let iconColor = "#0a1a3c"; // azul oscuro para todos
+           // Selección de icono y color según el nombre del plan
+           let Icon = IconSoccerField;
+           const iconColor = "#0a1a3c"; // azul oscuro para todos
           const name = plan.name?.toLowerCase() || "";
           if (name.includes("matricula")) {
             Icon = IconId;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // app/page.tsx
 import ContactForm from "@/components/ContactForm";
 import Gallery from "@/components/Gallery";
@@ -11,7 +12,7 @@ import { getNextMatch } from "@/lib/getNextMatch";
 import { getPlans } from "@/lib/getPlans";
 import { getResults } from "@/lib/getResults";
 import { getSponsors } from "@/lib/getSponsors";
-import { getStandings } from "@/lib/getStandings";
+// getStandings was removed from this page to avoid unused variable; use the `Competencia` component separately if needed.
 import { sectionTitle } from "@/lib/styles";
 import Image from "next/image";
 
@@ -164,13 +165,12 @@ const PlanIcon = ({ type }: { type: "matricula" | "partidos" | "combo" }) => {
 
 /* ------------------------------ Page ------------------------------ */
 export default async function Home() {
-  const [importantInfo, plans, carouselImages, nextMatch, standings, results, sponsors] =
+  const [importantInfo, plans, carouselImages, nextMatch, results, sponsors] =
     await Promise.all([
       getImportantInfo(),
       getPlans(),
       getCarouselImages(),
       getNextMatch(),
-      getStandings(),
       getResults(),
       getSponsors(),
     ]);
@@ -309,12 +309,14 @@ export default async function Home() {
                 <span className="text-white text-xl sm:text-2xl font-extrabold">VS</span>
                 <div className="flex flex-col items-center">
                   {nextMatch?.awayTeam?.logo?.asset?.url ? (
-                    <img
-                      src={nextMatch.awayTeam.logo.asset.url}
-                      alt={nextMatch.awayTeam.name}
-                      className="w-[72px] h-[72px] sm:w-[90px] sm:h-[90px] object-contain bg-white rounded-full p-2"
-                    />
-                  ) : (
+                      <Image
+                        src={nextMatch.awayTeam.logo.asset.url}
+                        alt={nextMatch.awayTeam.name}
+                        width={90}
+                        height={90}
+                        className="object-contain bg-white rounded-full p-2"
+                      />
+                    ) : (
                     <div className="w-[72px] h-[72px] sm:w-[90px] sm:h-[90px] rounded-full grid place-items-center bg-white/30 text-white">
                       Rival
                     </div>

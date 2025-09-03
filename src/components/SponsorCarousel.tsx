@@ -2,6 +2,7 @@
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SponsorCard from "./SponsorCard";

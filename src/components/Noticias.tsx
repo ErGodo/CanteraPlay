@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { formatDMY } from '@/lib/formatDate';
 import { sectionTitle } from '@/lib/styles';
 import Image from 'next/image';

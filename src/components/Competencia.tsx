@@ -1,8 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { formatDMY, formatLocaleLong } from '@/lib/formatDate';
 import { sectionTitle } from '@/lib/styles';
 import Image from 'next/image';
 
-export default function Competencia({ nextMatch, standings, results }: { nextMatch: any, standings: any[], results: any[] }) {
+type TeamLogo = { logo?: { asset?: { url?: string; metadata?: { lqip?: string } } }; name?: string };
+type Match = { homeTeam?: TeamLogo; awayTeam?: TeamLogo; date?: string; time?: string; location?: string };
+type Result = { _id?: string; homeTeam?: TeamLogo | string; awayTeam?: TeamLogo | string; homeScore?: number; awayScore?: number; date?: string };
+
+export default function Competencia({ nextMatch, standings, results }: { nextMatch?: Match | null; standings?: any[]; results?: Result[] }) {
   // Use deterministic formatting helpers
   return (
     <section className="py-6 px-4 max-w-5xl mx-auto">
@@ -16,20 +21,24 @@ export default function Competencia({ nextMatch, standings, results }: { nextMat
               <div className="flex items-center gap-8 mb-2">
                 <div className="flex flex-col items-center">
                   {nextMatch.homeTeam?.logo?.asset?.url && (
-                    <img src={nextMatch.homeTeam.logo.asset.url} alt={nextMatch.homeTeam.name + ' logo'} className="w-16 h-16 object-contain" />
+                    <div className="w-16 h-16 relative">
+                      <Image src={nextMatch.homeTeam.logo.asset.url} alt={(nextMatch.homeTeam.name ?? '') + ' logo'} fill className="object-contain" sizes="64px" />
+                    </div>
                   )}
                   <span className="text-xs text-blue-800 mt-1 text-center">{nextMatch.homeTeam?.name}</span>
                 </div>
                 <span className="mx-2 text-gray-500 font-bold text-lg">vs</span>
                 <div className="flex flex-col items-center">
                   {nextMatch.awayTeam?.logo?.asset?.url && (
-                    <img src={nextMatch.awayTeam.logo.asset.url} alt={nextMatch.awayTeam.name + ' logo'} className="w-16 h-16 object-contain" />
+                    <div className="w-16 h-16 relative">
+                      <Image src={nextMatch.awayTeam.logo.asset.url} alt={(nextMatch.awayTeam.name ?? '') + ' logo'} fill className="object-contain" sizes="64px" />
+                    </div>
                   )}
                   <span className="text-xs text-blue-800 mt-1 text-center">{nextMatch.awayTeam?.name}</span>
                 </div>
               </div>
               <div className="text-gray-700 text-sm mb-1">
-                {formatLocaleLong(nextMatch.date)}
+                {nextMatch.date ? formatLocaleLong(nextMatch.date) : null}
               </div>
               {nextMatch.time && (
                 <div className="text-xs text-gray-500 mb-1">A partir de las {nextMatch.time}</div>

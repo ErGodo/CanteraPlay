@@ -1,9 +1,12 @@
 "use client";
 
 import useEmblaCarousel from "embla-carousel-react";
+import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
-export default function Carousel({ images }: { images: any[] }) {
+type SlideImage = { _id?: string; image?: { asset?: { url?: string }; alt?: string }; caption?: string };
+
+export default function Carousel({ images }: { images: SlideImage[] }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -32,12 +35,11 @@ export default function Carousel({ images }: { images: any[] }) {
                 key={img._id || idx}
                 style={{ scrollSnapAlign: 'center' }}
               >
-                <img
-                  src={img.image?.asset?.url}
-                  alt={img.image?.alt || img.caption || "Club photo"}
-                  className="w-full h-64 object-cover rounded-t-lg"
-                  loading="lazy"
-                />
+                {img.image?.asset?.url ? (
+                  <div className="w-full h-64 rounded-t-lg overflow-hidden relative">
+                    <Image src={img.image.asset.url} alt={img.image?.alt || img.caption || "Club photo"} fill className="object-cover" sizes="(min-width:1024px) 100vw, 100vw" />
+                  </div>
+                ) : null}
                 {img.caption && (
                   <div className="text-sm text-gray-700 text-center py-2 bg-white w-full rounded-b-lg">
                     {img.caption}

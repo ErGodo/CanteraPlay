@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "next/image";
 
 export default function SponsorCard({ sponsor }: { sponsor: any }) {

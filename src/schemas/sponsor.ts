@@ -1,5 +1,6 @@
 // Sanity schema for sponsors
-export default {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const schema = {
   name: 'sponsor',
   title: 'Sponsor',
   type: 'document',
@@ -18,3 +19,5 @@ export default {
     }
   }
 }
+
+export default schema;

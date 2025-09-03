@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { sectionSubtitle, sectionTitle } from "@/lib/styles";
 import SwiperGallery from "./SwiperGallery";

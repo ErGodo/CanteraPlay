@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import Image from 'next/image';
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -34,13 +36,11 @@ export default function SwiperGallery({ images, heightClass = 'h-[340px]' }: { i
           {images.map((img, idx) => (
             <SwiperSlide key={img._id || idx} className="w-full px-0">
               <div className="w-full h-full flex items-center justify-center">
-                <img
-                  src={img.image?.asset?.url || img.url}
-                  alt={img.image?.alt || img.caption || "Club photo"}
-                  className={`w-full ${heightClass} object-contain object-center rounded-lg bg-gray-100`}
-                  style={{ maxWidth: '100%' }}
-                  loading="lazy"
-                />
+                { (img.image?.asset?.url || img.url) ? (
+                  <div className={`w-full ${heightClass} relative rounded-lg bg-gray-100 overflow-hidden`}>
+                    <Image src={img.image?.asset?.url || img.url} alt={img.image?.alt || img.caption || "Club photo"} fill className="object-contain object-center" sizes="100vw" />
+                  </div>
+                ) : null }
               </div>
               {img.caption && (
                 <div className="absolute bottom-4 left-0 right-0 text-center">

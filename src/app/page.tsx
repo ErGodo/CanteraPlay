@@ -197,7 +197,7 @@ export default async function Home() {
   };
 
   return (
-    <div className="font-['Montserrat',sans-serif] min-h-screen bg-[#f7f8fa] overflow-x-hidden">
+  <div className="font-['Montserrat',sans-serif] min-h-screen bg-[#f7f8fa] overflow-x-hidden">
       {/* HERO / HEADER + Mobile Menu */}
       <HeaderSection />
 
@@ -213,7 +213,7 @@ export default async function Home() {
           <div className="min-w-0">
             <h2 className={`${sectionTitle}`}>Nuestros Planes</h2>
             <p className="text-slate-600 mt-2">
-              Descubre la pasión e alegría de nuestro club en imágenes
+              Únete a Avidela Sport con estos planes
             </p>
 
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 items-stretch">
@@ -239,13 +239,15 @@ export default async function Home() {
                           ? "Partidos + Entrenos"
                           : "Participación en partidos")}
                     </div>
-                    <div className="mt-3 md:mt-auto text-lg sm:text-2xl font-extrabold text-[#0b1c3a]">
+                    <div className="mt-3 md:mt-auto text-lg sm:text-2xl md:text-sm lg:text-2xl font-extrabold md:font-semibold text-[#0b1c3a] leading-tight">
                       {p.price?.toLocaleString("es-CL", {
                         style: "currency",
                         currency: "CLP",
                         minimumFractionDigits: 0,
                       })}
-                      {t !== "matricula" && <span className="text-xs sm:text-sm">/mes</span>}
+                      {t !== "matricula" && (
+                        <span className="text-xs sm:text-sm md:hidden lg:inline">/mes</span>
+                      )}
                     </div>
                   </div>
                 );
@@ -347,7 +349,7 @@ export default async function Home() {
             {/* Sponsors */}
             <div id="sponsors" className="min-w-0 flex flex-col scroll-mt-24">
               <h3 className={`${sectionTitle}`}>Nuestros Auspiciadores</h3>
-              <div className="mt-4 overflow-hidden flex-1 h-[360px] sm:h-[380px] md:h-[340px] lg:h-[300px]">
+              <div className="mt-4 overflow-hidden flex-1 h-[300px] sm:h-[320px] md:h-[360px] lg:h-[420px]">
                 <SponsorCarousel sponsors={sponsors} />
               </div>
             </div>

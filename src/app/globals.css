@@ -27,12 +27,15 @@ body {
 /* Swiper styles previously defined in styled-jsx inside src/app/page.tsx
    Moved here so the Server Component doesn't import styled-jsx (client-only). */
 #results .swiper {
-  /* Ensure swiper container does not allow visible overflow of adjacent slides */
-  padding: 0 4px 28px; /* minimal breathing room */
+  /* Ensure swiper container does not allow visible overflow of adjacent slides.
+     Use vertical-only bottom padding and keep horizontal breathing via inner slide padding
+     to avoid fractional overflow on narrow/tablet viewports. */
+  padding: 0 0 28px; /* avoid adding horizontal padding that can create overflow */
   box-sizing: border-box;
   overflow: hidden; /* hide adjacent slide edges */
   width: 100%;
   height: 100%;
+  max-width: 100%;
 }
 #results .swiper-button-prev,
 #results .swiper-button-next {
@@ -106,11 +109,23 @@ body {
 
 /* Sponsor carousel: same constraints as results to avoid adjacent-slide bleed */
 #sponsors .swiper {
-  padding: 0 4px 28px;
+  /* mirror results settings */
+  padding: 0 0 28px;
   box-sizing: border-box;
   overflow: hidden;
   width: 100%;
   height: 100%;
+  max-width: 100%;
+}
+
+/* Prevent any small horizontal bleed from these sections */
+#results, #sponsors {
+  overflow-x: hidden;
+}
+
+/* Global safety for fractional pixel overflows on some devices/zooms */
+html, body, #__next {
+  overflow-x: hidden;
 }
 #sponsors .swiper-slide {
   display: flex;

@@ -67,7 +67,7 @@ export default function ResultsCarousel({ results }: { results: ResultItem[] }) 
         }}
   centeredSlides={false}
   spaceBetween={0}
-  className="rounded-lg w-full"
+  className="rounded-lg w-full overflow-hidden"
       >
         {slides.map((r, idx) => {
           const homeName = safeText(r.homeTeam);
@@ -94,7 +94,7 @@ export default function ResultsCarousel({ results }: { results: ResultItem[] }) 
           return (
             <SwiperSlide key={key} className="w-full px-0">
               <div className="w-full">
-                <div className="mx-auto max-w-[calc(100%-32px)] sm:max-w-full">
+                <div className="mx-auto max-w-full px-3 sm:px-0">
                   <div
                       className="w-full bg-white rounded-xl shadow-sm border border-gray-200 p-6 pt-20 relative overflow-hidden h-full"
                     style={styleVars}

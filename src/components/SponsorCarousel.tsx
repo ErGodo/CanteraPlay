@@ -29,18 +29,19 @@ export default function SponsorCarousel({ sponsors }: { sponsors: any[] }) {
           slidesPerView={1}
           breakpoints={{
             640: { slidesPerView: 1 },
-            768: { slidesPerView: 2, spaceBetween: 20 },
+            // tablet: 1 slide per view so it occupies the column like ResultsCarousel
+            768: { slidesPerView: 1, spaceBetween: 0 },
             // Desktop: una tarjeta por columna y que ocupe todo el ancho (no centered)
             1024: { slidesPerView: 1, centeredSlides: false, spaceBetween: 0 }
           }}
           centeredSlides={false}
           spaceBetween={0}
-      className="rounded-lg h-full"
+  className="rounded-lg h-full overflow-hidden"
         >
           {sponsors.map((s) => (
-            <SwiperSlide key={s._id} className="w-full px-0">
+            <SwiperSlide key={s._id} className="w-full h-full px-0">
               <div className="w-full h-full">
-                <div className="mx-auto max-w-[calc(100%-32px)] sm:max-w-full">
+                <div className="mx-auto max-w-full px-3 sm:px-0 h-full">
                   <SponsorCard sponsor={s} />
                 </div>
               </div>

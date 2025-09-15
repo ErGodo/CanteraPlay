@@ -7,7 +7,7 @@ type Testimonial = {
   athleteName?: string;
   position?: string;
   quote?: string;
-  photo?: { asset?: { url?: string } } | null;
+  photo?: { asset?: { url?: string; metadata?: { lqip?: string } } } | null;
 };
 
 // Server component: receives testimonials fetched on the server and renders them
@@ -53,24 +53,32 @@ export default function ContactSection({ testimonials }: { testimonials?: Testim
               <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 h-full md:min-h-[420px]">
                 <div className="bg-white rounded-lg p-6 border border-gray-100 h-full">
                   <h3 className="text-xl font-bold text-[#0a1a3c] mb-3"></h3>
-                  <div className="space-y-4 mt-4">
-                    {dummy.map((t) => (
-                      <div key={t._id} className="flex gap-4 items-start">
-                        <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
-                          {t.photo?.asset?.url ? (
-                            <Image src={t.photo.asset.url} alt={t.athleteName || "Testimonial"} width={64} height={64} className="object-cover w-full h-full" />
-                          ) : (
-                            <div className="w-full h-full bg-gray-100" />
-                          )}
-                        </div>
-                        <div className="flex-1">
-                          <div className="text-lg font-bold text-[#0a1a3c]">{t.athleteName}</div>
-                          <div className="text-sm font-semibold text-[#0a1a3c]">{t.position}</div>
-                          <p className="mt-1 text-slate-700 text-sm leading-relaxed">{t.quote}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                            <div className="space-y-4 mt-4">
+                              {dummy.map((t) => (
+                                <div key={t._id} className="flex gap-4 items-start">
+                                  <div className="w-14 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                                    {t.photo?.asset?.url ? (
+                                      <Image
+                                        src={t.photo.asset.url}
+                                        alt={t.athleteName || "Testimonial"}
+                                        width={56}
+                                        height={64}
+                                        className="object-cover w-full h-full"
+                                        placeholder={t.photo.asset.metadata?.lqip ? 'blur' : undefined}
+                                        blurDataURL={t.photo.asset.metadata?.lqip}
+                                      />
+                                    ) : (
+                                      <div className="w-full h-full bg-gray-100" />
+                                    )}
+                                  </div>
+                                  <div className="flex-1">
+                                    <div className="text-lg font-bold text-[#0a1a3c]">{t.athleteName}</div>
+                                    <div className="text-sm font-semibold text-[#0a1a3c]">{t.position}</div>
+                                    <p className="mt-1 text-slate-700 text-sm leading-relaxed">{t.quote}</p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
                 </div>
               </div>
             </div>

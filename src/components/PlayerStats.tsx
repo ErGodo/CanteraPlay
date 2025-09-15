@@ -8,7 +8,7 @@ type StatItem = {
   goals?: number
   assists?: number
   matches?: number
-  photo?: { asset?: { url?: string } } | null
+  photo?: { asset?: { url?: string; metadata?: { lqip?: string } } } | null
 }
 
 export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
@@ -25,9 +25,17 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
           <div className="mt-3 space-y-3">
             {list.map((p) => (
               <div key={`g-${p._id}`} className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100">
+                <div className="w-14 h-16 rounded-lg overflow-hidden bg-gray-100">
                   {p.photo?.asset?.url ? (
-                    <Image src={p.photo.asset.url} alt={p.athleteName || 'Player'} width={48} height={48} className="object-cover w-full h-full" />
+                    <Image
+                      src={p.photo.asset.url}
+                      alt={p.athleteName || 'Player'}
+                      width={56}
+                      height={64}
+                      className="object-cover w-full h-full"
+                      placeholder={p.photo.asset.metadata?.lqip ? 'blur' : undefined}
+                      blurDataURL={p.photo.asset.metadata?.lqip}
+                    />
                   ) : null}
                 </div>
                 <div className="flex-1">
@@ -46,9 +54,17 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
           <div className="mt-3 space-y-3">
             {list.map((p) => (
               <div key={`a-${p._id}`} className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100">
+                <div className="w-14 h-16 rounded-lg overflow-hidden bg-gray-100">
                   {p.photo?.asset?.url ? (
-                    <Image src={p.photo.asset.url} alt={p.athleteName || 'Player'} width={48} height={48} className="object-cover w-full h-full" />
+                    <Image
+                      src={p.photo.asset.url}
+                      alt={p.athleteName || 'Player'}
+                      width={56}
+                      height={64}
+                      className="object-cover w-full h-full"
+                      placeholder={p.photo.asset.metadata?.lqip ? 'blur' : undefined}
+                      blurDataURL={p.photo.asset.metadata?.lqip}
+                    />
                   ) : null}
                 </div>
                 <div className="flex-1">
@@ -67,9 +83,17 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
           <div className="mt-3 space-y-3">
             {list.map((p) => (
               <div key={`m-${p._id}`} className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100">
+                <div className="w-14 h-16 rounded-lg overflow-hidden bg-gray-100">
                   {p.photo?.asset?.url ? (
-                    <Image src={p.photo.asset.url} alt={p.athleteName || 'Player'} width={48} height={48} className="object-cover w-full h-full" />
+                    <Image
+                      src={p.photo.asset.url}
+                      alt={p.athleteName || 'Player'}
+                      width={56}
+                      height={64}
+                      className="object-cover w-full h-full"
+                      placeholder={p.photo.asset.metadata?.lqip ? 'blur' : undefined}
+                      blurDataURL={p.photo.asset.metadata?.lqip}
+                    />
                   ) : null}
                 </div>
                 <div className="flex-1">

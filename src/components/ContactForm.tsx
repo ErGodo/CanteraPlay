@@ -90,11 +90,11 @@ export default function ContactForm({ primary = "#0a1a3c" }: { primary?: string 
         <textarea
           id="message"
           name="message"
-          rows={4}
+          rows={3}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           required
-          className="w-full border border-gray-200 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0a1a3c] focus:ring-opacity-20"
+          className="w-full border border-gray-200 rounded-md px-4 py-3 h-28 md:h-28 max-h-36 focus:outline-none focus:ring-2 focus:ring-[#0a1a3c] focus:ring-opacity-20"
         />
       </div>
 

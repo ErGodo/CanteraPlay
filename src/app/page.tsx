@@ -1,17 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // app/page.tsx
-import ContactForm from "@/components/ContactForm";
+import ContactSection from "@/components/ContactSection";
 import Gallery from "@/components/Gallery";
 import HeaderSection from "@/components/HeaderSection";
 import Noticias from "@/components/Noticias";
+import PlayerStats from "@/components/PlayerStats";
 import ResultsCarousel from "@/components/ResultsCarousel";
 import SponsorCarousel from "@/components/SponsorCarousel";
 import { getCarouselImages } from "@/lib/getCarouselImages";
 import { getImportantInfo } from "@/lib/getImportantInfo";
 import { getNextMatch } from "@/lib/getNextMatch";
 import { getPlans } from "@/lib/getPlans";
+import { getPlayerStats } from "@/lib/getPlayerStats";
 import { getResults } from "@/lib/getResults";
 import { getSponsors } from "@/lib/getSponsors";
+import { getTestimonials } from "@/lib/getTestimonials";
 // getStandings was removed from this page to avoid unused variable; use the `Competencia` component separately if needed.
 import { sectionTitle } from "@/lib/styles";
 import Image from "next/image";
@@ -72,7 +75,7 @@ function Footer({
       }}
     >
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-8 grid gap-8 md:gap-6 md:grid-cols-3 text-white">
-        <div className="flex items-center gap-3 min-w-0">
+  <div className="flex items-center gap-3 min-w-0">
           <Image
             src={logoUrl}
             alt={`${clubName} Logo`}
@@ -82,7 +85,6 @@ function Footer({
           />
           <span className="font-extrabold text-base sm:text-lg truncate">{clubName}</span>
         </div>
-
   <div className="text-sm text-white/90 flex flex-col items-center text-center gap-1">
           {address ? <p className="leading-snug">{address}</p> : null}
           <p className="mt-1">
@@ -174,6 +176,11 @@ export default async function Home() {
       getResults(),
       getSponsors(),
     ]);
+
+  // Fetch testimonials from Sanity (server-side)
+  const testimonials = await getTestimonials();
+  // Fetch player stats from Sanity (server-side)
+  const playerStats = await getPlayerStats();
 
   // Branding
   const primary = "#0a1a3c";
@@ -267,8 +274,9 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* PRÓXIMO PARTIDO */}
-      <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 mt-10">
+  {/* PRÓXIMO PARTIDO */}
+  <PlayerStats stats={playerStats} />
+  <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 mt-10">
         <div
           className="rounded-3xl overflow-hidden"
           style={{
@@ -378,14 +386,7 @@ export default async function Home() {
       {/* NOTICIAS */}
       <Noticias importantInfo={importantInfo} />
 
-      {/* CONTACTO */}
-      <section
-        id="contact"
-        className="scroll-mt-24 py-12 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8"
-      >
-        <h2 className={`${sectionTitle} mb-6`}>Contacto</h2>
-        <ContactForm primary={primary} />
-      </section>
+  <ContactSection testimonials={testimonials} />
 
       {/* FOOTER */}
       <Footer clubName={clubName} logoUrl={logoUrl} instagramUrl={instagram} gradientB={gradientB} />

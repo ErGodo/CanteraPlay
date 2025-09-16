@@ -16,6 +16,7 @@ import { getResults } from "@/lib/getResults";
 import { getSponsors } from "@/lib/getSponsors";
 import { getTestimonials } from "@/lib/getTestimonials";
 // getStandings was removed from this page to avoid unused variable; use the `Competencia` component separately if needed.
+import { formatLocaleLong } from '@/lib/formatDate';
 import { sectionTitle } from "@/lib/styles";
 import Image from "next/image";
 
@@ -69,13 +70,12 @@ function Footer({
     <footer
       className="mt-16"
       style={{
-        backgroundImage: `linear-gradient(135deg, ${primary} 0%, ${accent} 50%, ${
-          gradientB ?? "#00b4e6"
-        } 100%)`,
+        backgroundImage: `linear-gradient(135deg, ${primary} 0%, ${accent} 50%, ${gradientB ?? "#00b4e6"
+          } 100%)`,
       }}
     >
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-8 grid gap-8 md:gap-6 md:grid-cols-3 text-white">
-  <div className="flex items-center gap-3 min-w-0">
+        <div className="flex items-center gap-3 min-w-0">
           <Image
             src={logoUrl}
             alt={`${clubName} Logo`}
@@ -85,10 +85,10 @@ function Footer({
           />
           <span className="font-extrabold text-base sm:text-lg truncate">{clubName}</span>
         </div>
-  <div className="text-sm text-white/90 flex flex-col items-center text-center gap-1">
+        <div className="text-sm text-white/90 flex flex-col items-center text-center gap-1">
           {address ? <p className="leading-snug">{address}</p> : null}
           <p className="mt-1">
-            © {new Date().getFullYear()} CanteraPlay — Powered By{" "}
+            © {new Date().getUTCFullYear()} CanteraPlay — Powered By{" "}
             <span className="font-semibold">ADD</span>
           </p>
           <div className="mt-3 flex items-center gap-4 flex-wrap w-full justify-center md:w-auto md:justify-center">
@@ -135,8 +135,8 @@ const PlanIcon = ({ type }: { type: "matricula" | "partidos" | "combo" }) => {
     return (
       // Imagen local para partidos
       <Image
-  src="/images/partidotraining.png"
-  alt="Partido / Entrenamiento"
+        src="/images/partidotraining.png"
+        alt="Partido / Entrenamiento"
         width={44}
         height={44}
         className="object-contain w-8 h-8 sm:w-10 sm:h-10"
@@ -204,7 +204,7 @@ export default async function Home() {
   };
 
   return (
-  <div className="font-['Montserrat',sans-serif] min-h-screen bg-[#f7f8fa] overflow-x-hidden">
+    <div className="font-['Montserrat',sans-serif] min-h-screen bg-[#f7f8fa] overflow-x-hidden">
       {/* HERO / HEADER + Mobile Menu */}
       <HeaderSection />
 
@@ -215,7 +215,7 @@ export default async function Home() {
       >
         {/* Ancla extra para #plans sin duplicar secciones */}
         <span id="plans" className="block -mt-24 pt-24" aria-hidden />
-  <div className="grid md:grid-cols-2 gap-6 items-stretch">
+        <div className="grid md:grid-cols-2 gap-6 items-stretch">
           {/* Izquierda: Título + texto + Cards de planes */}
           <div className="min-w-0">
             <h2 className={`${sectionTitle}`}>Nuestros Planes</h2>
@@ -229,9 +229,9 @@ export default async function Home() {
                 const iconType = i === 2 ? ("partidos" as const) : t;
                 return (
                   <div
-                      key={p._id}
-                      className="min-w-0 bg-white rounded-xl shadow-sm border border-gray-200 p-3 sm:p-4 flex flex-col h-full md:min-h-[200px] lg:min-h-[260px]"
-                    >
+                    key={p._id}
+                    className="min-w-0 bg-white rounded-xl shadow-sm border border-gray-200 p-3 sm:p-4 flex flex-col h-full md:min-h-[200px] lg:min-h-[260px]"
+                  >
                     <div className="mb-3 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-md bg-white">
                       <PlanIcon type={iconType} />
                     </div>
@@ -243,8 +243,8 @@ export default async function Home() {
                         (t === "matricula"
                           ? "Anual"
                           : t === "combo"
-                          ? "Partidos + Entrenos"
-                          : "Participación en partidos")}
+                            ? "Partidos + Entrenos"
+                            : "Participación en partidos")}
                     </div>
                     <div className="mt-3 md:mt-auto text-lg sm:text-2xl md:text-sm lg:text-2xl font-extrabold md:font-semibold text-[#0b1c3a] leading-tight">
                       {p.price?.toLocaleString("es-CL", {
@@ -274,9 +274,9 @@ export default async function Home() {
         </div>
       </section>
 
-  {/* PRÓXIMO PARTIDO */}
-  <PlayerStats stats={playerStats} />
-  <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 mt-10">
+      {/* PRÓXIMO PARTIDO */}
+      <PlayerStats stats={playerStats} />
+      <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 mt-10">
         <div
           className="rounded-3xl overflow-hidden"
           style={{
@@ -289,11 +289,7 @@ export default async function Home() {
               {nextMatch ? (
                 <>
                   <div className="mt-3 text-white/90">
-                    {new Date(nextMatch.date).toLocaleDateString("es-CL", {
-                      day: "2-digit",
-                      month: "long",
-                      year: "numeric",
-                    })}{" "}
+                    {formatLocaleLong(nextMatch.date)} {" "}
                     – {nextMatch.time || "15:00"}
                   </div>
                   <div className="text-sm text-white/80">
@@ -319,14 +315,14 @@ export default async function Home() {
                 <span className="text-white text-xl sm:text-2xl font-extrabold">VS</span>
                 <div className="flex flex-col items-center">
                   {nextMatch?.awayTeam?.logo?.asset?.url ? (
-                      <Image
-                        src={nextMatch.awayTeam.logo.asset.url}
-                        alt={nextMatch.awayTeam.name}
-                        width={90}
-                        height={90}
-                        className="object-contain bg-white rounded-full p-2"
-                      />
-                    ) : (
+                    <Image
+                      src={nextMatch.awayTeam.logo.asset.url}
+                      alt={nextMatch.awayTeam.name}
+                      width={90}
+                      height={90}
+                      className="object-contain bg-white rounded-full p-2"
+                    />
+                  ) : (
                     <div className="w-[72px] h-[72px] sm:w-[90px] sm:h-[90px] rounded-full grid place-items-center bg-white/30 text-white">
                       Rival
                     </div>
@@ -386,7 +382,7 @@ export default async function Home() {
       {/* NOTICIAS */}
       <Noticias importantInfo={importantInfo} />
 
-  <ContactSection testimonials={testimonials} />
+      <ContactSection testimonials={testimonials} />
 
       {/* FOOTER */}
       <Footer clubName={clubName} logoUrl={logoUrl} instagramUrl={instagram} gradientB={gradientB} />

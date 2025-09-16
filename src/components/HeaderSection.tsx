@@ -6,6 +6,8 @@ import Navbar from "./Navbar";
 const HeaderSection: React.FC = async () => {
   const hero = await getHero();
   const videoUrl = hero?.promoVideo?.asset?.url;
+  const smartVideo = hero?.smartVideo
+  const featuredPlayer = hero?.featuredPlayer
 
   return (
     <section className="w-full flex justify-center bg-transparent m-0 p-0 relative">
@@ -20,7 +22,7 @@ const HeaderSection: React.FC = async () => {
         >
           <div className="relative z-10">
             <Navbar />
-            <Hero videoUrl={videoUrl} />
+            <Hero videoUrl={videoUrl} smartVideo={smartVideo} featuredPlayer={featuredPlayer} />
           </div>
           {/* Rounded bottom closes the hero; waves removed */}
         </div>

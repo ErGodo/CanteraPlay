@@ -1,5 +1,5 @@
 
-type Props = any
+type Props = { value?: any } | any
 
 function getObjectPosition(fx?: number, fy?: number) {
   const x = typeof fx === 'number' ? Math.max(0, Math.min(100, fx)) : 50
@@ -10,7 +10,7 @@ function getObjectPosition(fx?: number, fy?: number) {
 export default function VideoPreview(props: Props) {
   // Sanity passes selected fields directly or under props.value depending on context
   const data = props?.value ?? props
-  const poster = data?.poster?.asset?.url || data?.poster?.url
+  const poster: string | undefined = data?.poster?.asset?.url || data?.poster?.url
   const focusX = data?.focusX
   const focusY = data?.focusY
   const display = data?.display ?? 'cover'
@@ -21,10 +21,9 @@ export default function VideoPreview(props: Props) {
   return (
     <div style={{ width: 320, height: 180, background: '#111', borderRadius: 6, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       {poster ? (
-        // eslint-disable-next-line @next/next/no-img-element
         <img
           src={poster}
-          alt={data?.title || 'video poster'}
+          alt={String(data?.title || 'video poster')}
           style={{ width: '100%', height: '100%', objectFit, objectPosition }}
         />
       ) : (

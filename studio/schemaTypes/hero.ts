@@ -28,5 +28,12 @@ export default defineType({
       initialValue: 50,
       validation: (Rule) => Rule.min(0).max(100),
     }),
+    defineField({
+      name: 'featuredPlayer',
+      title: 'Featured Player',
+      type: 'reference',
+      to: [{ type: 'playerStat' }],
+      description: 'Referencia a un documento Player Stat que contiene avatar, nombre y estadísticas.',
+    }),
   ],
 })

@@ -14,10 +14,9 @@ function urlForImage(source: SanityImageSource | undefined, width = 128, height 
   if (hotspot && typeof hotspot.x === 'number' && typeof hotspot.y === 'number') {
     // some versions of the builder expose focalPoint/focalCrop; fall back to adding query params
     try {
-      // @ts-ignore
       img = img.focalPoint(hotspot.x, hotspot.y);
-    } catch (e) {
-      // Append fp-x/fp-y as fallback
+    } catch {
+      // Append fp-x/fp-y as fallback for older builders
       return img.url() + `?fp-x=${hotspot.x}&fp-y=${hotspot.y}`;
     }
   }
@@ -63,8 +62,8 @@ export default function ContactSection({ testimonials }: { testimonials?: Testim
                     {dummy.map((t) => {
                       const photo = t.photo ?? undefined;
                       const size = 64; // avatar size in px
-                      const hotspot = photo?.hotspot ?? null;
-                      const avatarUrl = photo ? urlForImage(photo as unknown as SanityImageSource, size * 2, size * 2, hotspot as any) : null;
+                      const hotspot = (photo?.hotspot ?? null) as { x?: number; y?: number } | null;
+                      const avatarUrl = photo ? urlForImage(photo as unknown as SanityImageSource, size * 2, size * 2, hotspot) : null;
                       const alt = photo?.alt || t.athleteName || 'Avatar';
 
                       const initials = (t.athleteName ?? 'A')

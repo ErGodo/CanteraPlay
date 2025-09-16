@@ -6,6 +6,16 @@ export async function getHero() {
   slogan,
   promoVideo{asset->{url}},
   videoFocalY
+  ,
+  featuredPlayer->{
+  "name": athleteName,
+  position,
+  "avatar": photo{..., asset->{url, metadata}},
+    statsToShow,
+    goals,
+    assists,
+    matches
+  }
   }`)
 }
 

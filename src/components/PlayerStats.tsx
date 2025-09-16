@@ -14,6 +14,19 @@ type StatItem = {
 export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
   const list = stats && stats.length > 0 ? stats : []
 
+  // prepare sorted, filtered lists for each stat: exclude zero values and sort desc
+  const goalsList = [...list]
+    .filter((p) => (p.goals ?? 0) > 0)
+    .sort((a, b) => (b.goals ?? 0) - (a.goals ?? 0))
+
+  const assistsList = [...list]
+    .filter((p) => (p.assists ?? 0) > 0)
+    .sort((a, b) => (b.assists ?? 0) - (a.assists ?? 0))
+
+  const matchesList = [...list]
+    .filter((p) => (p.matches ?? 0) > 0)
+    .sort((a, b) => (b.matches ?? 0) - (a.matches ?? 0))
+
   // Render three columns: goals, assists, matches
   return (
     <section id="player-stats" className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 mt-10">
@@ -23,7 +36,7 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
           <h3 className="text-lg font-bold text-[#0a1a3c]">Goles</h3>
           <div className="mt-3 space-y-3">
-            {list.map((p) => (
+            {goalsList.map((p) => (
               <div key={`g-${p._id}`} className="flex items-center gap-3">
                 <div className="w-14 h-16 rounded-lg overflow-hidden bg-gray-100">
                   {p.photo?.asset?.url ? (
@@ -52,7 +65,7 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
           <h3 className="text-lg font-bold text-[#0a1a3c]">Asistencias</h3>
           <div className="mt-3 space-y-3">
-            {list.map((p) => (
+            {assistsList.map((p) => (
               <div key={`a-${p._id}`} className="flex items-center gap-3">
                 <div className="w-14 h-16 rounded-lg overflow-hidden bg-gray-100">
                   {p.photo?.asset?.url ? (
@@ -81,7 +94,7 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
           <h3 className="text-lg font-bold text-[#0a1a3c]">Partidos Jugados</h3>
           <div className="mt-3 space-y-3">
-            {list.map((p) => (
+            {matchesList.map((p) => (
               <div key={`m-${p._id}`} className="flex items-center gap-3">
                 <div className="w-14 h-16 rounded-lg overflow-hidden bg-gray-100">
                   {p.photo?.asset?.url ? (

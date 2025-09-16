@@ -1,12 +1,15 @@
 
 "use client"
 import { buildImageUrl, getObjectPosition } from '@/lib/sanityClient'
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
 import NextImage from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 
+type SmartImage = SanityImageSource & { focusX?: number; focusY?: number; poster?: SmartImage | null; alt?: string; asset?: { url?: string; metadata?: { lqip?: string } } | null }
+
 type SmartMediaProps = {
   kind: 'image' | 'video'
-  image?: any
+  image?: SmartImage | null
   videoUrl?: string
   posterUrl?: string
   focusX?: number
@@ -57,31 +60,39 @@ export default function SmartMedia(props: SmartMediaProps) {
   const mountedRef = useRef(true)
   // face-api will be lazy-imported on the client inside the effect to avoid
   // server-side TextEncoder / crypto issues during module evaluation.
-  let faceapi: any = null
+  const faceapiRef = useRef<unknown | null>(null)
 
   useEffect(() => {
     mountedRef.current = true
 
     // Client-only, lazy import of face-api to avoid server/runtime issues.
     // `faceapi` (outer variable) will be set if import succeeds.
-    async function ensureFaceApi() {
-  if (typeof window === 'undefined') return null
-  // Some server-like or restricted runtimes lack TextEncoder; bail out early
-  // to prevent `this.util.TextEncoder is not a constructor` errors.
-  if (typeof (window as any).TextEncoder === 'undefined') return null
-  if (faceapi) return faceapi
-      try {
-        const mod = await import('@vladmandic/face-api')
-        faceapi = mod
-        // load models from public/models
-        await faceapi.nets.ssdMobilenetv1.loadFromUri('/models')
-        return faceapi
-      } catch (e) {
-        // loading failed; disable auto-detect
-        faceapi = null
-        return null
+      // Minimal typings for the parts of face-api we call
+      type FaceApiShape = {
+        nets?: {
+          ssdMobilenetv1?: { loadFromUri: (uri: string) => Promise<void> }
+        }
+        detectSingleFace?: (img: HTMLImageElement) => Promise<{ box: { x: number; y: number; width: number; height: number } } | null>
       }
-    }
+
+      async function ensureFaceApi() {
+        if (typeof window === 'undefined') return null
+        // Some server-like or restricted runtimes lack TextEncoder; bail out early
+        // to prevent `this.util.TextEncoder is not a constructor` errors.
+        if (typeof TextEncoder === 'undefined') return null
+        if (faceapiRef.current) return faceapiRef.current
+        try {
+          const mod = await import('@vladmandic/face-api')
+          faceapiRef.current = mod as unknown as FaceApiShape
+          // load models from public/models (typed above)
+          await (faceapiRef.current as FaceApiShape).nets?.ssdMobilenetv1?.loadFromUri('/models')
+          return faceapiRef.current
+        } catch {
+          // loading failed; disable auto-detect
+          faceapiRef.current = null
+          return null
+        }
+      }
 
     async function detectFromImageUrl(url?: string) {
       if (!url) return null
@@ -93,16 +104,17 @@ export default function SmartMedia(props: SmartMediaProps) {
           img.onload = () => res()
           img.onerror = () => rej()
         })
-        const api = await ensureFaceApi()
-        if (!api) return null
-        const detection = await api.detectSingleFace(img as any)
+  const api = await ensureFaceApi()
+  if (!api) return null
+  const apiTyped = api as unknown as FaceApiShape
+  const detection = apiTyped.detectSingleFace ? await apiTyped.detectSingleFace(img as HTMLImageElement) : null
         if (detection && mountedRef.current) {
           const box = detection.box
           const cx = (box.x + box.width / 2) / img.width
           const cy = (box.y + box.height / 2) / img.height
           return `${Math.round(cx * 100)}% ${Math.round(cy * 100)}%`
         }
-      } catch (err) {
+      } catch {
         // ignore
       }
       return null
@@ -130,7 +142,7 @@ export default function SmartMedia(props: SmartMediaProps) {
         ctx.drawImage(v, 0, 0, canvas.width, canvas.height)
         const dataUrl = canvas.toDataURL()
         return await detectFromImageUrl(dataUrl)
-      } catch (err) {
+      } catch {
         return null
       }
     }
@@ -210,7 +222,7 @@ export default function SmartMedia(props: SmartMediaProps) {
     return (
       <div className={`w-full ${aspectClass} relative overflow-hidden ${rounded ?? ''} ${className}`} style={{ background: '#000' }}>
         {responsiveHybrid && blurredBackground && posterSrc ? (
-          <img src={posterSrc} alt="" className="absolute inset-0 -z-10 w-full h-full object-cover filter blur-2xl scale-105 opacity-30" />
+          <NextImage src={posterSrc} alt="" fill className="absolute inset-0 -z-10 w-full h-full object-cover filter blur-2xl scale-105 opacity-30" />
         ) : null}
         {src ? (
           <NextImage
@@ -242,7 +254,7 @@ export default function SmartMedia(props: SmartMediaProps) {
       return (
         <div className={`w-full relative overflow-hidden ${rounded ?? ''} ${className}`} style={{ background: '#000', ...ratioStyle }}>
           {responsiveHybrid && blurredBackground && posterSrc ? (
-            <img src={posterSrc} alt="" className="absolute inset-0 -z-10 w-full h-full object-cover filter blur-2xl scale-105 opacity-30" />
+            <NextImage src={posterSrc} alt="" fill className="absolute inset-0 -z-10 w-full h-full object-cover filter blur-2xl scale-105 opacity-30" />
           ) : null}
           <video
             src={videoUrl}
@@ -263,7 +275,7 @@ export default function SmartMedia(props: SmartMediaProps) {
     return (
       <div className={`w-full ${aspectClass} relative overflow-hidden ${rounded ?? ''} ${className}`} style={{ background: '#000' }}>
         {responsiveHybrid && blurredBackground && posterSrc ? (
-          <img src={posterSrc} alt="" className="absolute inset-0 -z-10 w-full h-full object-cover filter blur-2xl scale-105 opacity-30" />
+          <NextImage src={posterSrc} alt="" fill className="absolute inset-0 -z-10 w-full h-full object-cover filter blur-2xl scale-105 opacity-30" />
         ) : null}
         <div className="w-full h-full flex items-center justify-center">
           <video
@@ -286,7 +298,7 @@ export default function SmartMedia(props: SmartMediaProps) {
   return (
     <div className={`w-full ${aspectClass} relative overflow-hidden ${rounded ?? ''} ${className}`} style={{ background: '#000' }}>
       {responsiveHybrid && blurredBackground && posterSrc ? (
-        <img src={posterSrc} alt="" className="absolute inset-0 -z-10 w-full h-full object-cover filter blur-2xl scale-105 opacity-30" />
+        <NextImage src={posterSrc} alt="" fill className="absolute inset-0 -z-10 w-full h-full object-cover filter blur-2xl scale-105 opacity-30" />
       ) : null}
       <video
         src={videoUrl}

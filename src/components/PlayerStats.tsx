@@ -1,3 +1,4 @@
+import { buildImageUrl } from '@/lib/sanityClient'
 import { sectionTitle } from '@/lib/styles'
 import Image from 'next/image'
 
@@ -8,7 +9,7 @@ type StatItem = {
   goals?: number
   assists?: number
   matches?: number
-  photo?: { asset?: { url?: string; metadata?: { lqip?: string } } } | null
+  photo?: { asset?: { url?: string; metadata?: { lqip?: string } } ; focusX?: number; focusY?: number } | null
 }
 
 export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
@@ -39,16 +40,22 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
             {goalsList.map((p) => (
               <div key={`g-${p._id}`} className="flex items-center gap-3">
                 <div className="w-14 h-16 rounded-lg overflow-hidden bg-gray-100">
-                  {p.photo?.asset?.url ? (
-                    <Image
-                      src={p.photo.asset.url}
-                      alt={p.athleteName || 'Player'}
-                      width={56}
-                      height={64}
-                      className="object-cover w-full h-full"
-                      placeholder={p.photo.asset.metadata?.lqip ? 'blur' : undefined}
-                      blurDataURL={p.photo.asset.metadata?.lqip}
-                    />
+                  {p.photo ? (
+                    (() => {
+                      const src = buildImageUrl(p.photo as any, 56, 64) // buildImageUrl handles null/undefined
+                      if (!src) return null
+                      return (
+                        <Image
+                          src={src}
+                          alt={p.athleteName || 'Player'}
+                          width={56}
+                          height={64}
+                          className="object-cover object-center w-full h-full"
+                          placeholder={p.photo.asset?.metadata?.lqip ? 'blur' : undefined}
+                          blurDataURL={p.photo.asset?.metadata?.lqip}
+                        />
+                      )
+                    })()
                   ) : null}
                 </div>
                 <div className="flex-1">
@@ -68,16 +75,22 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
             {assistsList.map((p) => (
               <div key={`a-${p._id}`} className="flex items-center gap-3">
                 <div className="w-14 h-16 rounded-lg overflow-hidden bg-gray-100">
-                  {p.photo?.asset?.url ? (
-                    <Image
-                      src={p.photo.asset.url}
-                      alt={p.athleteName || 'Player'}
-                      width={56}
-                      height={64}
-                      className="object-cover w-full h-full"
-                      placeholder={p.photo.asset.metadata?.lqip ? 'blur' : undefined}
-                      blurDataURL={p.photo.asset.metadata?.lqip}
-                    />
+                  {p.photo ? (
+                    (() => {
+                      const src = buildImageUrl(p.photo as any, 56, 64)
+                      if (!src) return null
+                      return (
+                        <Image
+                          src={src}
+                          alt={p.athleteName || 'Player'}
+                          width={56}
+                          height={64}
+                          className="object-cover object-center w-full h-full"
+                          placeholder={p.photo.asset?.metadata?.lqip ? 'blur' : undefined}
+                          blurDataURL={p.photo.asset?.metadata?.lqip}
+                        />
+                      )
+                    })()
                   ) : null}
                 </div>
                 <div className="flex-1">
@@ -97,16 +110,22 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
             {matchesList.map((p) => (
               <div key={`m-${p._id}`} className="flex items-center gap-3">
                 <div className="w-14 h-16 rounded-lg overflow-hidden bg-gray-100">
-                  {p.photo?.asset?.url ? (
-                    <Image
-                      src={p.photo.asset.url}
-                      alt={p.athleteName || 'Player'}
-                      width={56}
-                      height={64}
-                      className="object-cover w-full h-full"
-                      placeholder={p.photo.asset.metadata?.lqip ? 'blur' : undefined}
-                      blurDataURL={p.photo.asset.metadata?.lqip}
-                    />
+                  {p.photo ? (
+                    (() => {
+                      const src = buildImageUrl(p.photo as any, 56, 64)
+                      if (!src) return null
+                      return (
+                        <Image
+                          src={src}
+                          alt={p.athleteName || 'Player'}
+                          width={56}
+                          height={64}
+                          className="object-cover object-center w-full h-full"
+                          placeholder={p.photo.asset?.metadata?.lqip ? 'blur' : undefined}
+                          blurDataURL={p.photo.asset?.metadata?.lqip}
+                        />
+                      )
+                    })()
                   ) : null}
                 </div>
                 <div className="flex-1">

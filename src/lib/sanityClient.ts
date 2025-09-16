@@ -40,11 +40,22 @@ export function buildImageUrl(imageObj: SanityImageSource | null | undefined, w?
 
   // If the image has hotspot, let the URL builder handle focal point crop
   // hotspot may live on the image object or inside asset.metadata.hotspot
-  const maybeHs = (imageObj as unknown as { hotspot?: { x?: number; y?: number } } )?.hotspot
-    || (imageObj as unknown as { asset?: { metadata?: { hotspot?: { x?: number; y?: number } } } })?.asset?.metadata?.hotspot
-  if (maybeHs && typeof maybeHs.x === 'number' && typeof maybeHs.y === 'number') {
-    // Sanity image-url supports focal point via `focalPoint` (x,y normalized 0..1)
-    img = img.focalPoint(maybeHs.x, maybeHs.y).fit('crop')
+  // Prefer explicit editor focusX/focusY (stored as 0..100) if present, then
+  // fall back to the legacy hotspot metadata which is 0..1 values.
+  const explicitFocus = (imageObj as unknown as { focusX?: number; focusY?: number })
+    || (imageObj as unknown as { asset?: { focusX?: number; focusY?: number } })?.asset
+    || null
+
+  if (explicitFocus && typeof explicitFocus.focusX === 'number' && typeof explicitFocus.focusY === 'number') {
+    const fx = Math.max(0, Math.min(100, explicitFocus.focusX)) / 100
+    const fy = Math.max(0, Math.min(100, explicitFocus.focusY)) / 100
+    img = img.focalPoint(fx, fy).fit('crop')
+  } else {
+    const maybeHs = (imageObj as unknown as { hotspot?: { x?: number; y?: number } } )?.hotspot
+      || (imageObj as unknown as { asset?: { metadata?: { hotspot?: { x?: number; y?: number } } } })?.asset?.metadata?.hotspot
+    if (maybeHs && typeof maybeHs.x === 'number' && typeof maybeHs.y === 'number') {
+      img = img.focalPoint(maybeHs.x, maybeHs.y).fit('crop')
+    }
   }
 
   return img.url()

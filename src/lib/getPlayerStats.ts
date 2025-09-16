@@ -8,7 +8,7 @@ export async function getPlayerStats() {
     goals,
     assists,
     matches,
-    photo{asset->{url, metadata { lqip }}, alt}
+    photo{..., asset->{url, metadata { lqip }}, hotspot, crop, focusX, focusY, alt}
   }`)
 }
 

@@ -16,7 +16,7 @@ import { getResults } from "@/lib/getResults";
 import { getSponsors } from "@/lib/getSponsors";
 import { getTestimonials } from "@/lib/getTestimonials";
 // getStandings was removed from this page to avoid unused variable; use the `Competencia` component separately if needed.
-import { formatLocaleLong } from '@/lib/formatDate';
+import { formatCurrencyCLP, formatLocaleLong } from '@/lib/formatDate';
 import { sectionTitle } from "@/lib/styles";
 import Image from "next/image";
 
@@ -247,11 +247,7 @@ export default async function Home() {
                             : "Participación en partidos")}
                     </div>
                     <div className="mt-3 md:mt-auto text-lg sm:text-2xl md:text-sm lg:text-2xl font-extrabold md:font-semibold text-[#0b1c3a] leading-tight">
-                      {p.price?.toLocaleString("es-CL", {
-                        style: "currency",
-                        currency: "CLP",
-                        minimumFractionDigits: 0,
-                      })}
+                      {formatCurrencyCLP(p.price)}
                       {t !== "matricula" && (
                         <span className="text-xs sm:text-sm md:hidden lg:inline">/mes</span>
                       )}

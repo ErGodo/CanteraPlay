@@ -1,3 +1,4 @@
+import { formatCurrencyCLP } from '@/lib/formatDate';
 import { sectionTitle } from '@/lib/styles';
 import { IconId, IconSoccerField } from "@tabler/icons-react";
 
@@ -35,7 +36,7 @@ export default function Plans({ plans }: { plans: any[] }) {
               <p className="mb-2 text-gray-700 hidden md:block">{truncate(plan.description, 70)}</p>
               <div className="mt-auto text-blue-900 text-xl md:text-xs lg:text-xl leading-tight font-semibold mb-2">
                 <span className="inline-block md:font-medium">
-                  {plan.price?.toLocaleString('es-CL', { style: 'currency', currency: 'CLP', minimumFractionDigits: 0 })}
+                  {formatCurrencyCLP(plan.price)}
                 </span>
                 {(() => {
                   const normalized = name.normalize('NFD').replace(/[\u0300-\u036f]/g, "");

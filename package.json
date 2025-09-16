@@ -6,13 +6,15 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@portabletext/react": "^4.0.2",
     "@sanity/client": "^7.10.0",
-    "@sanity/vision": "^4.6.1",
+    "@sanity/vision": "^4.8.1",
     "@tabler/icons-react": "^3.34.1",
+    "@vladmandic/face-api": "^1.7.15",
     "bootstrap": "^5.3.8",
     "embla-carousel-react": "^8.6.0",
     "next": "15.5.2",
@@ -20,7 +22,7 @@
     "react-bootstrap": "^2.10.10",
     "react-dom": "19.1.0",
     "react-icons": "^5.5.0",
-    "sanity": "^3.42.0",
+    "sanity": "^4.8.1",
     "swiper": "^11.2.10"
   },
   "devDependencies": {

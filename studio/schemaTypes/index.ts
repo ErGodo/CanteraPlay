@@ -1,3 +1,5 @@
+import smartImage from './smartImage'
+import smartVideo from './smartVideo'
 
 import carouselImage from './carouselImage'
 import category from './category'
@@ -12,7 +14,10 @@ import standings from './standings'
 import team from './team'
 import testimonial from './testimonial'
 
+// Single exported array of schema types for Sanity studio
 export const schemaTypes = [
+	smartImage,
+	smartVideo,
 	importantInfo,
 	plan,
 	result,

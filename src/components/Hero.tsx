@@ -1,6 +1,7 @@
 import Image from "next/image";
+import SmartMedia from './SmartMedia';
 
-export default function Hero({ videoUrl }: { videoUrl?: string }) {
+export default function Hero({ videoUrl, smartVideo }: { videoUrl?: string, smartVideo?: any }) {
   return (
     <div className="w-full relative overflow-hidden min-h-[76vh] flex items-start">
       <div className="w-full flex flex-col md:flex-row items-start justify-center min-h-[72vh] px-6 md:px-12 lg:px-16 pt-16 md:pt-20 lg:pt-24 pb-8 gap-8">
@@ -26,16 +27,17 @@ export default function Hero({ videoUrl }: { videoUrl?: string }) {
 
           <div className="w-full flex justify-center md:justify-start">
             <div className="w-full max-w-md md:max-w-lg lg:max-w-2xl h-48 md:h-64 lg:h-80 rounded overflow-hidden shadow-xl self-end md:translate-y-2 lg:translate-y-3 md:ml-2 lg:ml-4">
-              <video
-                src={videoUrl ?? "/videos/avidela-promo.mp4"}
-                poster="/images/hero-poster.jpg"
-                controls
-                muted
-                loop
-                className="w-full h-full object-cover"
-              >
-                Tu navegador no soporta video.
-              </video>
+              <SmartMedia
+                kind="video"
+                videoUrl={videoUrl ?? smartVideo?.file?.asset?.url ?? "/videos/avidela-promo.mp4"}
+                posterUrl={smartVideo?.poster?.asset?.url ?? "/images/hero-poster.jpg"}
+                autoPlay={true}
+                muted={true}
+                loop={true}
+                playsInline={true}
+                // map studio display -> verticalMode
+                verticalMode={smartVideo?.display === 'native' ? 'native' : (smartVideo?.display === 'fit' ? 'fit' : undefined)}
+              />
             </div>
           </div>
         </div>

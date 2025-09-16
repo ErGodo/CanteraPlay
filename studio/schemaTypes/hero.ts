@@ -20,5 +20,13 @@ export default defineType({
         accept: 'video/*',
       },
     }),
+    defineField({
+      name: 'videoFocalY',
+      title: 'Video focal Y (%)',
+      type: 'number',
+      description: 'Ajusta el foco vertical del video (0 = top, 50 = center, 100 = bottom). Útil si el video se corta por arriba.',
+      initialValue: 50,
+      validation: (Rule) => Rule.min(0).max(100),
+    }),
   ],
 })

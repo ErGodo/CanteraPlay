@@ -6,7 +6,7 @@ export async function getTestimonials() {
     athleteName,
     position,
     quote,
-    photo{asset->{url, metadata { lqip }}, alt}
+    photo{asset->{url, metadata { lqip }}, hotspot, alt}
   }`)
 }
 

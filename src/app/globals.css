@@ -124,9 +124,14 @@ body {
 }
 
 /* Global safety for fractional pixel overflows on some devices/zooms */
-html, body, #__next {
-  overflow-x: hidden;
+/* Force videos to center-crop when used as UI hero/media. */
+/* Use a utility class so it's opt-in and can be audited in markup. */
+.force-video-center {
+  object-fit: cover !important;
+  -o-object-fit: cover !important; /* old Opera */
+  object-position: center !important;
 }
+
 #sponsors .swiper-slide {
   display: flex;
   justify-content: center;

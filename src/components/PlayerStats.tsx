@@ -1,5 +1,6 @@
 import { buildImageUrl } from '@/lib/sanityClient'
 import { sectionTitle } from '@/lib/styles'
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
 import Image from 'next/image'
 
 type StatItem = {
@@ -9,11 +10,38 @@ type StatItem = {
   goals?: number
   assists?: number
   matches?: number
-  photo?: { asset?: { url?: string; metadata?: { lqip?: string } } ; focusX?: number; focusY?: number } | null
+  photo?: SanityImageSource & { focusX?: number; focusY?: number } | null
 }
 
 export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
   const list = stats && stats.length > 0 ? stats : []
+
+  // Safely extract LQIP (blur placeholder) from various Sanity image shapes.
+  function getLqip(photo?: StatItem['photo']): string | undefined {
+    if (!photo) return undefined
+    // SanityImageSource can be a string id or an object; guard for object form
+    // Narrow to object shape that may contain asset/metadata
+    type SanityImageObject = {
+      asset?: { metadata?: { lqip?: string } }
+      metadata?: { lqip?: string }
+      [key: string]: unknown
+    }
+
+    function isSanityImageObject(v: unknown): v is SanityImageObject {
+      return typeof v === 'object' && v !== null && ('asset' in v || 'metadata' in v)
+    }
+
+    if (isSanityImageObject(photo)) {
+      const maybeAsset = photo.asset
+      if (maybeAsset && maybeAsset.metadata && typeof maybeAsset.metadata.lqip === 'string') {
+        return maybeAsset.metadata.lqip
+      }
+      // some shapes include metadata at the top level
+      const maybeMeta = photo.metadata
+      if (maybeMeta && typeof maybeMeta.lqip === 'string') return maybeMeta.lqip
+    }
+    return undefined
+  }
 
   // prepare sorted, filtered lists for each stat: exclude zero values and sort desc
   const goalsList = [...list]
@@ -42,8 +70,9 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
                 <div className="w-14 h-16 rounded-lg overflow-hidden bg-gray-100">
                   {p.photo ? (
                     (() => {
-                      const src = buildImageUrl(p.photo as any, 56, 64) // buildImageUrl handles null/undefined
+                      const src = buildImageUrl(p.photo as SanityImageSource | null | undefined, 56, 64)
                       if (!src) return null
+                      const lqip = getLqip(p.photo)
                       return (
                         <Image
                           src={src}
@@ -51,8 +80,8 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
                           width={56}
                           height={64}
                           className="object-cover object-center w-full h-full"
-                          placeholder={p.photo.asset?.metadata?.lqip ? 'blur' : undefined}
-                          blurDataURL={p.photo.asset?.metadata?.lqip}
+                          placeholder={lqip ? 'blur' : undefined}
+                          blurDataURL={lqip}
                         />
                       )
                     })()
@@ -77,8 +106,9 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
                 <div className="w-14 h-16 rounded-lg overflow-hidden bg-gray-100">
                   {p.photo ? (
                     (() => {
-                      const src = buildImageUrl(p.photo as any, 56, 64)
+                      const src = buildImageUrl(p.photo as SanityImageSource | null | undefined, 56, 64)
                       if (!src) return null
+                      const lqip = getLqip(p.photo)
                       return (
                         <Image
                           src={src}
@@ -86,8 +116,8 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
                           width={56}
                           height={64}
                           className="object-cover object-center w-full h-full"
-                          placeholder={p.photo.asset?.metadata?.lqip ? 'blur' : undefined}
-                          blurDataURL={p.photo.asset?.metadata?.lqip}
+                          placeholder={lqip ? 'blur' : undefined}
+                          blurDataURL={lqip}
                         />
                       )
                     })()
@@ -112,8 +142,9 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
                 <div className="w-14 h-16 rounded-lg overflow-hidden bg-gray-100">
                   {p.photo ? (
                     (() => {
-                      const src = buildImageUrl(p.photo as any, 56, 64)
+                      const src = buildImageUrl(p.photo as SanityImageSource | null | undefined, 56, 64)
                       if (!src) return null
+                      const lqip = getLqip(p.photo)
                       return (
                         <Image
                           src={src}
@@ -121,8 +152,8 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
                           width={56}
                           height={64}
                           className="object-cover object-center w-full h-full"
-                          placeholder={p.photo.asset?.metadata?.lqip ? 'blur' : undefined}
-                          blurDataURL={p.photo.asset?.metadata?.lqip}
+                          placeholder={lqip ? 'blur' : undefined}
+                          blurDataURL={lqip}
                         />
                       )
                     })()

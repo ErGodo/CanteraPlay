@@ -87,11 +87,11 @@ export default function SmartMedia(props: SmartMediaProps) {
           // load models from public/models (typed above)
           await (faceapiRef.current as FaceApiShape).nets?.ssdMobilenetv1?.loadFromUri('/models')
           return faceapiRef.current
-        } catch {
-          // loading failed; disable auto-detect
-          faceapiRef.current = null
-          return null
-        }
+          } catch {
+            // loading failed; disable auto-detect
+            faceapiRef.current = null
+            return null
+          }
       }
 
     async function detectFromImageUrl(url?: string) {
@@ -186,7 +186,7 @@ export default function SmartMedia(props: SmartMediaProps) {
           const h = v.videoHeight || 0
           if (w && h) setVideoSize({ w, h })
         }
-      } catch (err) {
+      } catch {
         // ignore
       }
     }

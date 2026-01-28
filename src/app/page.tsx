@@ -9,14 +9,15 @@ import ResultsCarousel from "@/components/ResultsCarousel";
 import SponsorCarousel from "@/components/SponsorCarousel";
 import { getCarouselImages } from "@/lib/getCarouselImages";
 import { getImportantInfo } from "@/lib/getImportantInfo";
-import { getNextMatch } from "@/lib/getNextMatch";
 import { getPlans } from "@/lib/getPlans";
 import { getPlayerStats } from "@/lib/getPlayerStats";
 import { getResults } from "@/lib/getResults";
 import { getSponsors } from "@/lib/getSponsors";
 import { getTestimonials } from "@/lib/getTestimonials";
 // getStandings was removed from this page to avoid unused variable; use the `Competencia` component separately if needed.
-import { formatCurrencyCLP, formatLocaleLong } from '@/lib/formatDate';
+import NextMatchCarousel from "@/components/NextMatchCarousel";
+import { formatCurrencyCLP } from '@/lib/formatDate';
+import { getUpcomingMatches } from "@/lib/getUpcomingMatches";
 import { sectionTitle } from "@/lib/styles";
 import Image from "next/image";
 
@@ -169,26 +170,110 @@ const PlanIcon = ({ type }: { type: "matricula" | "partidos" | "combo" }) => {
 
 /* ------------------------------ Page ------------------------------ */
 export default async function Home() {
-  import NextMatchCarousel from "@/components/NextMatchCarousel";
-  import { getUpcomingMatches } from "@/lib/getUpcomingMatches";
-  // ... (imports)
+  const [importantInfo, plans, carouselImages, upcomingMatches, results, sponsors] =
+    await Promise.all([
+      getImportantInfo(),
+      getPlans(),
+      getCarouselImages(),
+      getUpcomingMatches(),
+      getResults(),
+      getSponsors(),
+    ]);
 
-  // ...
+  // Fetch testimonials from Sanity (server-side)
+  const testimonials = await getTestimonials();
+  // Fetch player stats from Sanity (server-side)
+  const playerStats = await getPlayerStats();
 
-  export default async function Home() {
-    const [importantInfo, plans, carouselImages, upcomingMatches, results, sponsors] =
-      await Promise.all([
-        getImportantInfo(),
-        getPlans(),
-        getCarouselImages(),
-        getUpcomingMatches(),
-        getResults(),
-        getSponsors(),
-      ]);
+  // Branding
+  const primary = "#0a1a3c";
+  const accent = "#e91e63";
+  const gradientB = "#00b4e6";
+  const instagram = "https://www.instagram.com/avidelasportacademy/";
+  const logoUrl = "/images/avidela-logo.png";
+  const clubName = "Avidela Sport";
 
-    // ...
+  // Posición de los auspiciadores: 'right' = columna derecha, 'center' = centrado debajo de Resultados
+  const sponsorsPosition: "right" | "center" = "right";
 
-    {/* PRÓXIMO PARTIDO */ }
+  // Helpers para identificar plan
+  const normalize = (s: string) =>
+    s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const planType = (name: string): "matricula" | "partidos" | "combo" => {
+    const n = normalize(name);
+    if (n.includes("matricula")) return "matricula";
+    if (n.includes("entreno") || n.includes("entren")) return "combo";
+    return "partidos";
+  };
+
+  return (
+    <div className="font-['Montserrat',sans-serif] min-h-screen bg-[#f7f8fa] overflow-x-hidden" suppressHydrationWarning>
+      {/* HERO / HEADER + Mobile Menu */}
+      <HeaderSection />
+
+      {/* MOMENTOS + CARDS DE PLANES */}
+      <section
+        id="moments"
+        className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 mt-10 scroll-mt-24"
+      >
+        {/* Ancla extra para #plans sin duplicar secciones */}
+        <span id="plans" className="block -mt-24 pt-24" aria-hidden />
+        <div className="grid md:grid-cols-2 gap-6 items-stretch">
+          {/* Izquierda: Título + texto + Cards de planes */}
+          <div className="min-w-0">
+            <h2 className={`${sectionTitle}`}>Nuestros Planes</h2>
+            <p className="text-slate-600 mt-2">
+              Únete a Avidela Sport con estos planes
+            </p>
+
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 items-stretch">
+              {(plans ?? []).slice(0, 3).map((p: any, i: number) => {
+                const t = planType(p.name || "");
+                const iconType = i === 2 ? ("partidos" as const) : t;
+                return (
+                  <div
+                    key={p._id}
+                    className="min-w-0 bg-white rounded-xl shadow-sm border border-gray-200 p-3 sm:p-4 flex flex-col h-full md:min-h-[200px] lg:min-h-[260px]"
+                  >
+                    <div className="mb-3 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-md bg-white">
+                      <PlanIcon type={iconType} />
+                    </div>
+                    <h3 className="font-bold text-sm sm:text-base leading-tight truncate md:whitespace-normal md:truncate-none text-[#0a1a3c]">
+                      {p.name}
+                    </h3>
+                    <div className="mt-2 text-slate-700 text-xs sm:text-sm leading-snug whitespace-normal break-words">
+                      {p.description ||
+                        (t === "matricula"
+                          ? "Anual"
+                          : t === "combo"
+                            ? "Partidos + Entrenos"
+                            : "Participación en partidos")}
+                    </div>
+                    <div className="mt-3 md:mt-auto text-lg sm:text-2xl md:text-sm lg:text-2xl font-extrabold md:font-semibold text-[#0b1c3a] leading-tight">
+                      {formatCurrencyCLP(p.price)}
+                      {t !== "matricula" && (
+                        <span className="text-xs sm:text-sm md:hidden lg:inline">/mes</span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Derecha: Galería como carrusel */}
+          <div className="min-w-0">
+            <Gallery
+              images={carouselImages}
+              showTitle={true}
+              // Altura responsiva: móvil bajita, desktop cómoda
+              heightClass="h-44 sm:h-56 md:h-[220px] lg:h-72"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* PRÓXIMO PARTIDO */}
       <PlayerStats stats={playerStats} />
       <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 mt-10">
         <div
@@ -201,60 +286,60 @@ export default async function Home() {
         </div>
       </section>
 
-    {/* RESULTADOS + SPONSORS */ }
-    <section
-      id="results"
-      className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 mt-10 scroll-mt-24 overflow-x-hidden"
-    >
-      {sponsorsPosition === "right" ? (
-        // columnas con la MISMA altura y carouseles estirados correctamente
-        <div className="grid md:grid-cols-2 gap-6 items-stretch">
-          {/* Resultados */}
-          <div className="min-w-0 flex flex-col">
+      {/* RESULTADOS + SPONSORS */}
+      <section
+        id="results"
+        className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 mt-10 scroll-mt-24 overflow-x-hidden"
+      >
+        {sponsorsPosition === "right" ? (
+          // columnas con la MISMA altura y carouseles estirados correctamente
+          <div className="grid md:grid-cols-2 gap-6 items-stretch">
+            {/* Resultados */}
+            <div className="min-w-0 flex flex-col">
+              <h3 className={`${sectionTitle}`}>Últimos Resultados</h3>
+              <div className="mt-4 overflow-hidden flex-1 h-[300px] sm:h-[320px] md:h-[360px] lg:h-[420px]">
+                <ResultsCarousel results={results} />
+              </div>
+            </div>
+
+            {/* Sponsors */}
+            <div id="sponsors" className="min-w-0 flex flex-col scroll-mt-24">
+              <h3 className={`${sectionTitle}`}>Nuestros Auspiciadores</h3>
+              <div className="mt-4 overflow-hidden flex-1 h-[300px] sm:h-[320px] md:h-[360px] lg:h-[420px]">
+                <SponsorCarousel sponsors={sponsors} />
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="min-w-0">
             <h3 className={`${sectionTitle}`}>Últimos Resultados</h3>
-            <div className="mt-4 overflow-hidden flex-1 h-[300px] sm:h-[320px] md:h-[360px] lg:h-[420px]">
-              <ResultsCarousel results={results} />
+            <div className="mt-4 flex flex-wrap gap-2 sm:gap-4">
+              {(results ?? []).slice(0, 4).map((r: any) => (
+                <Pill key={r._id}>
+                  {r.homeScore} – {r.awayScore}
+                </Pill>
+              ))}
+            </div>
+
+            <div id="sponsors" className="mt-6 scroll-mt-24">
+              <h3 className={`${sectionTitle} text-center`}>Nuestros Auspiciadores</h3>
+              <div className="mt-4 overflow-hidden">
+                <SponsorCarousel sponsors={sponsors} />
+              </div>
             </div>
           </div>
+        )}
+      </section>
 
-          {/* Sponsors */}
-          <div id="sponsors" className="min-w-0 flex flex-col scroll-mt-24">
-            <h3 className={`${sectionTitle}`}>Nuestros Auspiciadores</h3>
-            <div className="mt-4 overflow-hidden flex-1 h-[300px] sm:h-[320px] md:h-[360px] lg:h-[420px]">
-              <SponsorCarousel sponsors={sponsors} />
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="min-w-0">
-          <h3 className={`${sectionTitle}`}>Últimos Resultados</h3>
-          <div className="mt-4 flex flex-wrap gap-2 sm:gap-4">
-            {(results ?? []).slice(0, 4).map((r: any) => (
-              <Pill key={r._id}>
-                {r.homeScore} – {r.awayScore}
-              </Pill>
-            ))}
-          </div>
-
-          <div id="sponsors" className="mt-6 scroll-mt-24">
-            <h3 className={`${sectionTitle} text-center`}>Nuestros Auspiciadores</h3>
-            <div className="mt-4 overflow-hidden">
-              <SponsorCarousel sponsors={sponsors} />
-            </div>
-          </div>
-        </div>
-      )}
-    </section>
-
-    {/* NOTICIAS */ }
+      {/* NOTICIAS */}
       <Noticias importantInfo={importantInfo} />
 
       <ContactSection testimonials={testimonials} />
 
-    {/* FOOTER */ }
-    <Footer clubName={clubName} logoUrl={logoUrl} instagramUrl={instagram} gradientB={gradientB} />
+      {/* FOOTER */}
+      <Footer clubName={clubName} logoUrl={logoUrl} instagramUrl={instagram} gradientB={gradientB} />
 
-    {/* Nota: estilos del Swiper se mueven a globals.css */ }
+      {/* Nota: estilos del Swiper se mueven a globals.css */}
     </div >
   );
-  }
+}

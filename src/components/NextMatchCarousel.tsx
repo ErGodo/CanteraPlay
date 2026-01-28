@@ -31,7 +31,7 @@ export default function NextMatchCarousel({ matches }: { matches: Match[] }) {
 
     if (!mounted) return (
         // Skeleton placeholder to prevent layout shift during hydration
-        <div className="min-h-[200px] flex items-center justify-center text-white/50">Cargando próximos partidos...</div>
+        <div className="min-h-[200px] flex items-center justify-center text-white/50" suppressHydrationWarning>Cargando próximos partidos...</div>
     );
 
     if (!matches || matches.length === 0) {

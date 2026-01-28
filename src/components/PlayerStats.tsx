@@ -60,7 +60,7 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
   return (
     <section id="player-stats" className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 mt-10">
       <h2 className={`${sectionTitle}`}>Estadísticas</h2>
-      <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4" suppressHydrationWarning>
         {/* Goles */}
         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
           <h3 className="text-lg font-bold text-[#0a1a3c]">Goles</h3>

@@ -3,9 +3,11 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { FaInstagram } from "react-icons/fa";
+import { CreateAthleteModal } from "./auth/CreateAthleteModal";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   // Prevent scroll when menu is open (mobile UX)
   React.useEffect(() => {
     if (menuOpen) {
@@ -46,11 +48,20 @@ const Navbar = () => {
           <a href="#contact" className="hover:text-[#ffd6e6] text-white transition-colors">Contacto</a>
         </li>
         <li className="flex items-center h-full ml-2">
-          <a href="https://www.instagram.com/avidelasportacademy/" target="_blank" rel="noopener noreferrer" className="flex items-center hover:text-pink-400 transition-colors" style={{height: '100%'}}>
-            <FaInstagram size={24} color="#0a1a3c" style={{display: 'block'}} />
+          <a href="https://www.instagram.com/avidelasportacademy/" target="_blank" rel="noopener noreferrer" className="flex items-center hover:text-pink-400 transition-colors" style={{ height: '100%' }}>
+            <FaInstagram size={24} color="#0a1a3c" style={{ display: 'block' }} />
           </a>
         </li>
+        <li>
+          <button
+            onClick={() => setIsRegisterOpen(true)}
+            className="bg-[#0a1a3c] text-white px-5 py-2 rounded-full hover:bg-[#fc5c9c] transition-colors shadow-lg"
+          >
+            Registrarse
+          </button>
+        </li>
       </ul>
+      <CreateAthleteModal isOpen={isRegisterOpen} onClose={() => setIsRegisterOpen(false)} />
       {/* Mobile hamburger menu */}
       <div className="md:hidden relative">
         <button
@@ -78,6 +89,14 @@ const Navbar = () => {
               <a href="https://www.instagram.com/avidelasportacademy/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center" onClick={() => setMenuOpen(false)}>
                 <FaInstagram size={24} color="#e91e63" />
               </a>
+            </li>
+            <li>
+              <button
+                onClick={() => { setIsRegisterOpen(true); setMenuOpen(false); }}
+                className="w-full text-center bg-[#0a1a3c] text-white py-2 rounded-lg hover:bg-[#fc5c9c] transition-colors mt-2"
+              >
+                Registrarse
+              </button>
             </li>
           </ul>
         </div>

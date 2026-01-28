@@ -3,12 +3,17 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from "react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SponsorCard from "./SponsorCard";
 
 export default function SponsorCarousel({ sponsors }: { sponsors: any[] }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   if (!sponsors || sponsors.length === 0) return null;
+  if (!mounted) return null; // Avoid hydration mismatch
   const hasMultiple = sponsors.length > 1;
 
   return (
@@ -36,7 +41,7 @@ export default function SponsorCarousel({ sponsors }: { sponsors: any[] }) {
           }}
           centeredSlides={false}
           spaceBetween={0}
-  className="rounded-lg h-full overflow-hidden"
+          className="rounded-lg h-full overflow-hidden"
         >
           {sponsors.map((s) => (
             <SwiperSlide key={s._id} className="w-full h-full px-0">

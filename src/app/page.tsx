@@ -293,7 +293,7 @@ export default async function Home() {
                   </div>
                 </>
               ) : (
-                <div className="mt-3 text-white/90">A programar</div>
+                <div className="mt-3 text-white/90" suppressHydrationWarning>A programar</div>
               )}
             </div>
 

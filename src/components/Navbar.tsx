@@ -55,7 +55,7 @@ const Navbar = () => {
         <li>
           <button
             onClick={() => setIsRegisterOpen(true)}
-            className="bg-[#0a1a3c] text-white px-5 py-2 rounded-full hover:bg-[#fc5c9c] transition-colors shadow-lg"
+            className="cursor-pointer bg-[#0a1a3c] text-white px-5 py-2 rounded-full hover:bg-[#fc5c9c] transition-colors shadow-lg"
           >
             Registrarse
           </button>
@@ -93,7 +93,7 @@ const Navbar = () => {
             <li>
               <button
                 onClick={() => { setIsRegisterOpen(true); setMenuOpen(false); }}
-                className="w-full text-center bg-[#0a1a3c] text-white py-2 rounded-lg hover:bg-[#fc5c9c] transition-colors mt-2"
+                className="cursor-pointer w-full text-center bg-[#0a1a3c] text-white py-2 rounded-lg hover:bg-[#fc5c9c] transition-colors mt-2"
               >
                 Registrarse
               </button>

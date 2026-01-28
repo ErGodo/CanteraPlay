@@ -4,7 +4,7 @@ import { auth, db } from "@/lib/firebase";
 import { athleteService, type CreateAthleteDto } from "@/lib/services/athlete.service";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { useRouter } from "next/navigation";
+
 import { useEffect, useState } from "react";
 
 interface CreateAthleteModalProps {
@@ -35,7 +35,7 @@ const initialForm: CreateAthleteForm = {
 };
 
 export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps) => {
-    const router = useRouter();
+
     const [form, setForm] = useState<CreateAthleteForm>(initialForm);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
@@ -55,12 +55,12 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
                 const response = await fetch(`${apiUrl}/clubs`);
                 if (response.ok) {
                     const data = await response.json();
-                    const mappedClubs = data.map((c: any) => ({
+                    const mappedClubs = data.map((c: { pkClub?: string; id?: string; clubName?: string; name?: string }) => ({
                         id: (c.pkClub ?? c.id) as string,
                         name: (c.clubName ?? c.name ?? "Sin nombre") as string
                     }));
                     // Filter for Avidela club specifically
-                    const avidelaClub = mappedClubs.find((c: any) => c.name.toLowerCase().includes('avidela'));
+                    const avidelaClub = mappedClubs.find((c: { id: string; name: string }) => c.name.toLowerCase().includes('avidela'));
 
                     if (avidelaClub) {
                         setClubs([avidelaClub]);
@@ -157,7 +157,8 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
             let userCredential;
             try {
                 userCredential = await createUserWithEmailAndPassword(auth, form.email, form.password);
-            } catch (authErr: any) {
+            } catch (error: unknown) {
+                const authErr = error as { code?: string; message?: string };
                 if (authErr.code === 'auth/email-already-in-use') {
                     throw new Error("Este correo ya está registrado");
                 } else if (authErr.code === 'auth/weak-password') {
@@ -202,9 +203,10 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
 
             setIsSuccess(true);
 
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error("Registration failed:", err);
-            setError(err.message || "Error inesperado.");
+            const message = err instanceof Error ? err.message : "Error inesperado.";
+            setError(message);
         } finally {
             setIsLoading(false);
         }
@@ -344,7 +346,7 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
                                     <label className={labelClass}>Género</label>
                                     <select
                                         value={form.gender}
-                                        onChange={(e) => setForm({ ...form, gender: e.target.value as any })}
+                                        onChange={(e) => setForm({ ...form, gender: e.target.value as CreateAthleteForm["gender"] })}
                                         className={`${inputClass} appearance-none`}
                                     >
                                         <option value="unspecified" className="bg-[#0a1a3c]">No especificado</option>

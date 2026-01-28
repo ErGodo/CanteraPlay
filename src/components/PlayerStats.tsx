@@ -1,7 +1,18 @@
-import { buildImageUrl } from '@/lib/sanityClient'
-import { sectionTitle } from '@/lib/styles'
-import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
-import Image from 'next/image'
+"use client";
+import { buildImageUrl } from '@/lib/sanityClient';
+import { sectionTitle } from '@/lib/styles';
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import Image from 'next/image';
+import { useState } from 'react';
+
+// Simple utility for class merging (replaces external cn)
+function cn(...classes: (string | undefined | null | false)[]) {
+  return classes.filter(Boolean).join(' ')
+}
+
+// ----------------------------------------------------------------------
+// TYPES & DATA HELPERS
+// ----------------------------------------------------------------------
 
 type StatItem = {
   _id: string
@@ -13,37 +24,156 @@ type StatItem = {
   photo?: SanityImageSource & { focusX?: number; focusY?: number } | null
 }
 
-export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
-  const list = stats && stats.length > 0 ? stats : []
-
-  // Safely extract LQIP (blur placeholder) from various Sanity image shapes.
-  function getLqip(photo?: StatItem['photo']): string | undefined {
-    if (!photo) return undefined
-    // SanityImageSource can be a string id or an object; guard for object form
-    // Narrow to object shape that may contain asset/metadata
-    type SanityImageObject = {
-      asset?: { metadata?: { lqip?: string } }
-      metadata?: { lqip?: string }
-      [key: string]: unknown
-    }
-
-    function isSanityImageObject(v: unknown): v is SanityImageObject {
-      return typeof v === 'object' && v !== null && ('asset' in v || 'metadata' in v)
-    }
-
-    if (isSanityImageObject(photo)) {
-      const maybeAsset = photo.asset
-      if (maybeAsset && maybeAsset.metadata && typeof maybeAsset.metadata.lqip === 'string') {
-        return maybeAsset.metadata.lqip
-      }
-      // some shapes include metadata at the top level
-      const maybeMeta = photo.metadata
-      if (maybeMeta && typeof maybeMeta.lqip === 'string') return maybeMeta.lqip
-    }
-    return undefined
+function getLqip(photo?: StatItem['photo']): string | undefined {
+  if (!photo) return undefined
+  type SanityImageObject = {
+    asset?: { metadata?: { lqip?: string } }
+    metadata?: { lqip?: string }
+    [key: string]: unknown
   }
 
-  // prepare sorted, filtered lists for each stat: exclude zero values and sort desc
+  function isSanityImageObject(v: unknown): v is SanityImageObject {
+    return typeof v === 'object' && v !== null && ('asset' in v || 'metadata' in v)
+  }
+
+  if (isSanityImageObject(photo)) {
+    const maybeAsset = photo.asset
+    if (maybeAsset && maybeAsset.metadata && typeof maybeAsset.metadata.lqip === 'string') {
+      return maybeAsset.metadata.lqip
+    }
+    const maybeMeta = photo.metadata
+    if (maybeMeta && typeof maybeMeta.lqip === 'string') return maybeMeta.lqip
+  }
+  return undefined
+}
+
+// ----------------------------------------------------------------------
+// COMPONENTS
+// ----------------------------------------------------------------------
+
+// Single Row in a Stats List
+const PlayerRow = ({
+  item,
+  field,
+  rank,
+  color,
+}: {
+  item: StatItem
+  field: 'goals' | 'assists' | 'matches'
+  rank: number
+  color: string
+}) => {
+  const value = item[field] ?? 0
+  const isTopRank = rank === 0
+
+  return (
+    <div className="group relative flex items-center gap-3 p-3 rounded-2xl bg-slate-800/50 border border-slate-700/50 hover:bg-slate-800 hover:border-slate-600 transition-all duration-300">
+      {/* Search/Rank Indicator */}
+      <div className={cn(
+        "absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 rounded-r-full transition-all",
+        isTopRank ? `bg-${color}-500 shadow-[0_0_10px_rgba(var(--${color}-500),0.5)]` : "bg-transparent group-hover:bg-slate-600"
+      )} />
+
+      {/* Avatar */}
+      <div className="relative w-12 h-12 sm:w-16 sm:h-16 shrink-0 rounded-2xl overflow-hidden bg-slate-900 border border-slate-700 shadow-md">
+        {item.photo ? (
+          <Image
+            src={buildImageUrl(item.photo, 64, 64) || ''}
+            alt={item.athleteName || 'Player'}
+            fill
+            className="object-cover"
+            placeholder={getLqip(item.photo) ? 'blur' : undefined}
+            blurDataURL={getLqip(item.photo)}
+            sizes="(max-width: 640px) 48px, 64px"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-slate-800 text-slate-600">
+            <span className="text-xs">No img</span>
+          </div>
+        )}
+      </div>
+
+      {/* Info */}
+      <div className="flex-1 min-w-0 flex flex-col justify-center">
+        <h4 className="text-white font-bold text-sm sm:text-base leading-tight line-clamp-2">
+          {item.athleteName || 'Jugador'}
+        </h4>
+        <div className="text-xs text-slate-400 font-medium uppercase tracking-wider mt-0.5 truncate">
+          {item.position || 'Posición'}
+        </div>
+      </div>
+
+      {/* Stat Value */}
+      <div className={cn(
+        "flex flex-col items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl border tabular-nums shrink-0",
+        isTopRank
+          ? `bg-${color}-500/10 border-${color}-500/30 text-${color}-400`
+          : "bg-slate-900 border-slate-700 text-white"
+      )}>
+        <span className="text-base sm:text-xl font-black leading-none">{value}</span>
+      </div>
+    </div>
+  )
+}
+
+// Stats Card (Used in Desktop Grid & Mobile Tabs)
+const StatsCard = ({
+  title,
+  icon,
+  data,
+  field,
+  color,
+  mobileMinimal = false,
+}: {
+  title: string
+  icon: string
+  data: StatItem[]
+  field: 'goals' | 'assists' | 'matches'
+  color: 'blue' | 'green' | 'purple' | 'pink'
+  mobileMinimal?: boolean
+}) => {
+  return (
+    <div className={cn(
+      "h-full flex flex-col bg-slate-950/50 border border-slate-800 shadow-2xl overflow-hidden",
+      mobileMinimal ? "rounded-2xl border-t-0 bg-transparent shadow-none" : "rounded-[32px] bg-slate-950/50"
+    )}>
+      {/* Header - Hidden in Mobile Minimal mode to save space */}
+      {!mobileMinimal && (
+        <div className={`relative p-6 pb-4 flex items-center gap-4 bg-gradient-to-b from-slate-900 to-slate-950 rounded-[28px] border-b border-slate-800/50`}>
+          <div className={`flex items-center justify-center w-12 h-12 rounded-xl bg-${color}-500/10 text-${color}-400 border border-${color}-500/20 shadow-lg`}>
+            <span className="text-xl">{icon}</span>
+          </div>
+          <h3 className="text-xl font-bold text-white tracking-tight">{title}</h3>
+        </div>
+      )}
+
+      {/* List */}
+      <div className={cn(
+        "flex flex-col gap-3 flex-1 overflow-y-auto custom-scrollbar",
+        mobileMinimal ? "p-0 max-h-none" : "p-4 max-h-[400px]"
+      )}>
+        {data.map((item, idx) => (
+          <PlayerRow key={item._id} item={item} field={field} rank={idx} color={color} />
+        ))}
+        {data.length === 0 && (
+          <div className="py-8 text-center text-slate-500 text-sm">
+            Sin datos disponibles
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+// ----------------------------------------------------------------------
+// MAIN COMPONENT
+// ----------------------------------------------------------------------
+
+export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
+  const [activeTab, setActiveTab] = useState<'goals' | 'assists' | 'matches'>('goals')
+
+  const list = stats && stats.length > 0 ? stats : []
+
   const goalsList = [...list]
     .filter((p) => (p.goals ?? 0) > 0)
     .sort((a, b) => (b.goals ?? 0) - (a.goals ?? 0))
@@ -56,134 +186,78 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
     .filter((p) => (p.matches ?? 0) > 0)
     .sort((a, b) => (b.matches ?? 0) - (a.matches ?? 0))
 
-  // Render three columns: goals, assists, matches
+  const tabs = [
+    { id: 'goals', label: 'Goleadores', icon: '⚽', color: 'blue', data: goalsList, field: 'goals' },
+    { id: 'assists', label: 'Asistencias', icon: '👟', color: 'green', data: assistsList, field: 'assists' },
+    { id: 'matches', label: 'Partidos', icon: '👕', color: 'purple', data: matchesList, field: 'matches' },
+  ] as const
+
   return (
-    <section id="player-stats" className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 mt-10">
-      <h2 className={`${sectionTitle}`}>Estadísticas</h2>
-      <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-6" suppressHydrationWarning>
-        {/* Goles */}
-        <div className="bg-slate-900 rounded-3xl p-6 shadow-lg border border-slate-800 hover:shadow-blue-900/20 transition-all duration-300">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-blue-900/20 rounded-xl text-blue-400 border border-blue-900/30">
-              {/* Icon placeholder or just text */}
-              <span className="font-black text-lg">⚽</span>
-            </div>
-            <h3 className="text-xl font-extrabold text-white">Goleadores</h3>
-          </div>
+    <section id="player-stats" className="mx-auto w-full max-w-[95%] px-4 sm:px-6 lg:px-8 mt-16 scroll-mt-24" suppressHydrationWarning>
+      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+        <div>
+          <h2 className={`${sectionTitle} mb-0`}>Estadísticas</h2>
+          <p className="text-slate-400 mt-2 text-sm sm:text-base">Top performers de la temporada</p>
+        </div>
+      </div>
 
-          <div className="mt-3 space-y-4">
-            {goalsList.map((p) => (
-              <div key={`g-${p._id}`} className="flex items-center gap-4 group">
-                <div className="w-14 h-16 rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shadow-sm group-hover:scale-105 transition-transform">
-                  {p.photo ? (
-                    (() => {
-                      const src = buildImageUrl(p.photo as SanityImageSource | null | undefined, 56, 64)
-                      if (!src) return null
-                      const lqip = getLqip(p.photo)
-                      return (
-                        <Image
-                          src={src}
-                          alt={p.athleteName || 'Player'}
-                          width={56}
-                          height={64}
-                          className="object-cover object-center w-full h-full"
-                          placeholder={lqip ? 'blur' : undefined}
-                          blurDataURL={lqip}
-                        />
-                      )
-                    })()
-                  ) : null}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-sm font-extrabold text-white truncate">{p.athleteName}</div>
-                  <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide">{p.position}</div>
-                </div>
-                <div className="text-2xl font-black text-white bg-slate-800 px-3 py-1 rounded-lg tabular-nums border border-slate-700">{p.goals ?? 0}</div>
-              </div>
-            ))}
-          </div>
+      {/* --- DESKTOP VIEW (Grid) --- */}
+      <div className="hidden lg:grid grid-cols-3 gap-6 items-start">
+        {tabs.map((tab) => (
+          <StatsCard
+            key={tab.id}
+            title={tab.label}
+            icon={tab.icon}
+            data={tab.data}
+            field={tab.field as any}
+            color={tab.color as any}
+          />
+        ))}
+      </div>
+
+      {/* --- MOBILE & TABLET VIEW (Tabs) --- */}
+      <div className="block lg:hidden w-full">
+        {/* Tabs Grid - Styled for clean scrolling without ugly bars */}
+        <div
+          className="bg-slate-900/80 p-1.5 rounded-2xl flex gap-1 mb-6 border border-slate-800 overflow-x-auto snap-x"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {tabs.map((tab) => {
+            const isActive = activeTab === tab.id
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={cn(
+                  "flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 min-w-[110px] shrink-0 snap-center",
+                  isActive
+                    ? `bg-gradient-to-br from-slate-800 to-slate-700 text-white shadow-lg ring-1 ring-white/10`
+                    : "text-slate-400 hover:text-white hover:bg-slate-800/50"
+                )}
+              >
+                <span className="text-base">{tab.icon}</span>
+                <span>{tab.label}</span>
+              </button>
+            )
+          })}
         </div>
 
-        {/* Asistencias */}
-        <div className="bg-slate-900 rounded-3xl p-6 shadow-lg border border-slate-800 hover:shadow-green-900/20 transition-all duration-300">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-green-900/20 rounded-xl text-green-400 border border-green-900/30">
-              <span className="font-black text-lg">👟</span>
-            </div>
-            <h3 className="text-xl font-extrabold text-white">Asistencias</h3>
-          </div>
-          <div className="mt-3 space-y-4">
-            {assistsList.map((p) => (
-              <div key={`a-${p._id}`} className="flex items-center gap-4 group">
-                <div className="w-14 h-16 rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shadow-sm group-hover:scale-105 transition-transform">
-                  {p.photo ? (
-                    (() => {
-                      const src = buildImageUrl(p.photo as SanityImageSource | null | undefined, 56, 64)
-                      if (!src) return null
-                      const lqip = getLqip(p.photo)
-                      return (
-                        <Image
-                          src={src}
-                          alt={p.athleteName || 'Player'}
-                          width={56}
-                          height={64}
-                          className="object-cover object-center w-full h-full"
-                          placeholder={lqip ? 'blur' : undefined}
-                          blurDataURL={lqip}
-                        />
-                      )
-                    })()
-                  ) : null}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-sm font-extrabold text-white truncate">{p.athleteName}</div>
-                  <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide">{p.position}</div>
-                </div>
-                <div className="text-2xl font-black text-white bg-slate-800 px-3 py-1 rounded-lg tabular-nums border border-slate-700">{p.assists ?? 0}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Partidos */}
-        <div className="bg-slate-900 rounded-3xl p-6 shadow-lg border border-slate-800 hover:shadow-purple-900/20 transition-all duration-300">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-purple-900/20 rounded-xl text-purple-400 border border-purple-900/30">
-              <span className="font-black text-lg">👕</span>
-            </div>
-            <h3 className="text-xl font-extrabold text-white">Partidos</h3>
-          </div>
-          <div className="mt-3 space-y-4">
-            {matchesList.map((p) => (
-              <div key={`m-${p._id}`} className="flex items-center gap-4 group">
-                <div className="w-14 h-16 rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shadow-sm group-hover:scale-105 transition-transform">
-                  {p.photo ? (
-                    (() => {
-                      const src = buildImageUrl(p.photo as SanityImageSource | null | undefined, 56, 64)
-                      if (!src) return null
-                      const lqip = getLqip(p.photo)
-                      return (
-                        <Image
-                          src={src}
-                          alt={p.athleteName || 'Player'}
-                          width={56}
-                          height={64}
-                          className="object-cover object-center w-full h-full"
-                          placeholder={lqip ? 'blur' : undefined}
-                          blurDataURL={lqip}
-                        />
-                      )
-                    })()
-                  ) : null}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-sm font-extrabold text-white truncate">{p.athleteName}</div>
-                  <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide">{p.position}</div>
-                </div>
-                <div className="text-2xl font-black text-white bg-slate-800 px-3 py-1 rounded-lg tabular-nums border border-slate-700">{p.matches ?? 0}</div>
-              </div>
-            ))}
-          </div>
+        {/* Active Tab Content */}
+        <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 min-h-[300px]">
+          {tabs.map((tab) => {
+            if (tab.id !== activeTab) return null
+            return (
+              <StatsCard
+                key={tab.id}
+                title={tab.label}
+                icon={tab.icon}
+                data={tab.data}
+                field={tab.field as any}
+                color={tab.color as any}
+                mobileMinimal={true}
+              />
+            )
+          })}
         </div>
       </div>
     </section>

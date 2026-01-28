@@ -75,8 +75,8 @@ function Footer({
           } 100%)`,
       }}
     >
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-8 grid gap-8 md:gap-6 md:grid-cols-3 text-white">
-        <div className="flex items-center gap-3 min-w-0">
+      <div className="mx-auto w-full max-w-[95%] px-4 sm:px-6 lg:px-8 py-8 grid gap-8 md:gap-6 md:grid-cols-3 text-white">
+        <div className="flex items-center justify-center md:justify-start gap-3 min-w-0">
           <Image
             src={logoUrl}
             alt={`${clubName} Logo`}
@@ -214,38 +214,39 @@ export default async function Home() {
       {/* MOMENTOS + CARDS DE PLANES */}
       <section
         id="moments"
-        className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 mt-10 scroll-mt-24"
+        className="mx-auto w-full max-w-[95%] px-4 sm:px-6 lg:px-8 mt-10 scroll-mt-24"
       >
         {/* Ancla extra para #plans sin duplicar secciones */}
         <span id="plans" className="block -mt-24 pt-24" aria-hidden />
-        <div className="grid md:grid-cols-2 gap-6 items-stretch">
-          {/* Izquierda: Título + texto + Cards de planes */}
-          <div className="min-w-0">
+        {/* Stack vertically for better spacing on all screens */}
+        <div className="flex flex-col gap-12">
+          {/* Top: Plans Section */}
+          <div className="w-full">
             <h2 className={`${sectionTitle}`}>Nuestros Planes</h2>
-            <p className="text-slate-400 mt-2">
+            <p className="text-slate-400 mt-2 mb-6">
               Únete a Avidela Sport con estos planes
             </p>
 
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 items-stretch">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
               {(plans ?? []).slice(0, 3).map((p: any, i: number) => {
                 const t = planType(p.name || "");
                 const iconType = i === 2 ? ("partidos" as const) : t;
                 return (
                   <div
                     key={p._id}
-                    className="min-w-0 bg-slate-900 rounded-3xl shadow-lg border border-slate-800 p-5 sm:p-6 flex flex-col h-full md:min-h-[220px] lg:min-h-[260px] transition-all duration-300 hover:shadow-blue-900/40 hover:-translate-y-1 hover:border-blue-700 group relative overflow-hidden"
+                    className="min-w-0 bg-slate-900 rounded-3xl shadow-lg border border-slate-800 p-6 flex flex-col h-full transition-all duration-300 hover:shadow-blue-900/40 hover:-translate-y-1 hover:border-blue-700 group relative overflow-hidden"
                   >
                     {/* Hover gradient overlay */}
                     <div className="absolute inset-0 bg-gradient-to-br from-transparent to-blue-900/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
                     <div className="relative z-10 flex-1">
-                      <div className="mb-4 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-800 text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 shadow-sm border border-slate-700">
+                      <div className="mb-5 flex items-center justify-center w-14 h-14 rounded-2xl bg-slate-800 text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 shadow-sm border border-slate-700">
                         <PlanIcon type={iconType} />
                       </div>
-                      <h3 className="font-extrabold text-lg sm:text-xl leading-tight truncate md:whitespace-normal md:truncate-none text-white mb-2 group-hover:text-blue-400 transition-colors">
+                      <h3 className="font-extrabold text-2xl text-white mb-3 group-hover:text-blue-400 transition-colors">
                         {p.name}
                       </h3>
-                      <div className="text-slate-400 text-sm leading-relaxed whitespace-normal break-words font-medium">
+                      <div className="text-slate-400 text-sm leading-relaxed font-medium">
                         {p.description ||
                           (t === "matricula"
                             ? "Anual"
@@ -254,11 +255,11 @@ export default async function Home() {
                               : "Participación en partidos")}
                       </div>
                     </div>
-                    <div className="mt-4 md:mt-auto relative z-10 pt-4 border-t border-slate-800">
-                      <div className="text-xl sm:text-2xl md:text-lg lg:text-3xl font-black text-white leading-tight">
+                    <div className="mt-6 md:mt-8 relative z-10 pt-4 border-t border-slate-800">
+                      <div className="text-3xl lg:text-4xl font-black text-white leading-tight">
                         {formatCurrencyCLP(p.price)}
                         {t !== "matricula" && (
-                          <span className="text-xs sm:text-sm font-bold text-slate-500 ml-1 uppercase tracking-wide">/mes</span>
+                          <span className="text-sm font-bold text-slate-500 ml-1 uppercase tracking-wide">/mes</span>
                         )}
                       </div>
                     </div>
@@ -268,13 +269,13 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* Derecha: Galería como carrusel */}
-          <div className="min-w-0">
+          {/* Bottom: Moments Gallery */}
+          <div className="w-full">
+            <h2 className={`${sectionTitle} mb-6`}>Momentos Inolvidables</h2>
             <Gallery
               images={carouselImages}
-              showTitle={true}
-              // Altura responsiva: móvil bajita, desktop cómoda
-              heightClass="h-44 sm:h-56 md:h-[220px] lg:h-72"
+              showTitle={false} // Title is handled outside
+              heightClass="h-64 sm:h-80 md:h-[400px] lg:h-[500px]" // Taller gallery since it is full width
             />
           </div>
         </div>
@@ -282,25 +283,27 @@ export default async function Home() {
 
       {/* PRÓXIMO PARTIDO */}
       <PlayerStats stats={playerStats} />
-      <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 mt-10">
-        <div
-          className="rounded-3xl overflow-hidden shadow-2xl relative z-10"
-          style={{
-            backgroundImage: `linear-gradient(135deg, ${primary} 0%, ${accent} 50%, ${gradientB} 100%)`,
-          }}
-        >
-          <NextMatchCarousel matches={upcomingMatches} />
+      <section className="mx-auto w-full max-w-[95%] px-4 sm:px-6 lg:px-8 mt-10">
+        <div className="rounded-3xl p-[2px] bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 shadow-2xl relative z-10">
+          <div
+            className="rounded-[22px] overflow-hidden w-full h-full"
+            style={{
+              backgroundImage: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
+            }}
+          >
+            <NextMatchCarousel matches={upcomingMatches} />
+          </div>
         </div>
       </section>
 
       {/* RESULTADOS + SPONSORS */}
       <section
         id="results"
-        className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 mt-10 scroll-mt-24 overflow-x-hidden"
+        className="mx-auto w-full max-w-[95%] px-4 sm:px-6 lg:px-8 mt-10 scroll-mt-24 overflow-x-hidden"
       >
         {sponsorsPosition === "right" ? (
           // columnas con la MISMA altura y carouseles estirados correctamente
-          <div className="grid md:grid-cols-2 gap-6 items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
             {/* Resultados */}
             <div className="min-w-0 flex flex-col">
               <h3 className={`${sectionTitle}`}>Últimos Resultados</h3>

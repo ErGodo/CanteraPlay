@@ -5,21 +5,21 @@ import React, { useState } from "react";
 function SuccessModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center transform scale-100 animate-in zoom-in-95 duration-200 border border-gray-100">
-        <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-5 shadow-inner">
-          <svg className="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-in fade-in duration-200">
+      <div className="bg-slate-900 rounded-3xl shadow-2xl p-8 max-w-md w-full text-center transform scale-100 animate-in zoom-in-95 duration-200 border border-slate-700">
+        <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-5 shadow-[0_0_20px_rgba(34,197,94,0.3)]">
+          <svg className="w-10 h-10 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"></path>
           </svg>
         </div>
-        <h3 className="text-2xl font-bold text-[#0a1a3c] mb-3 font-sans">¡Mensaje Recibido!</h3>
-        <p className="text-slate-600 mb-8 leading-relaxed">
+        <h3 className="text-2xl font-black text-white mb-3 font-sans">¡Mensaje Recibido!</h3>
+        <p className="text-slate-300 mb-8 leading-relaxed">
           Su mensaje ha sido recibido exitosamente. <br />
           Pronto será contactada por la directiva del club.
         </p>
         <button
           onClick={onClose}
-          className="w-full bg-[#0a1a3c] text-white py-3.5 rounded-xl font-bold text-lg hover:bg-[#fc5c9c] transition-colors shadow-lg shadow-blue-900/10 cursor-pointer"
+          className="w-full bg-pink-600 text-white py-3.5 rounded-xl font-bold text-lg hover:bg-pink-700 transition-colors shadow-lg shadow-pink-600/20 cursor-pointer"
         >
           Entendido
         </button>
@@ -117,9 +117,9 @@ export default function ContactForm({ primary = "#0a1a3c" }: { primary?: string 
   return (
     <>
       <SuccessModal isOpen={status === 'success'} onClose={() => setStatus('idle')} />
-      <form onSubmit={handleSubmit} noValidate className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col gap-4">
+      <form onSubmit={handleSubmit} noValidate className="bg-slate-900/50 rounded-xl shadow-inner border border-slate-800 p-6 flex flex-col gap-4">
         <div>
-          <label htmlFor="name" className="block text-sm font-semibold text-[#0a1a3c] mb-1">
+          <label htmlFor="name" className="block text-sm font-semibold text-white mb-1">
             Nombre
           </label>
           <input
@@ -131,13 +131,14 @@ export default function ContactForm({ primary = "#0a1a3c" }: { primary?: string 
               if (errors.name) setErrors({ ...errors, name: undefined });
             }}
             disabled={status === 'loading'}
-            className={`w-full border rounded-md px-4 py-3 text-[#0a1a3c] focus:outline-none focus:ring-2 focus:ring-[#0a1a3c] focus:ring-opacity-20 disabled:opacity-50 ${errors.name ? 'border-red-500 ring-1 ring-red-500' : 'border-gray-200'}`}
+            className={`w-full border rounded-xl px-4 py-3 bg-slate-800 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-pink-500 disabled:opacity-50 transition-all ${errors.name ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-700'}`}
+            placeholder="Tu nombre"
           />
-          {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+          {errors.name && <p className="text-red-400 text-xs mt-1 font-medium">{errors.name}</p>}
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-semibold text-[#0a1a3c] mb-1">
+          <label htmlFor="email" className="block text-sm font-semibold text-white mb-1">
             Correo electrónico
           </label>
           <input
@@ -150,13 +151,14 @@ export default function ContactForm({ primary = "#0a1a3c" }: { primary?: string 
               if (errors.email) setErrors({ ...errors, email: undefined });
             }}
             disabled={status === 'loading'}
-            className={`w-full border rounded-md px-4 py-3 text-[#0a1a3c] focus:outline-none focus:ring-2 focus:ring-[#0a1a3c] focus:ring-opacity-20 disabled:opacity-50 ${errors.email ? 'border-red-500 ring-1 ring-red-500' : 'border-gray-200'}`}
+            className={`w-full border rounded-xl px-4 py-3 bg-slate-800 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-pink-500 disabled:opacity-50 transition-all ${errors.email ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-700'}`}
+            placeholder="tucorreo@ejemplo.com"
           />
-          {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+          {errors.email && <p className="text-red-400 text-xs mt-1 font-medium">{errors.email}</p>}
         </div>
 
         <div>
-          <label htmlFor="phone" className="block text-sm font-semibold text-[#0a1a3c] mb-1">
+          <label htmlFor="phone" className="block text-sm font-semibold text-white mb-1">
             Teléfono
           </label>
           <input
@@ -168,12 +170,12 @@ export default function ContactForm({ primary = "#0a1a3c" }: { primary?: string 
             onChange={handlePhoneChange}
             onFocus={handlePhoneFocus}
             disabled={status === 'loading'}
-            className="w-full border border-gray-200 rounded-md px-4 py-3 text-[#0a1a3c] focus:outline-none focus:ring-2 focus:ring-[#0a1a3c] focus:ring-opacity-20 disabled:opacity-50"
+            className="w-full border border-slate-700 rounded-xl px-4 py-3 bg-slate-800 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-pink-500 disabled:opacity-50 transition-all"
           />
         </div>
 
         <div>
-          <label htmlFor="message" className="block text-sm font-semibold text-[#0a1a3c] mb-1">
+          <label htmlFor="message" className="block text-sm font-semibold text-white mb-1">
             Mensaje
           </label>
           <textarea
@@ -186,27 +188,28 @@ export default function ContactForm({ primary = "#0a1a3c" }: { primary?: string 
               if (errors.message) setErrors({ ...errors, message: undefined });
             }}
             disabled={status === 'loading'}
-            className={`w-full border rounded-md px-4 py-3 h-28 md:h-28 max-h-36 text-[#0a1a3c] focus:outline-none focus:ring-2 focus:ring-[#0a1a3c] focus:ring-opacity-20 disabled:opacity-50 ${errors.message ? 'border-red-500 ring-1 ring-red-500' : 'border-gray-200'}`}
+            className={`w-full border rounded-xl px-4 py-3 h-28 md:h-28 max-h-36 bg-slate-800 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-pink-500 disabled:opacity-50 transition-all ${errors.message ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-700'}`}
+            placeholder="Escribe tu mensaje aquí..."
           />
-          {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
+          {errors.message && <p className="text-red-400 text-xs mt-1 font-medium">{errors.message}</p>}
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 mt-2">
           <button
             type="submit"
             disabled={status === 'loading'}
-            className="px-6 py-3 rounded-md font-semibold shadow transition text-white w-full hover:opacity-95 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
-            style={{ backgroundColor: primary }}
+            className="px-6 py-2.5 md:py-3.5 rounded-xl font-bold text-sm md:text-base shadow-lg transition text-white w-full hover:opacity-90 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+            style={{ backgroundColor: "#e91e63" }} // Force pink as per design request, removing variable confusion
           >
             {status === 'loading' ? (
               <>
-                <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                <span className="w-4 h-4 md:w-5 md:h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 Enviando...
               </>
-            ) : 'Enviar'}
+            ) : 'Enviar Mensaje'}
           </button>
 
-          {status === 'error' && <p className="text-red-500 text-sm text-center">Hubo un error al enviar el mensaje. Inténtalo de nuevo.</p>}
+          {status === 'error' && <p className="text-red-400 text-sm text-center font-medium">Hubo un error al enviar el mensaje. Inténtalo de nuevo.</p>}
         </div>
       </form>
     </>

@@ -67,7 +67,7 @@ export default function NextMatchCarousel({ matches }: { matches: Match[] }) {
             >
                 {matches.map((match) => (
                     <SwiperSlide key={match.id}>
-                        <div className="grid md:grid-cols-2 items-center min-h-[260px] relative z-10">
+                        <div className="grid lg:grid-cols-2 items-center min-h-[260px] relative z-10">
                             {/* Left Info */}
                             <div className="px-6 md:px-12 py-8 text-white min-w-0 flex flex-col justify-center h-full relative z-20">
                                 <h3 className="text-3xl sm:text-4xl font-extrabold italic tracking-tighter uppercase text-white mb-3 drop-shadow-lg">
@@ -104,57 +104,56 @@ export default function NextMatchCarousel({ matches }: { matches: Match[] }) {
                                 {/* Decorative background element for team area */}
                                 <div className="absolute inset-0 bg-gradient-to-l from-black/20 to-transparent md:bg-gradient-to-l md:from-black/10 md:via-transparent md:to-transparent pointer-events-none rounded-r-3xl" />
 
-                                <div className="flex items-center justify-center gap-6 sm:gap-10 w-full max-w-lg relative z-20">
+                                <div className="flex items-center justify-center gap-2 sm:gap-10 w-full max-w-lg relative z-20">
                                     {/* Home */}
-                                    <div className="flex flex-col items-center gap-3 w-1/3 text-center group">
-                                        <div className="relative w-24 h-24 sm:w-28 sm:h-28 transition-transform duration-300 group-hover:scale-110 drop-shadow-2xl filter">
-                                            {/* Removed white circle background to prevent cutting off 'pointy bits' */}
+                                    <div className="flex flex-col items-center gap-2 w-1/3 text-center group">
+                                        <div className="relative w-16 h-16 sm:w-28 sm:h-28 bg-white rounded-2xl shadow-xl p-2 transition-transform duration-300 group-hover:scale-110 flex items-center justify-center">
                                             {match.homeTeam?.logoUrl ? (
                                                 <Image
                                                     src={match.homeTeam.logoUrl}
                                                     alt={match.homeTeam.name}
                                                     width={112}
                                                     height={112}
-                                                    className="object-contain w-full h-full drop-shadow-lg rounded-3xl"
+                                                    className="object-contain w-full h-full"
                                                     priority
                                                 />
                                             ) : (
-                                                <div className="w-full h-full bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/20">
-                                                    <span className="text-white/70 font-bold text-xs">{match.homeTeam?.name?.substring(0, 3) || "LOC"}</span>
+                                                <div className="w-full h-full flex items-center justify-center">
+                                                    <span className="text-slate-400 font-bold text-xs uppercase">Loc</span>
                                                 </div>
                                             )}
                                         </div>
-                                        <span className="text-white text-sm sm:text-base font-bold leading-tight line-clamp-2 drop-shadow-md tracking-tight">
+                                        <span className="text-white text-xs sm:text-base font-bold leading-tight line-clamp-2 drop-shadow-md tracking-tight">
                                             {match.homeTeam?.name || "Local"}
                                         </span>
                                     </div>
 
                                     {/* VS */}
-                                    <div className="flex flex-col items-center justify-center">
-                                        <span className="text-5xl sm:text-6xl font-black text-white/20 italic transform -skew-x-12 select-none">
+                                    <div className="flex flex-col items-center justify-center px-1">
+                                        <span className="text-3xl sm:text-6xl font-black text-white/20 italic transform -skew-x-12 select-none">
                                             VS
                                         </span>
                                     </div>
 
                                     {/* Away */}
-                                    <div className="flex flex-col items-center gap-3 w-1/3 text-center group">
-                                        <div className="relative w-24 h-24 sm:w-28 sm:h-28 transition-transform duration-300 group-hover:scale-110 drop-shadow-2xl filter">
+                                    <div className="flex flex-col items-center gap-2 w-1/3 text-center group">
+                                        <div className="relative w-16 h-16 sm:w-28 sm:h-28 bg-white rounded-2xl shadow-xl p-2 transition-transform duration-300 group-hover:scale-110 flex items-center justify-center">
                                             {match.awayTeam?.logoUrl ? (
                                                 <Image
                                                     src={match.awayTeam.logoUrl}
                                                     alt={match.awayTeam.name}
                                                     width={112}
                                                     height={112}
-                                                    className="object-contain w-full h-full drop-shadow-lg rounded-3xl"
+                                                    className="object-contain w-full h-full"
                                                     priority
                                                 />
                                             ) : (
-                                                <div className="w-full h-full bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/20">
-                                                    <span className="text-white/70 font-bold text-[10px] sm:text-xs">RIVAL</span>
+                                                <div className="w-full h-full flex items-center justify-center">
+                                                    <span className="text-slate-400 font-bold text-xs uppercase">Vis</span>
                                                 </div>
                                             )}
                                         </div>
-                                        <span className="text-white text-sm sm:text-base font-bold leading-tight line-clamp-2 drop-shadow-md tracking-tight">
+                                        <span className="text-white text-xs sm:text-base font-bold leading-tight line-clamp-2 drop-shadow-md tracking-tight">
                                             {match.awayTeam?.name || "Rival"}
                                         </span>
                                     </div>

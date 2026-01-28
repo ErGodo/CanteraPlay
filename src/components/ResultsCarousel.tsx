@@ -98,9 +98,9 @@ export default function ResultsCarousel({ results }: { results: ResultItem[] }) 
                 <div className="absolute bottom-0 left-0 w-64 h-64 bg-pink-600/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
                 {badgeText && (
-                  <div className="absolute top-4 sm:top-6 z-20">
+                  <div className="absolute top-3 sm:top-6 z-20">
                     <span
-                      className="px-4 py-1 text-xs font-bold tracking-wider uppercase rounded-full bg-blue-500/20 text-blue-200 border border-blue-500/30 backdrop-blur-sm shadow-sm"
+                      className="px-2 py-0.5 text-[10px] sm:text-xs sm:px-4 sm:py-1 font-bold tracking-wider uppercase rounded-full bg-blue-500/20 text-blue-200 border border-blue-500/30 backdrop-blur-sm shadow-sm"
                     >
                       {badgeText}
                     </span>
@@ -112,7 +112,7 @@ export default function ResultsCarousel({ results }: { results: ResultItem[] }) 
                   <div className="md:hidden flex flex-col items-center gap-4 w-full">
                     <div className="flex items-center justify-center gap-8 w-full">
                       <div className="flex flex-col items-center gap-2 w-1/3">
-                        <div className="w-20 h-20 bg-slate-800 rounded-3xl shadow-lg border border-slate-700 p-2 flex items-center justify-center overflow-hidden">
+                        <div className="w-20 h-20 bg-white rounded-2xl shadow-lg p-2 flex items-center justify-center overflow-hidden">
                           {homeLogo ? (
                             <Image src={homeLogo} alt={homeName} width={80} height={80} className="object-contain w-full h-full" />
                           ) : (<span className="text-xs font-bold text-slate-500">{homeName?.slice(0, 3)}</span>)}
@@ -126,7 +126,7 @@ export default function ResultsCarousel({ results }: { results: ResultItem[] }) 
                       </div>
 
                       <div className="flex flex-col items-center gap-2 w-1/3">
-                        <div className="w-20 h-20 bg-slate-800 rounded-3xl shadow-lg border border-slate-700 p-2 flex items-center justify-center overflow-hidden">
+                        <div className="w-20 h-20 bg-white rounded-2xl shadow-lg p-2 flex items-center justify-center overflow-hidden">
                           {awayLogo ? (
                             <Image src={awayLogo} alt={awayName} width={80} height={80} className="object-contain w-full h-full" />
                           ) : (<span className="text-xs font-bold text-slate-500">{awayName?.slice(0, 3)}</span>)}
@@ -140,7 +140,7 @@ export default function ResultsCarousel({ results }: { results: ResultItem[] }) 
                   <div className="hidden md:flex items-center justify-center w-full max-w-2xl gap-12">
                     {/* Home */}
                     <div className="flex flex-col items-center gap-4 flex-1">
-                      <div className="w-28 h-28 bg-slate-800 rounded-3xl shadow-xl border border-slate-700 p-3 flex items-center justify-center transition-transform hover:scale-105 duration-300">
+                      <div className="w-28 h-28 bg-white rounded-2xl shadow-xl p-3 flex items-center justify-center transition-transform hover:scale-105 duration-300">
                         {homeLogo ? (
                           <Image src={homeLogo} alt={homeName} width={100} height={100} className="object-contain w-full h-full" />
                         ) : (<span className="font-bold text-slate-500 text-lg">LOC</span>)}
@@ -160,7 +160,7 @@ export default function ResultsCarousel({ results }: { results: ResultItem[] }) 
 
                     {/* Away */}
                     <div className="flex flex-col items-center gap-4 flex-1">
-                      <div className="w-28 h-28 bg-slate-800 rounded-3xl shadow-xl border border-slate-700 p-3 flex items-center justify-center transition-transform hover:scale-105 duration-300">
+                      <div className="w-28 h-28 bg-white rounded-2xl shadow-xl p-3 flex items-center justify-center transition-transform hover:scale-105 duration-300">
                         {awayLogo ? (
                           <Image src={awayLogo} alt={awayName} width={100} height={100} className="object-contain w-full h-full" />
                         ) : (<span className="font-bold text-slate-500 text-lg">VIS</span>)}

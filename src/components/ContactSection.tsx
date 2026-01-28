@@ -47,7 +47,7 @@ export default function ContactSection({ testimonials }: { testimonials?: Testim
       id="contact-section"
       className="py-12"
     >
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full max-w-[95%] px-4 sm:px-6 lg:px-8">
         <h2 className={`${sectionTitle} mb-6`}>Testimonios y Contacto</h2>
 
         {/* Wrap both columns in gradient background */}

@@ -10,23 +10,19 @@ const HeaderSection: React.FC = async () => {
   const featuredPlayer = hero?.featuredPlayer
 
   return (
-    <section className="w-full flex justify-center bg-transparent m-0 p-0 relative">
-      <div className="w-full flex justify-center">
-        <div
-          className="w-full max-w-7xl overflow-hidden shadow-none relative rounded-b-3xl"
-          style={{
-            background:
-              "linear-gradient(135deg, #0a1a3c 0%, #e91e63 45%, #00b4e6 100%)",
-            // keep the gradient confined to the centered container
-          }}
-        >
-          <div className="relative z-10">
-            <Navbar />
-            <Hero videoUrl={videoUrl} smartVideo={smartVideo} featuredPlayer={featuredPlayer} />
-          </div>
-          {/* Rounded bottom closes the hero; waves removed */}
+    <section className="w-full relative bg-slate-950">
+      <div className="absolute top-0 left-0 w-full z-50 pointer-events-none">
+        {/* Navbar needs pointer-events-auto on its interactive children, 
+            but the wrapper is none to let clicks pass through to video if needed (though navbar usually takes full width top bar).
+            Actually Navbar takes full width, so pointer-events-auto on wrapper is fine if Navbar handles it.
+            Navbar has 'bg-transparent' so clicks on empty space might need to pass? 
+            Navbar component is a <nav> flex. Let's just wrap it normally.
+         */}
+        <div className="pointer-events-auto">
+          <Navbar />
         </div>
       </div>
+      <Hero videoUrl={videoUrl} smartVideo={smartVideo} featuredPlayer={featuredPlayer} />
     </section>
   );
 };

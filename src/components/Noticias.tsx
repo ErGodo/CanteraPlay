@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 export default function Noticias({ importantInfo }: { importantInfo: any[] }) {
   return (
-    <section id="info" className="py-12 px-4 max-w-6xl mx-auto">
+    <section id="info" className="py-12 px-4 max-w-[95%] mx-auto">
       <h2 className={`${sectionTitle} mb-8 text-left`}>
         Lo último en Avidela Sport
       </h2>

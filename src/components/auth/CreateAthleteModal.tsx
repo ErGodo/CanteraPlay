@@ -4,6 +4,7 @@ import { auth, db } from "@/lib/firebase";
 import { athleteService, type CreateAthleteDto } from "@/lib/services/athlete.service";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
+import Image from "next/image";
 
 import { useEffect, useState } from "react";
 
@@ -216,7 +217,7 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
     // Use solid hex #061024 (approx matches black/40 on #0a1a3c) to allow autofill color matching
     const inputClass = "w-full bg-[#061024] border border-white/10 text-white rounded-lg px-4 py-2.5 outline-none focus:bg-black/60 focus:border-[#fc5c9c] transition-all placeholder-gray-500 dark-autofill";
     const labelClass = "block text-xs font-medium text-gray-400 ml-1 mb-1.5";
-    const buttonBase = "w-full py-2.5 rounded-lg font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
+    const buttonBase = "w-full py-2.5 rounded-lg font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer";
 
     return (
         <div className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-300 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
@@ -232,17 +233,30 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
                 <div className="p-6 sm:p-8 max-h-[90vh] overflow-y-auto">
                     {isSuccess ? (
                         <div className="flex flex-col items-center text-center space-y-6 animate-in fade-in slide-in-from-bottom-4">
-                            <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center ring-1 ring-green-500/30">
-                                <svg className="w-8 h-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                </svg>
+                            <div className="w-full flex justify-center pt-2">
+                                <Image
+                                    src="/images/canteraplay.png"
+                                    alt="CanteraPlay"
+                                    width={180}
+                                    height={54}
+                                    className="object-contain"
+                                />
                             </div>
                             <div>
                                 <h2 className="text-xl font-bold text-white mb-2">¡Cuenta Creada!</h2>
-                                <p className="text-sm text-gray-400">Tu registro ha sido exitoso. Espera la confirmación de tu club.</p>
+                                <p className="text-sm text-gray-300 leading-relaxed">
+                                    Tu registro fue exitoso para <strong>Avidela Sport</strong>.
+                                    <br className="mb-2" />
+                                    Para finalizar tu inscripción y completar tu perfil de usuario, ingresa ahora a la plataforma.
+                                </p>
                             </div>
-                            <button onClick={onClose} className={`${buttonBase} bg-[#fc5c9c] hover:bg-[#e04080] text-white shadow-lg shadow-[#fc5c9c]/20`}>
-                                Entendido
+                            <button
+                                onClick={() => {
+                                    window.location.href = "http://localhost:3000";
+                                }}
+                                className={`${buttonBase} bg-[#fc5c9c] hover:bg-[#e04080] text-white shadow-lg shadow-[#fc5c9c]/20 cursor-pointer`}
+                            >
+                                Ir a Cantera Play
                             </button>
                         </div>
                     ) : (

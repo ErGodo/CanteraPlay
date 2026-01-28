@@ -1,7 +1,11 @@
+"use client";
 import { buildImageUrl } from '@/lib/sanityClient';
 import Image from "next/image";
+import { useState } from 'react';
 import ResponsiveVideo from './ResponsiveVideo';
-type ImageAsset = { asset?: { url?: string; metadata?: { lqip?: string } } ; hotspot?: { x?: number; y?: number } | null }
+import { CreateAthleteModal } from './auth/CreateAthleteModal';
+
+type ImageAsset = { asset?: { url?: string; metadata?: { lqip?: string } }; hotspot?: { x?: number; y?: number } | null }
 type FeaturedPlayer = {
   name?: string
   athleteName?: string
@@ -15,6 +19,8 @@ type FeaturedPlayer = {
 type SmartVideoShape = { file?: { asset?: { url?: string } } | null, poster?: { asset?: { url?: string } } | null, focusX?: number, focusY?: number }
 
 export default function Hero({ videoUrl, smartVideo, featuredPlayer }: { videoUrl?: string, smartVideo?: SmartVideoShape | undefined, featuredPlayer?: FeaturedPlayer }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="w-full relative overflow-hidden min-h-[76vh] flex items-start">
       <div className="w-full flex flex-col md:flex-row items-start justify-center min-h-[72vh] px-6 md:px-12 lg:px-16 pt-16 md:pt-20 lg:pt-24 pb-8 gap-8">
@@ -35,7 +41,12 @@ export default function Hero({ videoUrl, smartVideo, featuredPlayer }: { videoUr
             <p className="text-xs md:text-sm lg:text-base mb-4 font-medium text-white/90">
               Pasión, formación y comunidad
             </p>
-            <a href="#contact" className="bg-[#0a1a3c] text-white px-6 py-2 rounded font-bold shadow hover:bg-[#003366] transition text-sm">Inscríbete</a>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="bg-[#0a1a3c] text-white px-6 py-2 rounded font-bold shadow hover:bg-[#003366] transition text-sm cursor-pointer"
+            >
+              Inscríbete
+            </button>
           </div>
 
           {/* Featured player card */}
@@ -59,7 +70,7 @@ export default function Hero({ videoUrl, smartVideo, featuredPlayer }: { videoUr
               <div className="mt-4 grid grid-cols-3 gap-3">
                 {/* Render only the stats selected in statsToShow. If none selected, render nothing. */}
                 {(() => {
-                  const labelMap: Record<string,string> = { goals: 'Goles', assists: 'Asistencias', matches: 'Partidos' }
+                  const labelMap: Record<string, string> = { goals: 'Goles', assists: 'Asistencias', matches: 'Partidos' }
                   const statKey = Array.isArray(featuredPlayer?.statsToShow)
                     ? featuredPlayer.statsToShow[0]
                     : (featuredPlayer?.statsToShow ?? '')
@@ -98,6 +109,7 @@ export default function Hero({ videoUrl, smartVideo, featuredPlayer }: { videoUr
           </div>
         </div>
       </div>
+      <CreateAthleteModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }

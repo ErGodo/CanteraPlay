@@ -79,9 +79,9 @@ function Footer({
           <Image
             src={logoUrl}
             alt={`${clubName} Logo`}
-            width={44}
-            height={44}
-            className="rounded-full bg-white/10 border border-white/10 p-1 shrink-0"
+            width={56}
+            height={56}
+            className="rounded-full bg-white p-0.5 shadow-md shrink-0"
           />
           <span className="font-extrabold text-base sm:text-lg truncate">{clubName}</span>
         </div>
@@ -92,7 +92,9 @@ function Footer({
             <span className="font-semibold">ADD</span>
           </p>
           <div className="mt-3 flex items-center gap-4 flex-wrap w-full justify-center md:w-auto md:justify-center">
-            <CanteraPlayLogo />
+            <a href="http://localhost:3000" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+              <CanteraPlayLogo />
+            </a>
             <AdDeployLogo />
           </div>
         </div>

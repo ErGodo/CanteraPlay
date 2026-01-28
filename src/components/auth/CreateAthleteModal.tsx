@@ -213,7 +213,8 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
     };
 
     // Shared Classes
-    const inputClass = "w-full bg-black/40 border border-white/10 text-white rounded-lg px-4 py-2.5 outline-none focus:bg-black/60 focus:border-[#fc5c9c] transition-all placeholder-gray-500";
+    // Use solid hex #061024 (approx matches black/40 on #0a1a3c) to allow autofill color matching
+    const inputClass = "w-full bg-[#061024] border border-white/10 text-white rounded-lg px-4 py-2.5 outline-none focus:bg-black/60 focus:border-[#fc5c9c] transition-all placeholder-gray-500 dark-autofill";
     const labelClass = "block text-xs font-medium text-gray-400 ml-1 mb-1.5";
     const buttonBase = "w-full py-2.5 rounded-lg font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
 
@@ -335,9 +336,10 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
                                     <label className={labelClass}>Fecha de Nacimiento</label>
                                     <input
                                         type="date"
+                                        lang="es-ES"
                                         value={form.birthDate}
                                         onChange={(e) => setForm({ ...form, birthDate: e.target.value })}
-                                        className={`${inputClass} w-full`} // Native date picker often styled by browser but basic bg works
+                                        className={`${inputClass} w-full`}
                                         style={{ colorScheme: "dark" }}
                                     />
                                 </div>

@@ -207,7 +207,7 @@ export default async function Home() {
   };
 
   return (
-    <div className="font-['Montserrat',sans-serif] min-h-screen bg-[#f7f8fa] overflow-x-hidden" suppressHydrationWarning>
+    <div className="font-sans min-h-screen bg-slate-950 text-slate-200 overflow-x-hidden" suppressHydrationWarning>
       {/* HERO / HEADER + Mobile Menu */}
       <HeaderSection />
 
@@ -222,7 +222,7 @@ export default async function Home() {
           {/* Izquierda: Título + texto + Cards de planes */}
           <div className="min-w-0">
             <h2 className={`${sectionTitle}`}>Nuestros Planes</h2>
-            <p className="text-slate-600 mt-2">
+            <p className="text-slate-400 mt-2">
               Únete a Avidela Sport con estos planes
             </p>
 
@@ -233,27 +233,34 @@ export default async function Home() {
                 return (
                   <div
                     key={p._id}
-                    className="min-w-0 bg-white rounded-xl shadow-sm border border-gray-200 p-3 sm:p-4 flex flex-col h-full md:min-h-[200px] lg:min-h-[260px]"
+                    className="min-w-0 bg-slate-900 rounded-3xl shadow-lg border border-slate-800 p-5 sm:p-6 flex flex-col h-full md:min-h-[220px] lg:min-h-[260px] transition-all duration-300 hover:shadow-blue-900/40 hover:-translate-y-1 hover:border-blue-700 group relative overflow-hidden"
                   >
-                    <div className="mb-3 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-md bg-white">
-                      <PlanIcon type={iconType} />
+                    {/* Hover gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-blue-900/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+                    <div className="relative z-10 flex-1">
+                      <div className="mb-4 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-800 text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 shadow-sm border border-slate-700">
+                        <PlanIcon type={iconType} />
+                      </div>
+                      <h3 className="font-extrabold text-lg sm:text-xl leading-tight truncate md:whitespace-normal md:truncate-none text-white mb-2 group-hover:text-blue-400 transition-colors">
+                        {p.name}
+                      </h3>
+                      <div className="text-slate-400 text-sm leading-relaxed whitespace-normal break-words font-medium">
+                        {p.description ||
+                          (t === "matricula"
+                            ? "Anual"
+                            : t === "combo"
+                              ? "Partidos + Entrenos"
+                              : "Participación en partidos")}
+                      </div>
                     </div>
-                    <h3 className="font-bold text-sm sm:text-base leading-tight truncate md:whitespace-normal md:truncate-none text-[#0a1a3c]">
-                      {p.name}
-                    </h3>
-                    <div className="mt-2 text-slate-700 text-xs sm:text-sm leading-snug whitespace-normal break-words">
-                      {p.description ||
-                        (t === "matricula"
-                          ? "Anual"
-                          : t === "combo"
-                            ? "Partidos + Entrenos"
-                            : "Participación en partidos")}
-                    </div>
-                    <div className="mt-3 md:mt-auto text-lg sm:text-2xl md:text-sm lg:text-2xl font-extrabold md:font-semibold text-[#0b1c3a] leading-tight">
-                      {formatCurrencyCLP(p.price)}
-                      {t !== "matricula" && (
-                        <span className="text-xs sm:text-sm md:hidden lg:inline">/mes</span>
-                      )}
+                    <div className="mt-4 md:mt-auto relative z-10 pt-4 border-t border-slate-800">
+                      <div className="text-xl sm:text-2xl md:text-lg lg:text-3xl font-black text-white leading-tight">
+                        {formatCurrencyCLP(p.price)}
+                        {t !== "matricula" && (
+                          <span className="text-xs sm:text-sm font-bold text-slate-500 ml-1 uppercase tracking-wide">/mes</span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 );

@@ -37,28 +37,31 @@ type Testimonial = {
 
 export default function ContactSection({ testimonials }: { testimonials?: Testimonial[] }) {
   const dummy = testimonials && testimonials.length > 0 ? testimonials : [
-    { _id: "t1", athleteName: "Sofía R.",  position: "Delantera",      quote: "Desde que entreno con Avidela mi confianza y rendimiento han mejorado mucho.", photo: null },
-    { _id: "t2", athleteName: "Martín P.", position: "Mediocampista",  quote: "Los entrenamientos son intensos y me ayudaron a destacar en los partidos.",     photo: null },
-    { _id: "t3", athleteName: "Camila V.", position: "Defensa",        quote: "Excelente coaching y ambiente. He mejorado mis habilidades tácticas.",        photo: null },
+    { _id: "t1", athleteName: "Sofía R.", position: "Delantera", quote: "Desde que entreno con Avidela mi confianza y rendimiento han mejorado mucho.", photo: null },
+    { _id: "t2", athleteName: "Martín P.", position: "Mediocampista", quote: "Los entrenamientos son intensos y me ayudaron a destacar en los partidos.", photo: null },
+    { _id: "t3", athleteName: "Camila V.", position: "Defensa", quote: "Excelente coaching y ambiente. He mejorado mis habilidades tácticas.", photo: null },
   ];
 
   return (
     <section
       id="contact-section"
       className="py-12"
-      style={{ background: "linear-gradient(180deg, rgba(247,248,250,1) 0%, rgba(247,248,250,1) 100%)" }}
     >
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <h2 className={`${sectionTitle} mb-6`}>Testimonios y Contacto</h2>
 
         {/* Wrap both columns in gradient background */}
-        <div className="bg-gradient-to-r from-[#e91e63] via-[#0F8DBF] to-[#117DBF] p-6 rounded-xl shadow-md">
-          <div className="grid gap-6 md:grid-cols-2 items-stretch">
-            {/* LEFT: testimonials */}
-            <div>
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 h-full md:min-h-[420px]">
-                <div className="bg-white rounded-lg p-6 border border-gray-100 h-full">
-                  <div className="space-y-5">
+        <div className="bg-gradient-to-r from-[#e91e63] via-[#0F8DBF] to-[#117DBF] p-1 rounded-3xl shadow-xl shadow-blue-900/20">
+          <div className="bg-slate-950/90 backdrop-blur-sm rounded-[20px] p-6 lg:p-8">
+            <div className="grid gap-8 md:grid-cols-2 items-stretch">
+              {/* LEFT: testimonials */}
+              <div>
+                <div className="bg-slate-900 rounded-3xl shadow-lg border border-slate-800 p-6 h-full md:min-h-[420px] transition-shadow hover:shadow-blue-900/10">
+                  {/* We remove the double nesting for cleaner look */}
+                  <div className="space-y-6">
+                    <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                      <span className="text-2xl">💬</span> Lo que dicen de nosotros
+                    </h3>
                     {dummy.map((t) => {
                       const photo = t.photo ?? undefined;
                       const size = 64; // avatar size in px
@@ -75,8 +78,8 @@ export default function ContactSection({ testimonials }: { testimonials?: Testim
                         .toUpperCase();
 
                       return (
-                        <div key={t._id} className="flex gap-4 items-start">
-                          <div className="relative w-16 h-16 rounded-full overflow-hidden flex-shrink-0 bg-gray-100 flex items-center justify-center">
+                        <div key={t._id} className="flex gap-4 items-start group">
+                          <div className="relative w-14 h-14 rounded-2xl overflow-hidden flex-shrink-0 bg-slate-800 flex items-center justify-center border border-slate-700 shadow-sm group-hover:scale-105 transition-transform">
                             {avatarUrl ? (
                               <Image
                                 src={avatarUrl}
@@ -88,14 +91,14 @@ export default function ContactSection({ testimonials }: { testimonials?: Testim
                                 blurDataURL={photo?.asset?.metadata?.lqip}
                               />
                             ) : (
-                              <span className="text-sm font-semibold text-slate-600">{initials}</span>
+                              <span className="text-sm font-black text-blue-400">{initials}</span>
                             )}
                           </div>
 
                           <div className="flex-1">
-                            <div className="text-lg font-bold text-[#0a1a3c]">{t.athleteName}</div>
-                            {t.position && <div className="text-sm font-semibold text-[#0a1a3c]">{t.position}</div>}
-                            <p className="mt-1 text-slate-700 text-sm leading-relaxed">{t.quote}</p>
+                            <div className="text-base font-extrabold text-white">{t.athleteName}</div>
+                            {t.position && <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">{t.position}</div>}
+                            <p className="text-slate-400 text-sm leading-relaxed italic">"{t.quote}"</p>
                           </div>
                         </div>
                       );
@@ -103,12 +106,12 @@ export default function ContactSection({ testimonials }: { testimonials?: Testim
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* RIGHT: Contact form */}
-            <div>
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 h-full md:min-h-[420px]">
-                <ContactForm primary="#0a1a3c" />
+              {/* RIGHT: Contact form */}
+              <div>
+                <div className="bg-slate-900 rounded-3xl p-6 shadow-inner border border-slate-800 h-full md:min-h-[420px]">
+                  <ContactForm primary="#e91e63" />
+                </div>
               </div>
             </div>
           </div>

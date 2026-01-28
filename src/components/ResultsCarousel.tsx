@@ -52,30 +52,21 @@ export default function ResultsCarousel({ results }: { results: ResultItem[] }) 
   const fmtDMY = (d: any) => (d ? formatDMY(d) : "");
 
   return (
-    <div className="w-full" id="results-carousel">
+    <div className="w-full h-full" id="results-carousel">
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         navigation
-        pagination={{ clickable: true }}
+        pagination={{ clickable: true, dynamicBullets: true }}
         autoplay={
-          hasMultiple ? { delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: false } : false
+          hasMultiple ? { delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true } : false
         }
         loop={hasMultiple}
         allowTouchMove
         observer
         observeParents
         watchSlidesProgress
-        onSwiper={(sw) => sw.autoplay?.start?.()}
         slidesPerView={1}
-        breakpoints={{
-          640: { slidesPerView: 1 },
-          // tablet y desktop: 1 tarjeta por vista para ocupar la columna completa
-          768: { slidesPerView: 1, spaceBetween: 0 },
-          1024: { slidesPerView: 1, spaceBetween: 0 }
-        }}
-        centeredSlides={false}
-        spaceBetween={0}
-        className="rounded-lg w-full overflow-hidden"
+        className="rounded-3xl w-full h-full shadow-lg"
       >
         {slides.map((r, idx) => {
           const homeName = safeText(r.homeTeam);
@@ -94,133 +85,88 @@ export default function ResultsCarousel({ results }: { results: ResultItem[] }) 
           const homeScore = r.homeScore ?? "—";
           const awayScore = r.awayScore ?? "—";
 
-          const styleVars = {
-            ["--accent1"]: r?.colors?.primary ?? "#0b4cdb",
-            ["--accent2"]: r?.colors?.secondary ?? "#ff4fa3",
-          } as React.CSSProperties;
-
           return (
-            <SwiperSlide key={key} className="w-full px-0">
-              <div className="w-full">
-                <div className="mx-auto max-w-full px-3 sm:px-0">
-                  <div
-                    className="w-full bg-white rounded-xl shadow-sm border border-gray-200 p-6 pt-20 relative overflow-hidden h-full"
-                    style={styleVars}
-                  >
-                    {badgeText && (
-                      <div className="absolute left-1/2 -translate-x-1/2 top-3 z-20">
-                        <span
-                          className="px-6 py-2 text-base md:text-lg rounded-full inline-block text-center leading-tight"
-                          style={{
-                            color: "var(--accent1)",
-                            background: "transparent",
-                            border: "1px solid rgba(255,255,255,0.6)",
-                            backdropFilter: "blur(4px)",
-                          }}
-                        >
-                          {badgeText}
-                        </span>
-                      </div>
-                    )}
+            <SwiperSlide key={key} className="w-full h-full">
+              <div
+                className="w-full h-full relative overflow-hidden bg-slate-900 p-6 flex flex-col justify-center items-center border border-slate-800/50 rounded-3xl"
+                style={{
+                  background: "linear-gradient(145deg, #0f172a 0%, #1e1b4b 100%)"
+                }}
+              >
+                {/* Decorative Elements */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-pink-600/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
-                    {/* Fondo decorativo */}
-                    <svg
-                      className="absolute inset-0 w-full h-full z-0 pointer-events-none"
-                      viewBox="0 0 1200 200"
-                      preserveAspectRatio="none"
-                      aria-hidden="true"
+                {badgeText && (
+                  <div className="absolute top-4 sm:top-6 z-20">
+                    <span
+                      className="px-4 py-1 text-xs font-bold tracking-wider uppercase rounded-full bg-blue-500/20 text-blue-200 border border-blue-500/30 backdrop-blur-sm shadow-sm"
                     >
-                      <defs>
-                        <linearGradient id={`waveGrad-${key}`} x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="var(--accent2)" stopOpacity="0.28" />
-                          <stop offset="100%" stopColor="var(--accent2)" stopOpacity="0.14" />
-                        </linearGradient>
-                      </defs>
-                      <path
-                        d="M0,120 C200,40 400,160 600,120 C800,80 1000,160 1200,100 L1200,200 L0,200 Z"
-                        fill={`url(#waveGrad-${key})`}
-                      />
-                      <path
-                        d="M0,140 C250,60 450,200 700,140 C950,80 1050,180 1200,140 L1200,200 L0,200 Z"
-                        fill="var(--accent1)"
-                        opacity="0.12"
-                      />
-                    </svg>
+                      {badgeText}
+                    </span>
+                  </div>
+                )}
 
-                    {/* Contenido */}
-                    <div className="relative z-10 flex flex-col items-center gap-4">
-                      {/* Mobile: una línea */}
-                      <div className="block md:hidden w-full text-center">
-                        <span className="font-bold text-blue-900">{homeName}</span>
-                        <span className="font-extrabold text-blue-900 mx-1">{homeScore}</span>
-                        <span className="font-bold text-[#0b1c3a] mx-1">-</span>
-                        <span className="font-extrabold text-blue-900 mx-1">{awayScore}</span>
-                        <span className="font-bold text-blue-900">{awayName}</span>
-                        {r.date && <div className="text-xs text-slate-500 mt-1">{fmtDMY(r.date)}</div>}
+                <div className="relative z-10 w-full flex flex-col items-center justify-center gap-6 sm:gap-8 h-full">
+                  {/* Mobile View */}
+                  <div className="md:hidden flex flex-col items-center gap-4 w-full">
+                    <div className="flex items-center justify-center gap-8 w-full">
+                      <div className="flex flex-col items-center gap-2 w-1/3">
+                        <div className="w-20 h-20 bg-slate-800 rounded-3xl shadow-lg border border-slate-700 p-2 flex items-center justify-center overflow-hidden">
+                          {homeLogo ? (
+                            <Image src={homeLogo} alt={homeName} width={80} height={80} className="object-contain w-full h-full" />
+                          ) : (<span className="text-xs font-bold text-slate-500">{homeName?.slice(0, 3)}</span>)}
+                        </div>
+                        <span className="text-sm font-bold text-center leading-tight line-clamp-2 h-10 flex items-center text-white">{homeName}</span>
                       </div>
 
-                      {/* Desktop: grid simétrica 1fr/auto/1fr */}
-                      <div className="hidden md:grid w-full grid-cols-[1fr_auto_1fr] items-center gap-6">
-                        {/* Local */}
-                        <div className="flex flex-col items-center min-w-0">
-                          <div className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-white p-2 flex items-center justify-center overflow-hidden border border-gray-100 shrink-0">
-                            {homeLogo ? (
-                              <Image
-                                src={homeLogo}
-                                alt={homeName || "Home"}
-                                width={112}
-                                height={112}
-                                className="object-contain"
-                                {...(homeLqip ? { placeholder: "blur", blurDataURL: homeLqip } : {})}
-                              />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center text-sm text-gray-500 bg-gray-50">
-                                {String(homeName ?? "").slice(0, 2)}
-                              </div>
-                            )}
-                          </div>
-                          <div className="mt-2 text-2xl font-extrabold text-blue-900 leading-none">
-                            {homeScore}
-                          </div>
-                          <div className="text-sm text-blue-800 mt-1 text-center line-clamp-2">
-                            {homeName}
-                          </div>
-                        </div>
+                      <div className="flex flex-col items-center gap-1">
+                        <span className="text-3xl font-black text-white tracking-tight">{homeScore}-{awayScore}</span>
+                        <span className="text-xs font-medium text-slate-400 uppercase tracking-widest">Final</span>
+                      </div>
 
-                        {/* Centro */}
-                        <div className="flex flex-col items-center justify-center px-2 text-center">
-                          <div className="text-sm text-slate-500">{fmtDMY(r.date)}</div>
-                          <div className="text-3xl font-extrabold my-2 text-[#0b1c3a]">VS</div>
+                      <div className="flex flex-col items-center gap-2 w-1/3">
+                        <div className="w-20 h-20 bg-slate-800 rounded-3xl shadow-lg border border-slate-700 p-2 flex items-center justify-center overflow-hidden">
+                          {awayLogo ? (
+                            <Image src={awayLogo} alt={awayName} width={80} height={80} className="object-contain w-full h-full" />
+                          ) : (<span className="text-xs font-bold text-slate-500">{awayName?.slice(0, 3)}</span>)}
                         </div>
-
-                        {/* Visita */}
-                        <div className="flex flex-col items-center min-w-0">
-                          <div className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-white p-2 flex items-center justify-center overflow-hidden border border-gray-100 shrink-0">
-                            {awayLogo ? (
-                              <Image
-                                src={awayLogo}
-                                alt={awayName || "Away"}
-                                width={112}
-                                height={112}
-                                className="object-contain"
-                                {...(awayLqip ? { placeholder: "blur", blurDataURL: awayLqip } : {})}
-                              />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center text-sm text-gray-500 bg-gray-50">
-                                {String(awayName ?? "").slice(0, 2)}
-                              </div>
-                            )}
-                          </div>
-                          <div className="mt-2 text-2xl font-extrabold text-blue-900 leading-none">
-                            {awayScore}
-                          </div>
-                          <div className="text-sm text-blue-800 mt-1 text-center line-clamp-2">
-                            {awayName}
-                          </div>
-                        </div>
+                        <span className="text-sm font-bold text-center leading-tight line-clamp-2 h-10 flex items-center text-white">{awayName}</span>
                       </div>
                     </div>
-                    {/* /Contenido */}
+                  </div>
+
+                  {/* Desktop View */}
+                  <div className="hidden md:flex items-center justify-center w-full max-w-2xl gap-12">
+                    {/* Home */}
+                    <div className="flex flex-col items-center gap-4 flex-1">
+                      <div className="w-28 h-28 bg-slate-800 rounded-3xl shadow-xl border border-slate-700 p-3 flex items-center justify-center transition-transform hover:scale-105 duration-300">
+                        {homeLogo ? (
+                          <Image src={homeLogo} alt={homeName} width={100} height={100} className="object-contain w-full h-full" />
+                        ) : (<span className="font-bold text-slate-500 text-lg">LOC</span>)}
+                      </div>
+                      <span className="text-lg font-bold text-white text-center">{homeName}</span>
+                    </div>
+
+                    {/* Score */}
+                    <div className="flex flex-col items-center px-4">
+                      <span className="text-6xl font-black text-white drop-shadow-sm tracking-tighter tabular-nums gap-2 flex">
+                        <span>{homeScore}</span>
+                        <span className="text-slate-600">-</span>
+                        <span>{awayScore}</span>
+                      </span>
+                      <div className="mt-2 text-sm font-semibold text-slate-400 uppercase tracking-[0.2em]" suppressHydrationWarning>{fmtDMY(r.date)}</div>
+                    </div>
+
+                    {/* Away */}
+                    <div className="flex flex-col items-center gap-4 flex-1">
+                      <div className="w-28 h-28 bg-slate-800 rounded-3xl shadow-xl border border-slate-700 p-3 flex items-center justify-center transition-transform hover:scale-105 duration-300">
+                        {awayLogo ? (
+                          <Image src={awayLogo} alt={awayName} width={100} height={100} className="object-contain w-full h-full" />
+                        ) : (<span className="font-bold text-slate-500 text-lg">VIS</span>)}
+                      </div>
+                      <span className="text-lg font-bold text-white text-center">{awayName}</span>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -60,14 +60,21 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
   return (
     <section id="player-stats" className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 mt-10">
       <h2 className={`${sectionTitle}`}>Estadísticas</h2>
-      <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4" suppressHydrationWarning>
+      <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-6" suppressHydrationWarning>
         {/* Goles */}
-        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
-          <h3 className="text-lg font-bold text-[#0a1a3c]">Goles</h3>
-          <div className="mt-3 space-y-3">
+        <div className="bg-slate-900 rounded-3xl p-6 shadow-lg border border-slate-800 hover:shadow-blue-900/20 transition-all duration-300">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-blue-900/20 rounded-xl text-blue-400 border border-blue-900/30">
+              {/* Icon placeholder or just text */}
+              <span className="font-black text-lg">⚽</span>
+            </div>
+            <h3 className="text-xl font-extrabold text-white">Goleadores</h3>
+          </div>
+
+          <div className="mt-3 space-y-4">
             {goalsList.map((p) => (
-              <div key={`g-${p._id}`} className="flex items-center gap-3">
-                <div className="w-14 h-16 rounded-lg overflow-hidden bg-gray-100">
+              <div key={`g-${p._id}`} className="flex items-center gap-4 group">
+                <div className="w-14 h-16 rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shadow-sm group-hover:scale-105 transition-transform">
                   {p.photo ? (
                     (() => {
                       const src = buildImageUrl(p.photo as SanityImageSource | null | undefined, 56, 64)
@@ -87,23 +94,28 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
                     })()
                   ) : null}
                 </div>
-                <div className="flex-1">
-                  <div className="text-sm font-bold text-[#0a1a3c]">{p.athleteName}</div>
-                  <div className="text-xs text-slate-600">{p.position}</div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-extrabold text-white truncate">{p.athleteName}</div>
+                  <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide">{p.position}</div>
                 </div>
-                <div className="text-2xl font-extrabold text-[#0a1a3c]">{p.goals ?? 0}</div>
+                <div className="text-2xl font-black text-white bg-slate-800 px-3 py-1 rounded-lg tabular-nums border border-slate-700">{p.goals ?? 0}</div>
               </div>
             ))}
           </div>
         </div>
 
         {/* Asistencias */}
-        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
-          <h3 className="text-lg font-bold text-[#0a1a3c]">Asistencias</h3>
-          <div className="mt-3 space-y-3">
+        <div className="bg-slate-900 rounded-3xl p-6 shadow-lg border border-slate-800 hover:shadow-green-900/20 transition-all duration-300">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-green-900/20 rounded-xl text-green-400 border border-green-900/30">
+              <span className="font-black text-lg">👟</span>
+            </div>
+            <h3 className="text-xl font-extrabold text-white">Asistencias</h3>
+          </div>
+          <div className="mt-3 space-y-4">
             {assistsList.map((p) => (
-              <div key={`a-${p._id}`} className="flex items-center gap-3">
-                <div className="w-14 h-16 rounded-lg overflow-hidden bg-gray-100">
+              <div key={`a-${p._id}`} className="flex items-center gap-4 group">
+                <div className="w-14 h-16 rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shadow-sm group-hover:scale-105 transition-transform">
                   {p.photo ? (
                     (() => {
                       const src = buildImageUrl(p.photo as SanityImageSource | null | undefined, 56, 64)
@@ -123,23 +135,28 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
                     })()
                   ) : null}
                 </div>
-                <div className="flex-1">
-                  <div className="text-sm font-bold text-[#0a1a3c]">{p.athleteName}</div>
-                  <div className="text-xs text-slate-600">{p.position}</div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-extrabold text-white truncate">{p.athleteName}</div>
+                  <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide">{p.position}</div>
                 </div>
-                <div className="text-2xl font-extrabold text-[#0a1a3c]">{p.assists ?? 0}</div>
+                <div className="text-2xl font-black text-white bg-slate-800 px-3 py-1 rounded-lg tabular-nums border border-slate-700">{p.assists ?? 0}</div>
               </div>
             ))}
           </div>
         </div>
 
         {/* Partidos */}
-        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
-          <h3 className="text-lg font-bold text-[#0a1a3c]">Partidos Jugados</h3>
-          <div className="mt-3 space-y-3">
+        <div className="bg-slate-900 rounded-3xl p-6 shadow-lg border border-slate-800 hover:shadow-purple-900/20 transition-all duration-300">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-purple-900/20 rounded-xl text-purple-400 border border-purple-900/30">
+              <span className="font-black text-lg">👕</span>
+            </div>
+            <h3 className="text-xl font-extrabold text-white">Partidos</h3>
+          </div>
+          <div className="mt-3 space-y-4">
             {matchesList.map((p) => (
-              <div key={`m-${p._id}`} className="flex items-center gap-3">
-                <div className="w-14 h-16 rounded-lg overflow-hidden bg-gray-100">
+              <div key={`m-${p._id}`} className="flex items-center gap-4 group">
+                <div className="w-14 h-16 rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shadow-sm group-hover:scale-105 transition-transform">
                   {p.photo ? (
                     (() => {
                       const src = buildImageUrl(p.photo as SanityImageSource | null | undefined, 56, 64)
@@ -159,11 +176,11 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
                     })()
                   ) : null}
                 </div>
-                <div className="flex-1">
-                  <div className="text-sm font-bold text-[#0a1a3c]">{p.athleteName}</div>
-                  <div className="text-xs text-slate-600">{p.position}</div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-extrabold text-white truncate">{p.athleteName}</div>
+                  <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide">{p.position}</div>
                 </div>
-                <div className="text-2xl font-extrabold text-[#0a1a3c]">{p.matches ?? 0}</div>
+                <div className="text-2xl font-black text-white bg-slate-800 px-3 py-1 rounded-lg tabular-nums border border-slate-700">{p.matches ?? 0}</div>
               </div>
             ))}
           </div>

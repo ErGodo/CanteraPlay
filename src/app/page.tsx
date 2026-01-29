@@ -92,22 +92,32 @@ function Footer({
             © {new Date().getUTCFullYear()} CanteraPlay — Powered By{" "}
             <span className="font-semibold">ADD</span>
           </p>
-          <div className="mt-3 flex items-center gap-4 flex-wrap w-full justify-center md:w-auto md:justify-center">
+          <div className="mt-3 flex items-center justify-center gap-4 flex-wrap w-full md:w-auto">
             <a href="http://localhost:3000" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
               <CanteraPlayLogo />
             </a>
             <AdDeployLogo />
+
+            {/* Mobile Only Instagram Icon */}
+            <a
+              href={instagramUrl}
+              target="_blank"
+              className="md:hidden flex items-center justify-center w-10 h-10 rounded-xl bg-pink-600 shadow-lg text-white hover:bg-pink-700 transition-colors"
+              aria-label="Instagram"
+            >
+              <InstagramIcon />
+            </a>
           </div>
         </div>
 
-        <div className="flex md:justify-end items-center">
+        <div className="hidden md:flex md:justify-end items-center">
           <a
             href={instagramUrl}
             target="_blank"
-            className="flex items-center gap-2 rounded-lg px-3 py-1.5 bg-white/12 font-semibold"
+            className="flex items-center gap-2 rounded-lg px-3 py-1.5 bg-white/12 font-semibold hover:bg-white/20 transition-colors"
           >
             <InstagramIcon />
-            <span className="hidden sm:inline">Instagram</span>
+            <span>Instagram</span>
           </a>
         </div>
       </div>
@@ -282,7 +292,7 @@ export default async function Home() {
       </section>
 
       {/* PRÓXIMO PARTIDO */}
-      <PlayerStats stats={playerStats} />
+      <PlayerStats stats={playerStats} key="stats-v2" />
       <section className="mx-auto w-full max-w-[95%] px-4 sm:px-6 lg:px-8 mt-10">
         <div className="rounded-3xl p-[2px] bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 shadow-2xl relative z-10">
           <div

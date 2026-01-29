@@ -51,7 +51,6 @@ function getLqip(photo?: StatItem['photo']): string | undefined {
 // COMPONENTS
 // ----------------------------------------------------------------------
 
-// Single Row in a Stats List
 const PlayerRow = ({
   item,
   field,
@@ -68,13 +67,11 @@ const PlayerRow = ({
 
   return (
     <div className="group relative flex items-center gap-3 p-3 rounded-2xl bg-slate-800/50 border border-slate-700/50 hover:bg-slate-800 hover:border-slate-600 transition-all duration-300">
-      {/* Search/Rank Indicator */}
       <div className={cn(
         "absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 rounded-r-full transition-all",
         isTopRank ? `bg-${color}-500 shadow-[0_0_10px_rgba(var(--${color}-500),0.5)]` : "bg-transparent group-hover:bg-slate-600"
       )} />
 
-      {/* Avatar */}
       <div className="relative w-12 h-12 sm:w-16 sm:h-16 shrink-0 rounded-2xl overflow-hidden bg-slate-900 border border-slate-700 shadow-md">
         {item.photo ? (
           <Image
@@ -93,7 +90,6 @@ const PlayerRow = ({
         )}
       </div>
 
-      {/* Info */}
       <div className="flex-1 min-w-0 flex flex-col justify-center">
         <h4 className="text-white font-bold text-sm sm:text-base leading-tight line-clamp-2">
           {item.athleteName || 'Jugador'}
@@ -103,7 +99,6 @@ const PlayerRow = ({
         </div>
       </div>
 
-      {/* Stat Value */}
       <div className={cn(
         "flex flex-col items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl border tabular-nums shrink-0",
         isTopRank
@@ -116,7 +111,6 @@ const PlayerRow = ({
   )
 }
 
-// Stats Card (Used in Desktop Grid & Mobile Tabs)
 const StatsCard = ({
   title,
   icon,
@@ -137,7 +131,6 @@ const StatsCard = ({
       "h-full flex flex-col bg-slate-950/50 border border-slate-800 shadow-2xl overflow-hidden",
       mobileMinimal ? "rounded-2xl border-t-0 bg-transparent shadow-none" : "rounded-[32px] bg-slate-950/50"
     )}>
-      {/* Header - Hidden in Mobile Minimal mode to save space */}
       {!mobileMinimal && (
         <div className={`relative p-6 pb-4 flex items-center gap-4 bg-gradient-to-b from-slate-900 to-slate-950 rounded-[28px] border-b border-slate-800/50`}>
           <div className={`flex items-center justify-center w-12 h-12 rounded-xl bg-${color}-500/10 text-${color}-400 border border-${color}-500/20 shadow-lg`}>
@@ -147,7 +140,6 @@ const StatsCard = ({
         </div>
       )}
 
-      {/* List */}
       <div className={cn(
         "flex flex-col gap-3 flex-1 overflow-y-auto custom-scrollbar",
         mobileMinimal ? "p-0 max-h-none" : "p-4 max-h-[400px]"
@@ -217,7 +209,7 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
 
       {/* --- MOBILE & TABLET VIEW (Tabs) --- */}
       <div className="block lg:hidden w-full">
-        {/* Tabs Grid - Styled for clean scrolling without ugly bars */}
+        {/* Tabs Grid: Icons Only for cleaner mobile look */}
         <div
           className="bg-slate-900/80 p-1.5 rounded-2xl flex gap-1 mb-6 border border-slate-800 overflow-x-auto snap-x"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
@@ -228,21 +220,22 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
+                title={tab.label}
                 className={cn(
-                  "flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 min-w-[110px] shrink-0 snap-center",
+                  "flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-xl transition-all duration-300 min-w-[60px] shrink-0 snap-center",
                   isActive
                     ? `bg-gradient-to-br from-slate-800 to-slate-700 text-white shadow-lg ring-1 ring-white/10`
                     : "text-slate-400 hover:text-white hover:bg-slate-800/50"
                 )}
               >
-                <span className="text-base">{tab.icon}</span>
-                <span>{tab.label}</span>
+                <span className="text-2xl">{tab.icon}</span>
+                {/* Text Hidden on Mobile/Tablet to Prevent Cut-off */}
+                <span className="hidden sm:block text-sm font-medium">{tab.label}</span>
               </button>
             )
           })}
         </div>
 
-        {/* Active Tab Content */}
         <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 min-h-[300px]">
           {tabs.map((tab) => {
             if (tab.id !== activeTab) return null

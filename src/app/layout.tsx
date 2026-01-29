@@ -9,6 +9,8 @@ const outfit = Outfit({
   display: "swap",
 });
 
+import ClientFixes from "@/components/ClientFixes";
+
 export const metadata: Metadata = {
   title: "..:: Bienvenidos a Avidela Sport ::.. ",
   description: "Powered By CanteraPlay - ADD",
@@ -22,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${outfit.variable} font-sans antialiased`} suppressHydrationWarning={true}>
+        <ClientFixes />
         {children}
       </body>
     </html>

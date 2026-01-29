@@ -16,7 +16,7 @@ import { getSponsors } from "@/lib/getSponsors";
 import { getTestimonials } from "@/lib/getTestimonials";
 // getStandings was removed from this page to avoid unused variable; use the `Competencia` component separately if needed.
 import NextMatchCarousel from "@/components/NextMatchCarousel";
-import { formatCurrencyCLP } from '@/lib/formatDate';
+import PlansCarousel from "@/components/PlansCarousel";
 import { getUpcomingMatches } from "@/lib/getUpcomingMatches";
 import { sectionTitle } from "@/lib/styles";
 import Image from "next/image";
@@ -206,16 +206,6 @@ export default async function Home() {
   // Posición de los auspiciadores: 'right' = columna derecha, 'center' = centrado debajo de Resultados
   const sponsorsPosition: "right" | "center" = "right";
 
-  // Helpers para identificar plan
-  const normalize = (s: string) =>
-    s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  const planType = (name: string): "matricula" | "partidos" | "combo" => {
-    const n = normalize(name);
-    if (n.includes("matricula")) return "matricula";
-    if (n.includes("entreno") || n.includes("entren")) return "combo";
-    return "partidos";
-  };
-
   return (
     <div className="font-sans min-h-screen bg-slate-950 text-slate-200 overflow-x-hidden" suppressHydrationWarning>
       {/* HERO / HEADER + Mobile Menu */}
@@ -237,62 +227,23 @@ export default async function Home() {
               Únete a Avidela Sport con estos planes
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
-              {(plans ?? []).slice(0, 3).map((p: any, i: number) => {
-                const t = planType(p.name || "");
-                const iconType = i === 2 ? ("partidos" as const) : t;
-                return (
-                  <div
-                    key={p._id}
-                    className="min-w-0 bg-slate-900 rounded-3xl shadow-lg border border-slate-800 p-6 flex flex-col h-full transition-all duration-300 hover:shadow-blue-900/40 hover:-translate-y-1 hover:border-blue-700 group relative overflow-hidden"
-                  >
-                    {/* Hover gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-blue-900/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-
-                    <div className="relative z-10 flex-1">
-                      <div className="mb-5 flex items-center justify-center w-14 h-14 rounded-2xl bg-slate-800 text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 shadow-sm border border-slate-700">
-                        <PlanIcon type={iconType} />
-                      </div>
-                      <h3 className="font-extrabold text-2xl text-white mb-3 group-hover:text-blue-400 transition-colors">
-                        {p.name}
-                      </h3>
-                      <div className="text-slate-400 text-sm leading-relaxed font-medium">
-                        {p.description ||
-                          (t === "matricula"
-                            ? "Anual"
-                            : t === "combo"
-                              ? "Partidos + Entrenos"
-                              : "Participación en partidos")}
-                      </div>
-                    </div>
-                    <div className="mt-6 md:mt-8 relative z-10 pt-4 border-t border-slate-800">
-                      <div className="text-3xl lg:text-4xl font-black text-white leading-tight">
-                        {formatCurrencyCLP(p.price)}
-                        {t !== "matricula" && (
-                          <span className="text-sm font-bold text-slate-500 ml-1 uppercase tracking-wide">/mes</span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+            <PlansCarousel plans={plans} />
           </div>
 
           {/* Bottom: Moments Gallery */}
-          <div className="w-full">
+          < div className="w-full" >
             <h2 className={`${sectionTitle} mb-6`}>Momentos Inolvidables</h2>
             <Gallery
               images={carouselImages}
               showTitle={false} // Title is handled outside
               heightClass="h-64 sm:h-80 md:h-[400px] lg:h-[500px]" // Taller gallery since it is full width
             />
-          </div>
-        </div>
-      </section>
+          </div >
+        </div >
+      </section >
 
       {/* PRÓXIMO PARTIDO */}
-      <PlayerStats stats={playerStats} key="stats-v2" />
+      < PlayerStats stats={playerStats} key="stats-v2" />
       <section className="mx-auto w-full max-w-[95%] px-4 sm:px-6 lg:px-8 mt-10">
         <div className="rounded-3xl p-[2px] bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 shadow-2xl relative z-10">
           <div

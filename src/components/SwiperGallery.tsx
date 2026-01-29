@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import Image from 'next/image';
+import React from 'react';
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -8,7 +8,15 @@ import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 export default function SwiperGallery({ images, heightClass = 'h-[340px]' }: { images: any[], heightClass?: string }) {
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   if (!images || images.length === 0) return null;
+  if (!isMounted) return <div className={`w-full ${heightClass} bg-slate-900/50 rounded-3xl animate-pulse`} />;
+
   return (
     <section className="w-full">
       <div className="w-full relative gallery-swiper-container">

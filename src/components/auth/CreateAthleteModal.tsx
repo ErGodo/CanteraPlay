@@ -252,7 +252,7 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
                             </div>
                             <button
                                 onClick={() => {
-                                    window.location.href = "http://localhost:3000";
+                                    window.location.href = "https://canteraplay-dash-605024846890.us-central1.run.app";
                                 }}
                                 className={`${buttonBase} bg-[#fc5c9c] hover:bg-[#e04080] text-white shadow-lg shadow-[#fc5c9c]/20 cursor-pointer`}
                             >

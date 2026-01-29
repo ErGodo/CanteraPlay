@@ -93,7 +93,7 @@ function Footer({
             <span className="font-semibold">ADD</span>
           </p>
           <div className="mt-3 flex items-center justify-center gap-4 flex-wrap w-full md:w-auto">
-            <a href="http://localhost:3000" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+            <a href="https://canteraplay-dash-605024846890.us-central1.run.app" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
               <CanteraPlayLogo />
             </a>
             <AdDeployLogo />

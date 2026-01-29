@@ -2,8 +2,9 @@
 
 export async function getPlans() {
   try {
-    const clubServiceUrl = process.env.NEXT_PUBLIC_CLUB_SERVICE_URL;
-    const planServiceUrl = process.env.NEXT_PUBLIC_PLAN_SERVICE_URL;
+    // Fallback urls in case env vars are not loaded (e.g. pending restart)
+    const clubServiceUrl = process.env.NEXT_PUBLIC_CLUB_SERVICE_URL || "https://cp-club-nestjs-605024846890.us-central1.run.app";
+    const planServiceUrl = process.env.NEXT_PUBLIC_PLAN_SERVICE_URL || "https://cp-plan-nestjs-605024846890.us-central1.run.app";
 
     if (!clubServiceUrl || !planServiceUrl) {
       console.warn("Service URLs not configured");

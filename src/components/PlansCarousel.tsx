@@ -125,7 +125,7 @@ export default function PlansCarousel({ plans }: { plans: any[] }) {
                     return (
                         <SwiperSlide key={p._id} className="h-auto">
                             {/* Gradient Border Content Wrapper - Le da el "ribete" de color */}
-                            <div className={`p-[2px] rounded-[26px] bg-gradient-to-r ${borderGradient} shadow-xl hover:shadow-2xl hover:shadow-pink-500/20 transition-all duration-300 h-full`}>
+                            <div className={`w-full p-[2px] rounded-[26px] bg-gradient-to-r ${borderGradient} shadow-xl hover:shadow-2xl hover:shadow-pink-500/20 transition-all duration-300 h-full`}>
                                 <div className="bg-slate-950 rounded-[24px] h-full flex flex-col relative overflow-hidden">
 
                                     {/* Top colored glow/ribbon effect */}
@@ -202,6 +202,11 @@ export default function PlansCarousel({ plans }: { plans: any[] }) {
           width: 24px;
           border-radius: 4px;
           box-shadow: 0 0 10px rgba(233, 30, 99, 0.5);
+        }
+        .plans-swiper-container .swiper-slide {
+            height: auto !important;
+            display: flex;
+            flex-direction: column;
         }
       `}</style>
         </div>

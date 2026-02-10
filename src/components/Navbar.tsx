@@ -18,7 +18,7 @@ const Navbar = () => {
   }, [menuOpen]);
 
   return (
-    <nav className="w-full flex items-center px-8 py-4 bg-transparent">
+    <nav className="w-full flex items-center px-8 py-4 bg-transparent" suppressHydrationWarning>
       <div className="flex items-center gap-3">
         <Image
           src="/images/avidela-logo.png"

@@ -6,33 +6,47 @@ export async function getPlans() {
     const clubServiceUrl = process.env.NEXT_PUBLIC_CLUB_SERVICE_URL || "https://cp-club-nestjs-605024846890.us-central1.run.app";
     const planServiceUrl = process.env.NEXT_PUBLIC_PLAN_SERVICE_URL || "https://cp-plan-nestjs-605024846890.us-central1.run.app";
 
+    console.log("[getPlans] URLs:", { clubServiceUrl, planServiceUrl });
+
     if (!clubServiceUrl || !planServiceUrl) {
       console.warn("Service URLs not configured");
       return [];
     }
 
     // 1. Get Avidela Club ID
-    const clubsRes = await fetch(`${clubServiceUrl}/clubs`, { next: { revalidate: 3600 } });
-    if (!clubsRes.ok) throw new Error("Failed to fetch clubs");
+    console.log("[getPlans] Buscando clubs...");
+    const clubsRes = await fetch(`${clubServiceUrl}/clubs`, { next: { revalidate: 0 } }); // Force no-cache for debug
+    if (!clubsRes.ok) {
+        console.error("[getPlans] Failed to fetch clubs:", clubsRes.status, clubsRes.statusText);
+        throw new Error("Failed to fetch clubs");
+    }
 
     const clubs = await clubsRes.json();
+    console.log(`[getPlans] Clubs encontrados: ${clubs.length}. Buscando 'avidela'...`);
+    
     const avidela = clubs.find((c: any) => (c.name || c.clubName)?.toLowerCase().includes('avidela'));
 
     if (!avidela) {
-      console.warn("Avidela club not found");
+      console.warn("[getPlans] Avidela club not found. Clubs visible:", clubs.map((c:any) => c.name || c.clubName));
       return [];
     }
 
     const clubId = avidela.id || avidela.pkClub;
+    console.log(`[getPlans] Club Avidela encontrado. ID: ${clubId}. Obteniendo planes...`);
 
     // 2. Get Plans
-    // Using revalidate: 0 or low value because usually plans don't change often but we want to see updates during dev. 
-    // Actually, stick to 3600 or less.
-    const plansRes = await fetch(`${planServiceUrl}/clubs/${clubId}/plans`, { next: { revalidate: 60 } });
+    const plansUrl = `${planServiceUrl}/clubs/${clubId}/plans`;
+    console.log("[getPlans] Fetching from:", plansUrl);
+    
+    const plansRes = await fetch(plansUrl, { next: { revalidate: 0 } });
 
-    if (!plansRes.ok) throw new Error("Failed to fetch plans");
+    if (!plansRes.ok) {
+        console.error("[getPlans] Failed to fetch plans:", plansRes.status, plansRes.statusText);
+        throw new Error("Failed to fetch plans");
+    }
 
     const plans = await plansRes.json();
+    console.log(`[getPlans] ${plans.length} planes encontrados.`);
 
     // Map to ensure compatibility with frontend components (which expect _id, name, description, price, features)
     // Backend returns id (number), name, description, price, features (string[])

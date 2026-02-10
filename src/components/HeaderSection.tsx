@@ -10,8 +10,8 @@ const HeaderSection: React.FC = async () => {
   const featuredPlayer = hero?.featuredPlayer
 
   return (
-    <section className="w-full relative bg-slate-950">
-      <div className="absolute top-0 left-0 w-full z-50 pointer-events-none">
+    <section className="w-full relative bg-slate-950" suppressHydrationWarning>
+      <div className="absolute top-0 left-0 w-full z-50 pointer-events-none" suppressHydrationWarning>
         {/* Navbar needs pointer-events-auto on its interactive children, 
             but the wrapper is none to let clicks pass through to video if needed (though navbar usually takes full width top bar).
             Actually Navbar takes full width, so pointer-events-auto on wrapper is fine if Navbar handles it.

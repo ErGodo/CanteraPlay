@@ -26,7 +26,7 @@ export default function Hero({ videoUrl, smartVideo, featuredPlayer }: { videoUr
   const hasVideo = !!finalVideo;
 
   return (
-    <div className="relative w-full h-[85vh] md:h-[95vh] min-h-[600px] overflow-hidden bg-slate-900 flex items-center justify-center">
+    <div className="relative w-full h-[85vh] md:h-[95vh] min-h-[600px] overflow-hidden bg-slate-900 flex items-center justify-center" suppressHydrationWarning>
       {/* Background Video */}
       <div className="absolute inset-0 z-0">
         {hasVideo && (

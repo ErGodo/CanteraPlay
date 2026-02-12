@@ -3,7 +3,7 @@ echo ==========================================
 echo FIXING CANTERAPLAY DEPENDENCIES
 echo ==========================================
 
-cd /d "%~dp0"
+cd /d "%~dp0..\..\canteraplay-dash"
 
 echo [1/4] Cleaning existing installation...
 if exist "node_modules" (

@@ -179,6 +179,8 @@ const PlanIcon = ({ type }: { type: "matricula" | "partidos" | "combo" }) => {
 };
 
 /* ------------------------------ Page ------------------------------ */
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const [importantInfo, plans, childrenImages, adultImages, upcomingMatches, results, sponsors] =
     await Promise.all([

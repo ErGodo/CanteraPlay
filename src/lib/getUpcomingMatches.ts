@@ -15,7 +15,7 @@ export async function getUpcomingMatches() {
 
         // 1. Get Avidela Club ID
         console.log('[getUpcomingMatches] Fetching clubs...');
-        const clubsRes = await fetch(`${clubServiceUrl}/clubs`, { next: { revalidate: 3600 } });
+        const clubsRes = await fetch(`${clubServiceUrl}/clubs`, { next: { revalidate: 60 } });
 
         if (!clubsRes.ok) {
             console.error('[getUpcomingMatches] Failed to fetch clubs:', clubsRes.status, clubsRes.statusText);

@@ -180,11 +180,12 @@ const PlanIcon = ({ type }: { type: "matricula" | "partidos" | "combo" }) => {
 
 /* ------------------------------ Page ------------------------------ */
 export default async function Home() {
-  const [importantInfo, plans, carouselImages, upcomingMatches, results, sponsors] =
+  const [importantInfo, plans, childrenImages, adultImages, upcomingMatches, results, sponsors] =
     await Promise.all([
       getImportantInfo(),
       getPlans(),
-      getCarouselImages(),
+      getCarouselImages('CAROUSEL_CHILDREN'),
+      getCarouselImages('CAROUSEL_ADULTS'),
       getUpcomingMatches(),
       getResults(),
       getSponsors(),
@@ -230,15 +231,29 @@ export default async function Home() {
             <PlansCarousel plans={plans} />
           </div>
 
-          {/* Bottom: Moments Gallery */}
-          < div className="w-full" >
-            <h2 className={`${sectionTitle} mb-6`}>Momentos Inolvidables</h2>
-            <Gallery
-              images={carouselImages}
-              showTitle={false} // Title is handled outside
-              heightClass="h-64 sm:h-80 md:h-[400px] lg:h-[500px]" // Taller gallery since it is full width
-            />
-          </div >
+          {/* Bottom: Moments Gallery - Children */}
+          {childrenImages.length > 0 && (
+            <div className="w-full">
+              <h2 className={`${sectionTitle} mb-6`}>Nuestra Rama Infantil</h2>
+              <Gallery
+                images={childrenImages}
+                showTitle={false}
+                heightClass="h-[350px] sm:h-[450px] md:h-[550px] lg:h-[650px]"
+              />
+            </div>
+          )}
+
+          {/* Bottom: Moments Gallery - Adults */}
+          {adultImages.length > 0 && (
+            <div className="w-full">
+              <h2 className={`${sectionTitle} mb-6`}>Nuestra Rama Adultos</h2>
+              <Gallery
+                images={adultImages}
+                showTitle={false}
+                heightClass="h-[350px] sm:h-[450px] md:h-[550px] lg:h-[650px]"
+              />
+            </div>
+          )}
         </div >
       </section >
 

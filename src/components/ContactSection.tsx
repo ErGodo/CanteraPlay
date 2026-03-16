@@ -1,7 +1,7 @@
 import { sectionTitle } from "@/lib/styles";
 import { sanityClient } from '@/sanity';
 import imageUrlBuilder from '@sanity/image-url';
-import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import type { SanityImageSource } from '@sanity/image-url';
 
 import Image from "next/image";
 import ContactForm from "./ContactForm";

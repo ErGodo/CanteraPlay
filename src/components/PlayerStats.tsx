@@ -1,7 +1,7 @@
 "use client";
 import { buildImageUrl } from '@/lib/sanityClient';
 import { sectionTitle } from '@/lib/styles';
-import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import type { SanityImageSource } from '@sanity/image-url';
 import Image from 'next/image';
 import { useState } from 'react';
 

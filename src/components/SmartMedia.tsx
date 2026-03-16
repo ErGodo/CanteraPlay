@@ -1,7 +1,7 @@
 
 "use client"
 import { buildImageUrl, getObjectPosition } from '@/lib/sanityClient'
-import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
+import type { SanityImageSource } from '@sanity/image-url'
 import NextImage from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 

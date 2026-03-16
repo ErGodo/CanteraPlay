@@ -1,6 +1,6 @@
 import { createClient } from '@sanity/client'
 import imageUrlBuilder from '@sanity/image-url'
-import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
+import type { SanityImageSource } from '@sanity/image-url'
 
 // If NEXT_PUBLIC_SANITY_PROJECT_ID is not set in the environment (for example in
 // some Studio runs or during certain build steps), avoid creating a client with

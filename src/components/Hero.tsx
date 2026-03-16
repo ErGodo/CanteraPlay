@@ -77,9 +77,15 @@ export default function Hero({ videoUrl, smartVideo, featuredPlayer }: { videoUr
       {/* Featured Player Floating Widget */}
       {featuredPlayer && (featuredPlayer.name || featuredPlayer.athleteName) && (
         <div className="absolute bottom-8 right-8 hidden xl:flex items-center gap-4 bg-black/40 backdrop-blur-xl p-4 pr-6 rounded-2xl border border-white/10 animate-in slide-in-from-right duration-700 delay-500 max-w-sm hover:bg-black/50 transition-colors shadow-2xl">
-          <div className="w-16 h-16 rounded-2xl overflow-hidden border border-white/20 relative flex-shrink-0 bg-slate-800">
-            {buildImageUrl(featuredPlayer?.avatar, 100, 100) ? (
-              <Image src={buildImageUrl(featuredPlayer?.avatar, 100, 100) as string} alt="Player" fill className="object-cover" />
+          <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-white/20 relative flex-shrink-0 bg-slate-800 shadow-inner">
+            {buildImageUrl(featuredPlayer?.avatar, 400, 400) ? (
+              <Image 
+                src={buildImageUrl(featuredPlayer?.avatar, 400, 400) as string} 
+                alt="Player" 
+                fill 
+                className="object-cover"
+                unoptimized={true}
+              />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-slate-500 text-xs">Foto</div>
             )}

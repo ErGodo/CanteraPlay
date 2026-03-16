@@ -42,18 +42,15 @@ export default function SwiperGallery({ images, heightClass = 'h-[340px]' }: { i
             <SwiperSlide key={img._id || idx} className="w-full px-0">
               <div className="w-full h-full flex items-center justify-center relative">
                 {(img.image?.asset?.url || img.url) ? (
-                    <div className={`w-full ${heightClass} relative rounded-3xl bg-black overflow-hidden`}>
-                      <Image
+                    <div className={`w-full ${heightClass} relative rounded-3xl bg-black overflow-hidden flex items-center justify-center`}>
+                      <img
                         src={img.image?.asset?.url || img.url}
                         alt={img.image?.alt || img.caption || "Club photo"}
-                        fill
-                        priority={idx === 0}
-                        unoptimized={true}
-                        className="object-cover"
-                        sizes="100vw"
+                        className="w-full h-full object-cover"
+                        loading={idx === 0 ? "eager" : "lazy"}
                       />
 
-                      {/* Subtle dark gradient for text readability (reduced height and opacity) */}
+                      {/* Subtle dark gradient for text readability */}
                       <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
                     </div>
                 ) : null}

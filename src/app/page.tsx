@@ -248,7 +248,7 @@ export default async function Home() {
           {/* Bottom: Moments Gallery - Adults */}
           {adultImages.length > 0 && (
             <div className="w-full">
-              <SectionHeading title="Nuestra Rama" highlight="Adultos" subtitle="Competencia y pasión sin límite de edad" />
+              <SectionHeading title="Nuestra Rama" highlight=" Adultos" subtitle="Competencia y pasión sin límite de edad" />
               <Gallery
                 images={adultImages}
                 showTitle={false}

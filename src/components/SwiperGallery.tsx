@@ -56,10 +56,12 @@ export default function SwiperGallery({ images, heightClass = 'h-[340px]' }: { i
                 ) : null}
 
                 {img.caption && (
-                  <div className="absolute bottom-6 left-0 right-0 px-6 text-center z-10">
-                    <span className="inline-block backdrop-blur-md bg-white/20 border border-white/30 text-white text-sm font-medium px-4 py-1.5 rounded-full shadow-lg">
-                      {img.caption}
-                    </span>
+                  <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-[92%] sm:w-fit sm:max-w-[85%] z-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                    <div className="backdrop-blur-xl bg-black/60 border border-white/10 text-white text-xs sm:text-sm leading-relaxed px-5 py-4 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] text-center border-t-white/20">
+                      <div className="max-h-[100px] overflow-y-auto custom-scrollbar">
+                        {img.caption}
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
@@ -84,6 +86,19 @@ export default function SwiperGallery({ images, heightClass = 'h-[340px]' }: { i
                 width: 24px;
                 border-radius: 4px;
                 box-shadow: 0 0 10px rgba(255,255,255,0.7);
+            }
+            .custom-scrollbar::-webkit-scrollbar {
+                width: 4px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 10px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                background: rgba(255, 255, 255, 0.4);
             }
         `}</style>
       </div>

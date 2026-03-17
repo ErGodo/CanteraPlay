@@ -285,7 +285,7 @@ export default async function Home() {
             {/* Resultados */}
             <div className="min-w-0 flex flex-col">
               <SectionHeading as="h3" title="Últimos" highlight=" Resultados" subtitle="Partidos recientes del club" />
-              <div className="mt-4 overflow-hidden flex-1 h-[220px] sm:h-[240px] md:h-[260px] lg:h-[320px]">
+              <div className="mt-4 overflow-hidden h-[380px] sm:h-[400px] md:h-[320px] lg:h-[350px]">
                 <ResultsCarousel results={results} />
               </div>
             </div>
@@ -293,7 +293,7 @@ export default async function Home() {
             {/* Sponsors */}
             <div id="sponsors" className="min-w-0 flex flex-col scroll-mt-24">
               <SectionHeading as="h3" title="Nuestros" highlight=" Auspiciadores" subtitle="Quienes hacen posible el club" />
-              <div className="mt-4 overflow-hidden flex-1 h-[220px] sm:h-[240px] md:h-[260px] lg:h-[320px]">
+              <div className="mt-4 overflow-hidden h-[380px] sm:h-[400px] md:h-[320px] lg:h-[350px]">
                 <SponsorCarousel sponsors={sponsors} />
               </div>
             </div>

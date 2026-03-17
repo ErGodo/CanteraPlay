@@ -32,20 +32,48 @@ export default function ResultsCarousel({ results }: { results: ResultItem[] }) 
   
   if (!results || results.length === 0) {
     return (
-      <div className="w-full h-full p-1" id="results-empty">
+      <div className="w-full h-full py-1" id="results-empty">
         <div 
-          className="w-full h-full relative overflow-hidden bg-slate-950 flex flex-col justify-center items-center border border-slate-800/40 rounded-3xl"
+          className="w-full h-full relative overflow-hidden bg-[#020617] flex flex-col justify-center items-center border border-white/5 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] group/empty"
         >
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[#e91e63]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#0F8DBF]/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-          
-          <div className="relative z-10 flex flex-col items-center gap-4 text-center px-6">
-            <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 mb-2">
-              <span className="text-3xl">⚽</span>
-            </div>
-            <h3 className="text-lg font-bold text-white">Próximamente más resultados</h3>
-            <p className="text-xs text-slate-500 max-w-[200px] uppercase tracking-wider font-semibold">Temporada 2026</p>
+          {/* Animated Background Mesh */}
+          <div className="absolute inset-0 opacity-20 overflow-hidden">
+            <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#e91e63] rounded-full blur-[80px] animate-pulse" />
+            <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-[#0F8DBF] rounded-full blur-[80px] animate-pulse [animation-delay:1s]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_0%,transparent_70%)]" />
           </div>
+          
+          <div className="relative z-10 flex flex-col items-center gap-3 sm:gap-6 px-4">
+            {/* Levitating Icon Container */}
+            <div className="relative scale-75 sm:scale-100">
+              <div className="absolute inset-0 bg-white/10 rounded-full blur-2xl transition-all duration-500" />
+              <div className="relative w-20 h-20 sm:w-28 sm:h-28 flex items-center justify-center rounded-[1.8rem] bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-xl border border-white/10 shadow-2xl animate-bounce [animation-duration:3s]">
+                <span className="text-4xl sm:text-6xl drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">⚽</span>
+                
+                {/* Orbital dots */}
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-[#e91e63] rounded-full border-2 border-[#020617] shadow-[0_0_10px_rgba(233,30,99,0.5)]" />
+                <div className="absolute -bottom-1 -left-1 w-3 h-3 bg-[#0F8DBF] rounded-full border-2 border-[#020617] shadow-[0_0_10px_rgba(15,141,191,0.5)]" />
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center gap-1 sm:gap-2">
+              <h3 className="text-lg sm:text-2xl font-bold text-white tracking-tight text-center leading-tight">
+                PRÓXIMAMENTE <br />
+                <span className="text-[#e91e63]">MÁS RESULTADOS</span>
+              </h3>
+              
+              <div className="flex items-center gap-3 mt-1 opacity-60">
+                <div className="h-px w-6 bg-gradient-to-r from-transparent to-white/30" />
+                <p className="text-[9px] sm:text-xs text-slate-400 uppercase tracking-[0.3em] font-semibold">
+                  TEMPORADA 2026
+                </p>
+                <div className="h-px w-6 bg-gradient-to-l from-transparent to-white/30" />
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom highlight bar */}
+          <div className="absolute bottom-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#e91e63]/40 to-transparent" />
         </div>
       </div>
     );
@@ -100,7 +128,7 @@ export default function ResultsCarousel({ results }: { results: ResultItem[] }) 
                   <div className="flex items-center justify-between w-full max-w-lg gap-4 sm:gap-8">
                     {/* Home Team */}
                     <div className="flex flex-col items-center gap-3 flex-1">
-                      <div className="relative group/logo w-16 h-16 sm:w-24 sm:h-24 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-2 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:border-[#e91e63]/30">
+                      <div className="relative group/logo w-16 h-16 sm:w-24 sm:h-24 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-1 sm:p-2 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:border-[#e91e63]/30">
                         <div className="absolute inset-0 bg-white rounded-2xl opacity-90" />
                         {homeLogo ? (
                           <img src={homeLogo} alt={homeName} className="relative z-10 object-contain w-full h-full p-1" />
@@ -129,7 +157,7 @@ export default function ResultsCarousel({ results }: { results: ResultItem[] }) 
 
                     {/* Away Team */}
                     <div className="flex flex-col items-center gap-3 flex-1">
-                      <div className="relative group/logo w-16 h-16 sm:w-24 sm:h-24 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-2 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:border-[#e91e63]/30">
+                      <div className="relative group/logo w-16 h-16 sm:w-24 sm:h-24 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-1 sm:p-2 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:border-[#e91e63]/30">
                         <div className="absolute inset-0 bg-white rounded-2xl opacity-90" />
                         {awayLogo ? (
                           <img src={awayLogo} alt={awayName} className="relative z-10 object-contain w-full h-full p-1" />

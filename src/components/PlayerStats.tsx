@@ -223,14 +223,14 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
                 className={cn(
-                  "flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-xl transition-all duration-300 min-w-[100px] shrink-0 snap-center",
+                  "flex-1 flex items-center justify-center py-3 px-1 sm:px-3 sm:gap-2 rounded-xl transition-all duration-300 min-w-[50px] sm:min-w-[100px] shrink-0 snap-center",
                   isActive
                     ? "bg-[#e91e63] text-white shadow-[0_0_15px_rgba(233,30,99,0.3)]"
                     : "text-slate-400 hover:text-white hover:bg-slate-800/50"
                 )}
               >
                 <span className="text-xl">{tab.icon}</span>
-                <span className="text-xs font-bold uppercase tracking-wider">{tab.label}</span>
+                <span className="hidden sm:inline text-xs font-bold uppercase tracking-wider">{tab.label}</span>
               </button>
             )
           })}

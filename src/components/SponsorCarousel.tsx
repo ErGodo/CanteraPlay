@@ -46,7 +46,7 @@ export default function SponsorCarousel({ sponsors }: { sponsors: any[] }) {
           }}
           centeredSlides={false}
           spaceBetween={0}
-          className="rounded-lg h-full overflow-hidden"
+          className="rounded-3xl h-full overflow-hidden"
         >
           {sponsors.map((s) => (
             <SwiperSlide key={s._id} className="w-full h-full px-0">

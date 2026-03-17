@@ -1,6 +1,5 @@
 "use client";
 import { buildImageUrl } from '@/lib/sanityClient';
-import Image from "next/image";
 import { useState } from 'react';
 import { CreateAthleteModal } from './auth/CreateAthleteModal';
 
@@ -22,14 +21,14 @@ export default function Hero({ videoUrl, smartVideo, featuredPlayer }: { videoUr
 
   // Resolve video source
   const finalVideo = videoUrl ?? smartVideo?.file?.asset?.url ?? "/videos/avidela-promo.mp4";
-  const poster = smartVideo?.poster?.asset?.url ?? "/images/hero-poster.jpg";
+  const poster = smartVideo?.poster?.asset?.url ?? "/images/player-hero.png";
   const hasVideo = !!finalVideo;
 
   return (
-    <div className="relative w-full h-[85vh] md:h-[95vh] min-h-[600px] overflow-hidden bg-slate-900 flex items-center justify-center" suppressHydrationWarning>
-      {/* Background Video */}
+    <div className="relative w-full h-[80vh] md:h-[90vh] min-h-[600px] overflow-hidden bg-slate-950 flex items-center justify-center" suppressHydrationWarning>
+      {/* Background Media */}
       <div className="absolute inset-0 z-0">
-        {hasVideo && (
+        {hasVideo ? (
           <video
             src={finalVideo}
             poster={poster}
@@ -37,19 +36,26 @@ export default function Hero({ videoUrl, smartVideo, featuredPlayer }: { videoUr
             muted
             loop
             playsInline
-            className="w-full h-full object-cover opacity-90"
+            className="w-full h-full object-cover opacity-80"
           />
+        ) : (
+          <div className="w-full h-full relative">
+             <img 
+               src="/images/player-hero.png" 
+               alt="Background" 
+               className="w-full h-full object-cover opacity-60"
+             />
+          </div>
         )}
         {/* Overlay Gradients for readability and aesthetic */}
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-black/40" />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-900/60" />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/50 to-transparent" />
       </div>
 
       {/* Hero Content */}
       <div className="relative z-10 w-full max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center mt-20 md:mt-0">
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-8 drop-shadow-xl leading-[1.1] md:leading-[1.1]">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-8 drop-shadow-2xl leading-[1.1] md:leading-[1.1]">
             Formando <span className="text-pink-500">Campeones</span>
             <br />
             <span className="text-white">dentro y fuera de la cancha</span>
@@ -79,12 +85,10 @@ export default function Hero({ videoUrl, smartVideo, featuredPlayer }: { videoUr
         <div className="absolute bottom-8 right-8 hidden xl:flex items-center gap-4 bg-black/40 backdrop-blur-xl p-4 pr-6 rounded-2xl border border-white/10 animate-in slide-in-from-right duration-700 delay-500 max-w-sm hover:bg-black/50 transition-colors shadow-2xl">
           <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-white/20 relative flex-shrink-0 bg-slate-800 shadow-inner">
             {buildImageUrl(featuredPlayer?.avatar, 400, 400) ? (
-              <Image 
+              <img 
                 src={buildImageUrl(featuredPlayer?.avatar, 400, 400) as string} 
                 alt="Player" 
-                fill 
-                className="object-cover"
-                unoptimized={true}
+                className="w-full h-full object-cover"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-slate-500 text-xs">Foto</div>
@@ -92,7 +96,7 @@ export default function Hero({ videoUrl, smartVideo, featuredPlayer }: { videoUr
           </div>
           <div className="text-left">
             <div className="text-white font-bold text-lg leading-tight">{featuredPlayer.name ?? featuredPlayer.athleteName}</div>
-            <div className="text-blue-400 text-sm font-bold uppercase tracking-wider">{featuredPlayer.position ?? 'Jugador'}</div>
+            <div className="text-cyan-400 text-sm font-bold uppercase tracking-wider">{featuredPlayer.position ?? 'Jugador'}</div>
             {featuredPlayer.goals ? (
               <div className="text-slate-300 text-xs mt-1 font-mono">
                 {featuredPlayer.goals} Goles • {featuredPlayer.matches ?? 0} Partidos

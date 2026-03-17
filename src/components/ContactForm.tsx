@@ -19,7 +19,7 @@ function SuccessModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
         </p>
         <button
           onClick={onClose}
-          className="w-full bg-pink-600 text-white py-3.5 rounded-xl font-bold text-lg hover:bg-pink-700 transition-colors shadow-lg shadow-pink-600/20 cursor-pointer"
+          className="w-full bg-[#00d1ff] text-[#0a1a3c] py-3.5 rounded-xl font-black text-lg hover:bg-[#00b8e6] transition-colors shadow-lg shadow-cyan-600/20 cursor-pointer uppercase tracking-widest"
         >
           Entendido
         </button>
@@ -131,7 +131,7 @@ export default function ContactForm({ primary = "#0a1a3c" }: { primary?: string 
               if (errors.name) setErrors({ ...errors, name: undefined });
             }}
             disabled={status === 'loading'}
-            className={`w-full border rounded-2xl px-5 py-3.5 bg-slate-800/50 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#e91e63]/30 focus:border-[#e91e63] disabled:opacity-50 transition-all duration-300 shadow-inner group ${errors.name ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-700/50'}`}
+            className={`w-full border rounded-2xl px-5 py-3.5 bg-slate-800/50 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#00d1ff]/30 focus:border-[#00d1ff] disabled:opacity-50 transition-all duration-300 shadow-inner group ${errors.name ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-700/50'}`}
             placeholder="Ej: Alejandro Díaz"
           />
           {errors.name && <p className="text-red-400 text-[10px] font-bold uppercase tracking-tight ml-1">{errors.name}</p>}
@@ -151,7 +151,7 @@ export default function ContactForm({ primary = "#0a1a3c" }: { primary?: string 
               if (errors.email) setErrors({ ...errors, email: undefined });
             }}
             disabled={status === 'loading'}
-            className={`w-full border rounded-2xl px-5 py-3.5 bg-slate-800/50 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#e91e63]/30 focus:border-[#e91e63] disabled:opacity-50 transition-all duration-300 shadow-inner ${errors.email ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-700/50'}`}
+            className={`w-full border rounded-2xl px-5 py-3.5 bg-slate-800/50 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#00d1ff]/30 focus:border-[#00d1ff] disabled:opacity-50 transition-all duration-300 shadow-inner ${errors.email ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-700/50'}`}
             placeholder="correo@ejemplo.com"
           />
           {errors.email && <p className="text-red-400 text-[10px] font-bold uppercase tracking-tight ml-1">{errors.email}</p>}
@@ -170,7 +170,7 @@ export default function ContactForm({ primary = "#0a1a3c" }: { primary?: string 
             onChange={handlePhoneChange}
             onFocus={handlePhoneFocus}
             disabled={status === 'loading'}
-            className="w-full border border-slate-700/50 rounded-2xl px-5 py-3.5 bg-slate-800/50 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#e91e63]/30 focus:border-[#e91e63] disabled:opacity-50 transition-all duration-300 shadow-inner"
+            className="w-full border border-slate-700/50 rounded-2xl px-5 py-3.5 bg-slate-800/50 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#00d1ff]/30 focus:border-[#00d1ff] disabled:opacity-50 transition-all duration-300 shadow-inner"
           />
         </div>
 
@@ -188,7 +188,7 @@ export default function ContactForm({ primary = "#0a1a3c" }: { primary?: string 
               if (errors.message) setErrors({ ...errors, message: undefined });
             }}
             disabled={status === 'loading'}
-            className={`w-full border rounded-2xl px-5 py-3.5 h-32 bg-slate-800/50 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#e91e63]/30 focus:border-[#e91e63] disabled:opacity-50 transition-all duration-300 shadow-inner resize-none ${errors.message ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-700/50'}`}
+            className={`w-full border rounded-2xl px-5 py-3.5 h-32 bg-slate-800/50 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#00d1ff]/30 focus:border-[#00d1ff] disabled:opacity-50 transition-all duration-300 shadow-inner resize-none ${errors.message ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-700/50'}`}
             placeholder="¿En qué podemos ayudarte?"
           />
           {errors.message && <p className="text-red-400 text-[10px] font-bold uppercase tracking-tight ml-1">{errors.message}</p>}
@@ -198,15 +198,15 @@ export default function ContactForm({ primary = "#0a1a3c" }: { primary?: string 
           <button
             type="submit"
             disabled={status === 'loading'}
-            className="group relative px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-[0.2em] shadow-xl transition-all duration-500 text-white w-full overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed"
+            className="group relative px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-[0.2em] shadow-xl transition-all duration-500 text-[#0a1a3c] w-full overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed"
           >
-             <div className="absolute inset-0 bg-[#e91e63] group-hover:bg-[#d81b60] transition-colors duration-300" />
-             <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+             <div className="absolute inset-0 bg-[#00d1ff] group-hover:bg-[#00b8e6] transition-colors duration-300" />
+             <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
              
              <span className="relative z-10 flex justify-center items-center gap-3">
               {status === 'loading' ? (
                 <>
-                  <span className="w-5 h-5 border-[3px] border-white/30 border-t-white rounded-full animate-spin" />
+                  <span className="w-5 h-5 border-[3px] border-[#0a1a3c]/30 border-t-[#0a1a3c] rounded-full animate-spin" />
                   Enviando...
                 </>
               ) : (

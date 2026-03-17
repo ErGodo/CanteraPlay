@@ -203,23 +203,12 @@ body {
   }
 }
 
-/* Override default browser autofill background with a white one using box-shadow and force text color */
+/* Global autofill override - keep it dark for this theme */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px white inset !important;
-  -webkit-text-fill-color: #0a1a3c !important;
-  caret-color: #0a1a3c !important;
-}
-
-/* Specific override for dark forms (like the modal) */
-input.dark-autofill:-webkit-autofill,
-input.dark-autofill:-webkit-autofill:hover,
-input.dark-autofill:-webkit-autofill:focus,
-input.dark-autofill:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px #061024 inset !important;
+  -webkit-box-shadow: 0 0 0 30px #0f172a inset !important; /* slate-900 */
   -webkit-text-fill-color: white !important;
   caret-color: white !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }

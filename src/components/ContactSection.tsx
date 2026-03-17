@@ -1,4 +1,4 @@
-import { sectionTitle } from "@/lib/styles";
+import SectionHeading from "@/components/SectionHeading";
 import { sanityClient } from '@/sanity';
 import imageUrlBuilder from '@sanity/image-url';
 import type { SanityImageSource } from '@sanity/image-url';
@@ -48,7 +48,7 @@ export default function ContactSection({ testimonials }: { testimonials?: Testim
       className="py-12"
     >
       <div className="mx-auto w-full max-w-[95%] px-4 sm:px-6 lg:px-8">
-        <h2 className={`${sectionTitle} mb-6`}>Testimonios y Contacto</h2>
+        <SectionHeading title="Testimonios y" highlight=" Contacto" subtitle="Lo que dicen nuestros jugadores y cómo encontrarnos" />
 
         {/* Wrap both columns in gradient background */}
         <div className="bg-gradient-to-r from-[#e91e63] via-[#0F8DBF] to-[#117DBF] p-1 rounded-3xl shadow-xl shadow-blue-900/20">

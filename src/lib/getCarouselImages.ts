@@ -3,14 +3,16 @@ const COMM_API_URL = process.env.NEXT_PUBLIC_COMMUNICATIONS_AGENT_URL || 'https:
 
 export async function getCarouselImages(category: string = 'CAROUSEL_HOME') {
   try {
-    // Consultar exclusivamente al Agente de Comunicaciones (CanteraPlay)
-    const apiResponse = await fetch(`${COMM_API_URL}/communications/media/club/${CLUB_ID}?category=${category}`, {
+    const url = `${COMM_API_URL}/communications/media/club/${CLUB_ID}?category=${category}`;
+    console.log(`[getCarouselImages] Calling communications API: ${url}`);
+    const apiResponse = await fetch(url, {
       cache: 'no-store',
       next: { revalidate: 0 }
     });
     
     if (apiResponse.ok) {
         const apiMedia = await apiResponse.json();
+        console.log(`[getCarouselImages] SUCCESS: Found ${apiMedia.length} for category ${category}`);
         return apiMedia.map((m: any) => ({
             _id: m.id,
             image: {

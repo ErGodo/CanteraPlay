@@ -38,28 +38,26 @@ export default function NextMatchCarousel({ matches }: { matches: Match[] }) {
     };
 
     if (!mounted) return (
-        // Skeleton placeholder to prevent layout shift during hydration
         <div className="min-h-[200px] flex items-center justify-center text-white/50" suppressHydrationWarning>Cargando próximos partidos...</div>
     );
 
     if (!matches || matches.length === 0) {
-        // Fallback if no matches
         return (
-            <div className="p-8 text-center text-white/90 flex flex-col items-center justify-center min-h-[200px]">
-                <h3 className="text-2xl font-bold mb-2">Próximo Partido</h3>
-                <p>A programar</p>
+            <div className="p-8 text-center text-white/90 flex flex-col items-center justify-center min-h-[220px] bg-slate-950/20 backdrop-blur-sm">
+                <h3 className="text-xl font-black uppercase tracking-widest mb-2 opacity-50">Próximo Partido</h3>
+                <p className="text-sm font-bold text-slate-500">PROGRAMACIÓN PENDIENTE</p>
+                <div className="mt-4 w-12 h-1 bg-[#e91e63]/30 rounded-full" />
             </div>
         );
     }
 
     return (
-        <div className="w-full next-match-swiper relative">
+        <div className="w-full next-match-swiper relative group">
             <Swiper
                 modules={[Pagination, Autoplay]}
                 pagination={{
                     clickable: true,
                     dynamicBullets: true,
-                    modifierClass: 'swiper-pagination-custom-'
                 }}
                 autoplay={{ delay: 6000, disableOnInteraction: false }}
                 loop={matches.length > 1}
@@ -67,93 +65,108 @@ export default function NextMatchCarousel({ matches }: { matches: Match[] }) {
             >
                 {matches.map((match) => (
                     <SwiperSlide key={match.id}>
-                        <div className="grid lg:grid-cols-2 items-center min-h-[260px] relative z-10">
-                            {/* Left Info */}
-                            <div className="px-6 md:px-12 py-8 text-white min-w-0 flex flex-col justify-center h-full relative z-20">
-                                <h3 className="text-3xl sm:text-4xl font-extrabold italic tracking-tighter uppercase text-white mb-3 drop-shadow-lg">
-                                    Próximo Partido
-                                </h3>
-                                {match.category && (
-                                    <div className="inline-flex items-center justify-center bg-white/20 backdrop-blur-md rounded-full px-4 py-1.5 text-xs font-bold text-white tracking-wide uppercase mb-4 border border-white/30 w-fit">
-                                        {match.category.name}
-                                    </div>
-                                )}
+                        <div className="grid lg:grid-cols-2 items-center min-h-[280px] relative z-10 overflow-hidden">
+                            
+                            {/* Brand Accent Blur */}
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-[#e91e63]/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                            <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#0F8DBF]/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
-                                <div className="space-y-1 mb-4">
-                                    <div className="text-white text-2xl sm:text-3xl font-bold leading-tight" suppressHydrationWarning>
+                            {/* Left Info */}
+                            <div className="px-6 md:px-12 py-10 text-white min-w-0 flex flex-col justify-center h-full relative z-20">
+                                <h3 className="text-3xl sm:text-4xl font-black italic tracking-tighter uppercase text-white mb-4 drop-shadow-lg">
+                                    Próximo <span className="text-[#e91e63]">Partido</span>
+                                </h3>
+                                
+                                <div className="flex flex-wrap items-center gap-3 mb-6">
+                                    {match.category && (
+                                        <div className="inline-flex items-center justify-center bg-[#e91e63]/10 backdrop-blur-md rounded-lg px-3 py-1 text-[10px] font-black text-[#e91e63] tracking-[0.1em] uppercase border border-[#e91e63]/20">
+                                            {match.category.name}
+                                        </div>
+                                    )}
+                                    {match.league && (
+                                        <div className="inline-flex items-center justify-center bg-white/5 backdrop-blur-md rounded-lg px-3 py-1 text-[10px] font-black text-white/60 tracking-[0.1em] uppercase border border-white/10">
+                                            {match.league.name}
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="space-y-2 mb-6">
+                                    <div className="text-white text-2xl sm:text-3xl font-black tracking-tight" suppressHydrationWarning>
                                         {formatLocaleLong(match.dateTime)}
                                     </div>
-                                    <div className="text-white/90 text-xl font-semibold flex items-center gap-2">
-                                        <span className="bg-black/30 px-2 py-1 rounded text-sm sm:text-base font-mono" suppressHydrationWarning>
-                                            {formatTime(match.dateTime)} hrs
+                                    <div className="text-white/90 text-xl font-bold flex items-center gap-2">
+                                        <span className="bg-white/10 px-3 py-1 rounded-xl text-sm sm:text-lg font-black tracking-widest border border-white/10" suppressHydrationWarning>
+                                            {formatTime(match.dateTime)} HRS
                                         </span>
                                     </div>
                                 </div>
 
-                                <div className="text-sm sm:text-base text-white/90 mt-2 flex items-center gap-2 font-medium">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <div className="text-xs sm:text-sm text-slate-400 flex items-center gap-2 font-bold uppercase tracking-wider">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#e91e63]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
-                                    <span className="uppercase tracking-wide">{match.venue || "Estadio Nacional"}</span>
+                                    <span>{match.venue || "ESTADIO A DEFINIR"}</span>
                                 </div>
                             </div>
 
                             {/* Right Teams */}
-                            <div className="px-6 md:px-12 py-6 flex items-center justify-center h-full relative z-10">
-                                {/* Decorative background element for team area */}
-                                <div className="absolute inset-0 bg-gradient-to-l from-black/20 to-transparent md:bg-gradient-to-l md:from-black/10 md:via-transparent md:to-transparent pointer-events-none rounded-r-3xl" />
-
-                                <div className="flex items-center justify-center gap-2 sm:gap-10 w-full max-w-lg relative z-20">
+                            <div className="px-6 md:px-12 py-8 flex items-center justify-center h-full relative z-10 bg-white/5 backdrop-blur-[2px]">
+                                <div className="flex items-center justify-center gap-4 sm:gap-12 w-full max-w-lg relative z-20">
                                     {/* Home */}
-                                    <div className="flex flex-col items-center gap-2 w-1/3 text-center group">
-                                        <div className="relative w-16 h-16 sm:w-28 sm:h-28 bg-white rounded-2xl shadow-xl p-2 transition-transform duration-300 group-hover:scale-110 flex items-center justify-center">
+                                    <div className="flex flex-col items-center gap-3 w-1/3 text-center group/team">
+                                        <div className="relative w-20 h-20 sm:w-32 sm:h-32 bg-white rounded-3xl shadow-2xl p-3 transition-all duration-500 group-hover/team:scale-110 group-hover/team:rotate-3 flex items-center justify-center border-4 border-transparent group-hover/team:border-[#e91e63]/20">
                                             {match.homeTeam?.logoUrl ? (
                                                 <Image
                                                     src={match.homeTeam.logoUrl}
                                                     alt={match.homeTeam.name}
-                                                    width={112}
-                                                    height={112}
+                                                    width={128}
+                                                    height={128}
                                                     className="object-contain w-full h-full"
                                                     priority
                                                 />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center">
-                                                    <span className="text-slate-400 font-bold text-xs uppercase">Loc</span>
+                                                    <span className="text-slate-300 font-black text-sm uppercase">LOC</span>
                                                 </div>
                                             )}
                                         </div>
-                                        <span className="text-white text-xs sm:text-base font-bold leading-tight line-clamp-2 drop-shadow-md tracking-tight">
+                                        <span className="text-white text-xs sm:text-sm font-black uppercase tracking-tight line-clamp-2 drop-shadow-md">
                                             {match.homeTeam?.name || "Local"}
                                         </span>
                                     </div>
 
                                     {/* VS */}
-                                    <div className="flex flex-col items-center justify-center px-1">
-                                        <span className="text-3xl sm:text-6xl font-black text-white/20 italic transform -skew-x-12 select-none">
-                                            VS
-                                        </span>
+                                    <div className="flex flex-col items-center justify-center px-2">
+                                        <div className="relative">
+                                            <span className="text-4xl sm:text-6xl font-black text-white/10 italic transform -skew-x-12 select-none tracking-tighter">
+                                                VS
+                                            </span>
+                                            <div className="absolute inset-0 flex items-center justify-center">
+                                                <div className="w-[1px] h-12 bg-gradient-to-b from-transparent via-[#e91e63]/50 to-transparent" />
+                                            </div>
+                                        </div>
                                     </div>
 
                                     {/* Away */}
-                                    <div className="flex flex-col items-center gap-2 w-1/3 text-center group">
-                                        <div className="relative w-16 h-16 sm:w-28 sm:h-28 bg-white rounded-2xl shadow-xl p-2 transition-transform duration-300 group-hover:scale-110 flex items-center justify-center">
+                                    <div className="flex flex-col items-center gap-3 w-1/3 text-center group/team">
+                                        <div className="relative w-20 h-20 sm:w-32 sm:h-32 bg-white rounded-3xl shadow-2xl p-3 transition-all duration-500 group-hover/team:scale-110 group-hover/team:-rotate-3 flex items-center justify-center border-4 border-transparent group-hover/team:border-[#e91e63]/20">
                                             {match.awayTeam?.logoUrl ? (
                                                 <Image
                                                     src={match.awayTeam.logoUrl}
                                                     alt={match.awayTeam.name}
-                                                    width={112}
-                                                    height={112}
+                                                    width={128}
+                                                    height={128}
                                                     className="object-contain w-full h-full"
                                                     priority
                                                 />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center">
-                                                    <span className="text-slate-400 font-bold text-xs uppercase">Vis</span>
+                                                    <span className="text-slate-300 font-black text-sm uppercase">VIS</span>
                                                 </div>
                                             )}
                                         </div>
-                                        <span className="text-white text-xs sm:text-base font-bold leading-tight line-clamp-2 drop-shadow-md tracking-tight">
+                                        <span className="text-white text-xs sm:text-sm font-black uppercase tracking-tight line-clamp-2 drop-shadow-md">
                                             {match.awayTeam?.name || "Rival"}
                                         </span>
                                     </div>
@@ -167,7 +180,7 @@ export default function NextMatchCarousel({ matches }: { matches: Match[] }) {
             {/* Custom Styles for Pagination */}
             <style jsx global>{`
         .next-match-swiper .swiper-pagination-bullet {
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.2);
             opacity: 1;
             width: 8px;
             height: 8px;
@@ -175,10 +188,10 @@ export default function NextMatchCarousel({ matches }: { matches: Match[] }) {
             transition: all 0.3s ease;
         }
         .next-match-swiper .swiper-pagination-bullet-active {
-            background: #fff;
-            width: 24px;
+            background: #e91e63 !important;
+            width: 32px;
             border-radius: 4px;
-            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+            box-shadow: 0 0 15px rgba(233, 30, 99, 0.5);
         }
       `}</style>
         </div>

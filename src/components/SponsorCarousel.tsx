@@ -10,9 +10,14 @@ import SponsorCard from "./SponsorCard";
 
 export default function SponsorCarousel({ sponsors }: { sponsors: any[] }) {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  if (!sponsors || sponsors.length === 0) return null;
+  if (!sponsors || sponsors.length === 0) {
+    console.warn('[SponsorCarousel] No sponsors to display');
+    return null;
+  }
   if (!mounted) return null; // Avoid hydration mismatch
   const hasMultiple = sponsors.length > 1;
 

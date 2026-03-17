@@ -6,9 +6,10 @@ import HeaderSection from "@/components/HeaderSection";
 import Noticias from "@/components/Noticias";
 import PlayerStats from "@/components/PlayerStats";
 import ResultsCarousel from "@/components/ResultsCarousel";
+import SectionHeading from "@/components/SectionHeading";
 import SponsorCarousel from "@/components/SponsorCarousel";
 import { getCarouselImages } from "@/lib/getCarouselImages";
-import { getImportantInfo } from "@/lib/getImportantInfo";
+import { getNews } from "@/lib/getNews";
 import { getPlans } from "@/lib/getPlans";
 import { getPlayerStats } from "@/lib/getPlayerStats";
 import { getResults } from "@/lib/getResults";
@@ -18,7 +19,6 @@ import { getTestimonials } from "@/lib/getTestimonials";
 import NextMatchCarousel from "@/components/NextMatchCarousel";
 import PlansCarousel from "@/components/PlansCarousel";
 import { getUpcomingMatches } from "@/lib/getUpcomingMatches";
-import { sectionTitle } from "@/lib/styles";
 import Image from "next/image";
 
 /* ------------------------------ Footer ------------------------------ */
@@ -182,21 +182,18 @@ const PlanIcon = ({ type }: { type: "matricula" | "partidos" | "combo" }) => {
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const [importantInfo, plans, childrenImages, adultImages, upcomingMatches, results, sponsors] =
+  const [importantInfo, plans, childrenImages, adultImages, upcomingMatches, results, sponsors, testimonials, playerStats] =
     await Promise.all([
-      getImportantInfo(),
+      getNews(),
       getPlans(),
       getCarouselImages('CAROUSEL_CHILDREN'),
       getCarouselImages('CAROUSEL_ADULTS'),
       getUpcomingMatches(),
       getResults(),
       getSponsors(),
+      getTestimonials(),
+      getPlayerStats()
     ]);
-
-  // Fetch testimonials from Sanity (server-side)
-  const testimonials = await getTestimonials();
-  // Fetch player stats from Sanity (server-side)
-  const playerStats = await getPlayerStats();
 
   // Branding
   const primary = "#0a1a3c";
@@ -214,6 +211,12 @@ export default async function Home() {
       {/* HERO / HEADER + Mobile Menu */}
       <HeaderSection />
 
+      {/* Background Decorative Glows */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-[#e91e63]/10 rounded-full blur-[120px]" />
+        <div className="absolute top-[60%] left-[-10%] w-[600px] h-[600px] bg-[#0F8DBF]/10 rounded-full blur-[120px]" />
+      </div>
+
       {/* MOMENTOS + CARDS DE PLANES */}
       <section
         id="moments"
@@ -225,10 +228,7 @@ export default async function Home() {
         <div className="flex flex-col gap-12">
           {/* Top: Plans Section */}
           <div className="w-full">
-            <h2 className={`${sectionTitle}`}>Nuestros Planes</h2>
-            <p className="text-slate-400 mt-2 mb-6">
-              Únete a Avidela Sport con estos planes
-            </p>
+            <SectionHeading title="Nuestros Planes" subtitle="Únete a Avidela Sport con estos planes" />
 
             <PlansCarousel plans={plans} />
           </div>
@@ -236,7 +236,7 @@ export default async function Home() {
           {/* Bottom: Moments Gallery - Children */}
           {childrenImages.length > 0 && (
             <div className="w-full">
-              <h2 className={`${sectionTitle} mb-6`}>Nuestra Rama Infantil</h2>
+              <SectionHeading title="Nuestra Rama" highlight="Infantil" subtitle="Formación y crecimiento desde pequeños" />
               <Gallery
                 images={childrenImages}
                 showTitle={false}
@@ -248,7 +248,7 @@ export default async function Home() {
           {/* Bottom: Moments Gallery - Adults */}
           {adultImages.length > 0 && (
             <div className="w-full">
-              <h2 className={`${sectionTitle} mb-6`}>Nuestra Rama Adultos</h2>
+              <SectionHeading title="Nuestra Rama" highlight="Adultos" subtitle="Competencia y pasión sin límite de edad" />
               <Gallery
                 images={adultImages}
                 showTitle={false}
@@ -284,23 +284,23 @@ export default async function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
             {/* Resultados */}
             <div className="min-w-0 flex flex-col">
-              <h3 className={`${sectionTitle}`}>Últimos Resultados</h3>
-              <div className="mt-4 overflow-hidden flex-1 h-[300px] sm:h-[320px] md:h-[360px] lg:h-[420px]">
+              <SectionHeading as="h3" title="Últimos" highlight=" Resultados" subtitle="Partidos recientes del club" />
+              <div className="mt-4 overflow-hidden flex-1 h-[220px] sm:h-[240px] md:h-[260px] lg:h-[320px]">
                 <ResultsCarousel results={results} />
               </div>
             </div>
 
             {/* Sponsors */}
             <div id="sponsors" className="min-w-0 flex flex-col scroll-mt-24">
-              <h3 className={`${sectionTitle}`}>Nuestros Auspiciadores</h3>
-              <div className="mt-4 overflow-hidden flex-1 h-[300px] sm:h-[320px] md:h-[360px] lg:h-[420px]">
+              <SectionHeading as="h3" title="Nuestros" highlight=" Auspiciadores" subtitle="Quienes hacen posible el club" />
+              <div className="mt-4 overflow-hidden flex-1 h-[220px] sm:h-[240px] md:h-[260px] lg:h-[320px]">
                 <SponsorCarousel sponsors={sponsors} />
               </div>
             </div>
           </div>
         ) : (
           <div className="min-w-0">
-            <h3 className={`${sectionTitle}`}>Últimos Resultados</h3>
+            <SectionHeading as="h3" title="Últimos" highlight=" Resultados" subtitle="Partidos recientes del club" />
             <div className="mt-4 flex flex-wrap gap-2 sm:gap-4">
               {(results ?? []).slice(0, 4).map((r: any) => (
                 <Pill key={r._id}>
@@ -310,7 +310,7 @@ export default async function Home() {
             </div>
 
             <div id="sponsors" className="mt-6 scroll-mt-24">
-              <h3 className={`${sectionTitle} text-center`}>Nuestros Auspiciadores</h3>
+              <SectionHeading as="h3" title="Nuestros" highlight=" Auspiciadores" subtitle="Quienes hacen posible el club" />
               <div className="mt-4 overflow-hidden">
                 <SponsorCarousel sponsors={sponsors} />
               </div>

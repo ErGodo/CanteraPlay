@@ -117,10 +117,10 @@ export default function ContactForm({ primary = "#0a1a3c" }: { primary?: string 
   return (
     <>
       <SuccessModal isOpen={status === 'success'} onClose={() => setStatus('idle')} />
-      <form onSubmit={handleSubmit} noValidate className="bg-slate-900/50 rounded-xl shadow-inner border border-slate-800 p-6 flex flex-col gap-4">
-        <div>
-          <label htmlFor="name" className="block text-sm font-semibold text-white mb-1">
-            Nombre
+      <form onSubmit={handleSubmit} noValidate className="bg-slate-900/40 backdrop-blur-md rounded-3xl border border-white/5 p-7 flex flex-col gap-5 shadow-2xl">
+        <div className="space-y-1.5">
+          <label htmlFor="name" className="block text-xs font-black uppercase tracking-widest text-slate-400 ml-1">
+            Nombre Completo
           </label>
           <input
             id="name"
@@ -131,15 +131,15 @@ export default function ContactForm({ primary = "#0a1a3c" }: { primary?: string 
               if (errors.name) setErrors({ ...errors, name: undefined });
             }}
             disabled={status === 'loading'}
-            className={`w-full border rounded-xl px-4 py-3 bg-slate-800 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-pink-500 disabled:opacity-50 transition-all ${errors.name ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-700'}`}
-            placeholder="Tu nombre"
+            className={`w-full border rounded-2xl px-5 py-3.5 bg-slate-800/50 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#e91e63]/30 focus:border-[#e91e63] disabled:opacity-50 transition-all duration-300 shadow-inner group ${errors.name ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-700/50'}`}
+            placeholder="Ej: Alejandro Díaz"
           />
-          {errors.name && <p className="text-red-400 text-xs mt-1 font-medium">{errors.name}</p>}
+          {errors.name && <p className="text-red-400 text-[10px] font-bold uppercase tracking-tight ml-1">{errors.name}</p>}
         </div>
 
-        <div>
-          <label htmlFor="email" className="block text-sm font-semibold text-white mb-1">
-            Correo electrónico
+        <div className="space-y-1.5">
+          <label htmlFor="email" className="block text-xs font-black uppercase tracking-widest text-slate-400 ml-1">
+            Correo Electrónico
           </label>
           <input
             type="email"
@@ -151,32 +151,32 @@ export default function ContactForm({ primary = "#0a1a3c" }: { primary?: string 
               if (errors.email) setErrors({ ...errors, email: undefined });
             }}
             disabled={status === 'loading'}
-            className={`w-full border rounded-xl px-4 py-3 bg-slate-800 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-pink-500 disabled:opacity-50 transition-all ${errors.email ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-700'}`}
-            placeholder="tucorreo@ejemplo.com"
+            className={`w-full border rounded-2xl px-5 py-3.5 bg-slate-800/50 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#e91e63]/30 focus:border-[#e91e63] disabled:opacity-50 transition-all duration-300 shadow-inner ${errors.email ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-700/50'}`}
+            placeholder="correo@ejemplo.com"
           />
-          {errors.email && <p className="text-red-400 text-xs mt-1 font-medium">{errors.email}</p>}
+          {errors.email && <p className="text-red-400 text-[10px] font-bold uppercase tracking-tight ml-1">{errors.email}</p>}
         </div>
 
-        <div>
-          <label htmlFor="phone" className="block text-sm font-semibold text-white mb-1">
-            Teléfono
+        <div className="space-y-1.5">
+          <label htmlFor="phone" className="block text-xs font-black uppercase tracking-widest text-slate-400 ml-1">
+            Teléfono de Contacto
           </label>
           <input
             id="phone"
             name="phone"
             inputMode="tel"
-            placeholder="+56 9 12345678"
+            placeholder="+56 9 1234 5678"
             value={phone}
             onChange={handlePhoneChange}
             onFocus={handlePhoneFocus}
             disabled={status === 'loading'}
-            className="w-full border border-slate-700 rounded-xl px-4 py-3 bg-slate-800 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-pink-500 disabled:opacity-50 transition-all"
+            className="w-full border border-slate-700/50 rounded-2xl px-5 py-3.5 bg-slate-800/50 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#e91e63]/30 focus:border-[#e91e63] disabled:opacity-50 transition-all duration-300 shadow-inner"
           />
         </div>
 
-        <div>
-          <label htmlFor="message" className="block text-sm font-semibold text-white mb-1">
-            Mensaje
+        <div className="space-y-1.5">
+          <label htmlFor="message" className="block text-xs font-black uppercase tracking-widest text-slate-400 ml-1">
+            Tu Mensaje
           </label>
           <textarea
             id="message"
@@ -188,28 +188,47 @@ export default function ContactForm({ primary = "#0a1a3c" }: { primary?: string 
               if (errors.message) setErrors({ ...errors, message: undefined });
             }}
             disabled={status === 'loading'}
-            className={`w-full border rounded-xl px-4 py-3 h-28 md:h-28 max-h-36 bg-slate-800 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-pink-500 disabled:opacity-50 transition-all ${errors.message ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-700'}`}
-            placeholder="Escribe tu mensaje aquí..."
+            className={`w-full border rounded-2xl px-5 py-3.5 h-32 bg-slate-800/50 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#e91e63]/30 focus:border-[#e91e63] disabled:opacity-50 transition-all duration-300 shadow-inner resize-none ${errors.message ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-700/50'}`}
+            placeholder="¿En qué podemos ayudarte?"
           />
-          {errors.message && <p className="text-red-400 text-xs mt-1 font-medium">{errors.message}</p>}
+          {errors.message && <p className="text-red-400 text-[10px] font-bold uppercase tracking-tight ml-1">{errors.message}</p>}
         </div>
 
-        <div className="flex flex-col gap-2 mt-2">
+        <div className="flex flex-col gap-3 mt-4">
           <button
             type="submit"
             disabled={status === 'loading'}
-            className="px-6 py-2.5 md:py-3.5 rounded-xl font-bold text-sm md:text-base shadow-lg transition text-white w-full hover:opacity-90 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
-            style={{ backgroundColor: "#e91e63" }} // Force pink as per design request, removing variable confusion
+            className="group relative px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-[0.2em] shadow-xl transition-all duration-500 text-white w-full overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed"
           >
-            {status === 'loading' ? (
-              <>
-                <span className="w-4 h-4 md:w-5 md:h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                Enviando...
-              </>
-            ) : 'Enviar Mensaje'}
+             <div className="absolute inset-0 bg-[#e91e63] group-hover:bg-[#d81b60] transition-colors duration-300" />
+             <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+             
+             <span className="relative z-10 flex justify-center items-center gap-3">
+              {status === 'loading' ? (
+                <>
+                  <span className="w-5 h-5 border-[3px] border-white/30 border-t-white rounded-full animate-spin" />
+                  Enviando...
+                </>
+              ) : (
+                <>
+                  Enviar Mensaje
+                  <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </>
+              )}
+             </span>
           </button>
 
-          {status === 'error' && <p className="text-red-400 text-sm text-center font-medium">Hubo un error al enviar el mensaje. Inténtalo de nuevo.</p>}
+          {status === 'error' && (
+            <div className="flex items-center justify-center gap-2 text-red-400 text-xs font-bold bg-red-400/10 py-3 rounded-xl border border-red-400/20">
+               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                 <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+               </svg>
+               Error al enviar. Inténtalo de nuevo.
+            </div>
+          )}
         </div>
       </form>
     </>

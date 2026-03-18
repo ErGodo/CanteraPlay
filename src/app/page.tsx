@@ -236,11 +236,11 @@ export default async function Home() {
           {/* Bottom: Moments Gallery - Children */}
           {childrenImages.length > 0 && (
             <div className="w-full">
-              <SectionHeading title="Nuestra Rama" highlight="Infantil" subtitle="Formación y crecimiento desde pequeños" />
+              <SectionHeading title="Nuestra Rama" highlight=" Infantil" subtitle="Formación y crecimiento desde pequeños" />
               <Gallery
                 images={childrenImages}
                 showTitle={false}
-                heightClass="h-[350px] sm:h-[450px] md:h-[550px] lg:h-[650px]"
+                heightClass="h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]"
               />
             </div>
           )}
@@ -252,7 +252,7 @@ export default async function Home() {
               <Gallery
                 images={adultImages}
                 showTitle={false}
-                heightClass="h-[350px] sm:h-[450px] md:h-[550px] lg:h-[650px]"
+                heightClass="h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]"
               />
             </div>
           )}

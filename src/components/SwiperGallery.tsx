@@ -42,23 +42,32 @@ export default function SwiperGallery({ images, heightClass = 'h-[340px]' }: { i
             <SwiperSlide key={img._id || idx} className="w-full px-0">
               <div className="w-full h-full flex items-center justify-center relative">
                 {(img.image?.asset?.url || img.url) ? (
-                    <div className={`w-full ${heightClass} relative rounded-3xl bg-black overflow-hidden flex items-center justify-center`}>
+                    <div className={`w-full ${heightClass} relative rounded-3xl overflow-hidden group bg-black`}>
+                      {/* Artistic Blur Background - ONLY VISIBLE ON DESKTOP windows/wide screens to fill space */}
+                      <div className="absolute inset-0 hidden md:block w-full h-full overflow-hidden">
+                        <img
+                          src={img.image?.asset?.url || img.url}
+                          alt=""
+                          className="w-full h-full object-cover scale-150 blur-[100px] opacity-80 saturate-150"
+                        />
+                      </div>
+                      
+                      {/* Sharp Main Image - Responsive logic: Full on mobile, Contain on desktop */}
                       <img
                         src={img.image?.asset?.url || img.url}
                         alt={img.image?.alt || img.caption || "Club photo"}
-                        className="w-full h-full object-cover"
+                        className="relative z-10 w-full h-full object-cover md:object-contain transition-all duration-700 group-hover:scale-[1.03]"
                         loading={idx === 0 ? "eager" : "lazy"}
                       />
-
-                      {/* Subtle dark gradient for text readability */}
-                      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+                      
+                      <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black/20 to-transparent pointer-events-none z-[5]" />
                     </div>
                 ) : null}
 
                 {img.caption && (
-                  <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-[92%] sm:w-fit sm:max-w-[85%] z-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                    <div className="backdrop-blur-xl bg-black/60 border border-white/10 text-white text-xs sm:text-sm leading-relaxed px-5 py-4 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] text-center border-t-white/20">
-                      <div className="max-h-[100px] overflow-y-auto custom-scrollbar">
+                  <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[92%] sm:w-fit sm:max-w-[85%] z-20 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                    <div className="backdrop-blur-xl bg-black/70 border border-white/10 text-white text-xs sm:text-sm leading-relaxed px-5 py-3 rounded-[20px] shadow-2xl text-center">
+                      <div className="max-h-[80px] overflow-y-auto custom-scrollbar font-medium">
                         {img.caption}
                       </div>
                     </div>

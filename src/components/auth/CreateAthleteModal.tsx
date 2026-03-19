@@ -252,7 +252,7 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
                             </div>
                             <button
                                 onClick={() => {
-                                    window.location.href = "https://canteraplay-dash-605024846890.us-central1.run.app";
+                                    window.location.href = "https://app.canteraplay.com";
                                 }}
                                 className={`${buttonBase} bg-[#fc5c9c] hover:bg-[#e04080] text-white shadow-lg shadow-[#fc5c9c]/20 cursor-pointer`}
                             >
@@ -346,16 +346,38 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
                                     </select>
                                 </div>
 
-                                <div>
+                                <div className="relative">
                                     <label className={labelClass}>Fecha de Nacimiento</label>
-                                    <input
-                                        type="date"
-                                        lang="es-ES"
-                                        value={form.birthDate}
-                                        onChange={(e) => setForm({ ...form, birthDate: e.target.value })}
-                                        className={`${inputClass} w-full`}
-                                        style={{ colorScheme: "dark" }}
-                                    />
+                                    <div className="relative w-full">
+                                        <div className={`${inputClass} flex items-center h-[46px] ${form.birthDate ? 'text-white' : 'text-gray-500'}`}>
+                                            {form.birthDate ? (() => {
+                                                const [y, m, d] = form.birthDate.split('-');
+                                                return `${d}/${m}/${y}`;
+                                            })() : 'dd/mm/yyyy'}
+                                        </div>
+                                        <input
+                                            type="date"
+                                            value={form.birthDate}
+                                            onClick={(e) => {
+                                                try {
+                                                    if ('showPicker' in HTMLInputElement.prototype) {
+                                                        (e.target as HTMLInputElement).showPicker();
+                                                    }
+                                                } catch (error) { }
+                                            }}
+                                            onChange={(e) => setForm({ ...form, birthDate: e.target.value })}
+                                            className="absolute inset-x-0 bottom-0 h-[46px] w-full opacity-0 cursor-pointer z-10"
+                                            style={{ colorScheme: "dark" }}
+                                        />
+                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                                            </svg>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div>

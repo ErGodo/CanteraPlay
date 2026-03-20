@@ -44,8 +44,8 @@ export default function ContactSection({ testimonials }: { testimonials?: Testim
 
   return (
     <section
-      id="contact-section"
-      className="py-12"
+      id="contact"
+      className="py-12 scroll-mt-24"
     >
       <div className="mx-auto w-full max-w-[95%] px-4 sm:px-6 lg:px-8">
         <SectionHeading title="Testimonios y" highlight=" Contacto" subtitle="Lo que dicen nuestros jugadores y cómo encontrarnos" />

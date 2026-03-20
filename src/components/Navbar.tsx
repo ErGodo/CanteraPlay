@@ -3,6 +3,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { FaInstagram } from "react-icons/fa";
+import InstagramLinks from "./InstagramLinks";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -47,9 +48,7 @@ const Navbar = () => {
           <a href="#contact" className="hover:text-[#ffd6e6] text-white transition-colors">Contacto</a>
         </li>
         <li className="flex items-center h-full ml-2">
-          <a href="https://www.instagram.com/avidelasportacademy/" target="_blank" rel="noopener noreferrer" className="flex items-center hover:text-pink-400 transition-colors" style={{ height: '100%' }}>
-            <FaInstagram size={24} color="#ffffff" style={{ display: 'block' }} />
-          </a>
+          <InstagramLinks variant="navbar" />
         </li>
       </ul>
 
@@ -76,10 +75,22 @@ const Navbar = () => {
             <li><a href="#info" className="block py-2 hover:text-pink-500 transition-colors" onClick={() => setMenuOpen(false)}>Noticias</a></li>
             <li><a href="#results" className="block py-2 hover:text-pink-500 transition-colors" onClick={() => setMenuOpen(false)}>Resultados</a></li>
             <li><a href="#contact" className="block py-2 hover:text-pink-500 transition-colors" onClick={() => setMenuOpen(false)}>Contacto</a></li>
-            <li className="pt-1.5 flex justify-center">
-              <a href="https://www.instagram.com/avidelasportacademy/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center hover:scale-110 transition-transform" onClick={() => setMenuOpen(false)}>
-                <FaInstagram size={24} color="#e91e63" />
-              </a>
+            <li className="pt-4 flex flex-col items-center gap-4">
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Nuestros Instagrams</span>
+              <div className="flex gap-4">
+                <a href="https://www.instagram.com/avidelasport/" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1 group/mobile" onClick={() => setMenuOpen(false)}>
+                  <div className="w-12 h-12 rounded-2xl bg-[#e91e63] flex items-center justify-center text-white shadow-lg active:scale-95 transition-transform">
+                    <FaInstagram size={24} />
+                  </div>
+                  <span className="text-[9px] font-bold text-white/60">Adultos</span>
+                </a>
+                <a href="https://www.instagram.com/avidelasportacademy/" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1 group/mobile" onClick={() => setMenuOpen(false)}>
+                  <div className="w-12 h-12 rounded-2xl bg-[#00b4e6] flex items-center justify-center text-white shadow-lg active:scale-95 transition-transform">
+                    <FaInstagram size={24} />
+                  </div>
+                  <span className="text-[9px] font-bold text-white/60">Academy</span>
+                </a>
+              </div>
             </li>
           </ul>
         </div>

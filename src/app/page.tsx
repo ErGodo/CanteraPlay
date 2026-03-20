@@ -20,12 +20,13 @@ import NextMatchCarousel from "@/components/NextMatchCarousel";
 import PlansCarousel from "@/components/PlansCarousel";
 import { getUpcomingMatches } from "@/lib/getUpcomingMatches";
 import Image from "next/image";
+import InstagramLinks from "@/components/InstagramLinks";
+import { FaInstagram } from "react-icons/fa";
 
 /* ------------------------------ Footer ------------------------------ */
 function Footer({
   clubName = "Avidela Sports",
   logoUrl = "/images/avidela-logo.png",
-  instagramUrl = "https://www.instagram.com/avidelasportacademy/",
   address,
   primary = "#0a1a3c",
   accent = "#e91e63",
@@ -33,7 +34,6 @@ function Footer({
 }: {
   clubName?: string;
   logoUrl?: string;
-  instagramUrl?: string;
   address?: string;
   primary?: string;
   accent?: string;
@@ -98,27 +98,30 @@ function Footer({
             </a>
             <AdDeployLogo />
 
-            {/* Mobile Only Instagram Icon */}
-            <a
-              href={instagramUrl}
-              target="_blank"
-              className="md:hidden flex items-center justify-center w-10 h-10 rounded-xl bg-pink-600 shadow-lg text-white hover:bg-pink-700 transition-colors"
-              aria-label="Instagram"
-            >
-              <InstagramIcon />
-            </a>
+            {/* Mobile Footer Instagram Links */}
+            <div className="md:hidden flex gap-3">
+              <a
+                href="https://www.instagram.com/avidelasport/"
+                target="_blank"
+                className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#e91e63] shadow-lg text-white active:scale-95 transition-transform"
+                aria-label="Instagram Adultos"
+              >
+                <FaInstagram size={18} />
+              </a>
+              <a
+                href="https://www.instagram.com/avidelasportacademy/"
+                target="_blank"
+                className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#00b4e6] shadow-lg text-white active:scale-95 transition-transform"
+                aria-label="Instagram Academy"
+              >
+                <FaInstagram size={18} />
+              </a>
+            </div>
           </div>
         </div>
 
         <div className="hidden md:flex md:justify-end items-center">
-          <a
-            href={instagramUrl}
-            target="_blank"
-            className="flex items-center gap-2 rounded-lg px-3 py-1.5 bg-white/12 font-semibold hover:bg-white/20 transition-colors"
-          >
-            <InstagramIcon />
-            <span>Instagram</span>
-          </a>
+          <InstagramLinks variant="footer" />
         </div>
       </div>
     </footer>
@@ -325,7 +328,7 @@ export default async function Home() {
       <ContactSection testimonials={testimonials} />
 
       {/* FOOTER */}
-      <Footer clubName={clubName} logoUrl={logoUrl} instagramUrl={instagram} gradientB={gradientB} />
+      <Footer clubName={clubName} logoUrl={logoUrl} gradientB={gradientB} />
 
       {/* Nota: estilos del Swiper se mueven a globals.css */}
     </div >

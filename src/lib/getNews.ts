@@ -9,7 +9,6 @@ export async function getNews() {
         }
 
         const url = `${API_URL}/communications/news/club/${CLUB_ID}`;
-        console.log("[getNews] Fetching news from:", url);
         
         const response = await fetch(url, {
             next: { revalidate: 0 }

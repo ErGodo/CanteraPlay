@@ -89,7 +89,7 @@ export default function PlansCarousel({ plans }: { plans: any[] }) {
     }
 
     return (
-        <div className="plans-swiper-container w-full relative group/carousel">
+        <div className="plans-swiper-container pb-4 overflow-visible w-full relative group/carousel">
             <Swiper
                 modules={[Pagination, Navigation, Autoplay]}
                 spaceBetween={24}
@@ -100,7 +100,7 @@ export default function PlansCarousel({ plans }: { plans: any[] }) {
                 }}
                 pagination={{
                     clickable: true,
-                    dynamicBullets: true,
+                    dynamicBullets: false,
                 }}
                 loop={plans.length > 3}
                 autoplay={{
@@ -113,7 +113,7 @@ export default function PlansCarousel({ plans }: { plans: any[] }) {
                     768: { slidesPerView: 2, spaceBetween: 24 },
                     1024: { slidesPerView: 3, spaceBetween: 24 }
                 }}
-                className="w-full !pb-14 px-1"
+                className="w-full !pb-12 px-1"
             >
                 {plans.map((p: any) => {
                     const t = planType(p.name || "");
@@ -179,20 +179,45 @@ export default function PlansCarousel({ plans }: { plans: any[] }) {
                 })}
             </Swiper>
 
+            {/* Navigation Arrows - Optimized for mobile/desktop overlap */}
+            <button className="swiper-button-prev-custom absolute left-2 sm:left-4 top-[50%] -translate-y-1/2 z-30 w-10 h-10 bg-black/30 backdrop-blur-md rounded-full border border-white/10 flex items-center justify-center text-white/70 hover:bg-[#e91e63] hover:text-white transition-all shadow-2xl active:scale-90 opacity-0 group-hover/carousel:opacity-100 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button className="swiper-button-next-custom absolute right-2 sm:right-4 top-[50%] -translate-y-1/2 z-30 w-10 h-10 bg-black/30 backdrop-blur-md rounded-full border border-white/10 flex items-center justify-center text-white/70 hover:bg-[#e91e63] hover:text-white transition-all shadow-2xl active:scale-90 opacity-0 group-hover/carousel:opacity-100 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+
             {/* Pagination custom styles */}
             <style jsx global>{`
+                .plans-swiper-container .swiper-pagination {
+                    bottom: 0px !important;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 40;
+                }
                 .plans-swiper-container .swiper-pagination-bullet {
-                    background: rgba(255, 255, 255, 0.1);
+                    background: rgba(255, 255, 255, 0.3);
                     opacity: 1;
                     transition: all 0.3s ease;
                     width: 8px;
                     height: 8px;
+                    margin: 0 5px !important;
                 }
                 .plans-swiper-container .swiper-pagination-bullet-active {
                     background: #e91e63 !important;
-                    width: 32px;
+                    width: 24px;
                     border-radius: 4px;
-                    box-shadow: 0 0 15px rgba(233, 30, 99, 0.5);
+                    box-shadow: 0 0 15px rgba(233, 30, 99, 0.4);
+                }
+                .plans-swiper-container .swiper-button-disabled {
+                    opacity: 0.1 !important;
+                    pointer-events: none;
                 }
             `}</style>
         </div>

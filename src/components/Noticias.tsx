@@ -6,7 +6,7 @@ import SectionHeading from '@/components/SectionHeading';
 import Image from 'next/image';
 import "swiper/css";
 import "swiper/css/pagination";
-import { Autoplay, Pagination } from "swiper/modules";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // ─── Modal ────────────────────────────────────────────────────────────────────
@@ -93,8 +93,12 @@ export default function Noticias({ importantInfo }: { importantInfo: any[] }) {
 
       <div className="news-swiper-container w-full relative">
         <Swiper
-          modules={[Pagination, Autoplay]}
-          pagination={{ clickable: true, modifierClass: 'news-pagination-' }}
+          modules={[Pagination, Autoplay, Navigation]}
+          pagination={{ clickable: true }}
+          navigation={{
+            nextEl: '.swiper-button-next-news',
+            prevEl: '.swiper-button-prev-news',
+          }}
           autoplay={{ delay: 7000, disableOnInteraction: false }}
           spaceBetween={40}
           slidesPerView={1}
@@ -161,27 +165,41 @@ export default function Noticias({ importantInfo }: { importantInfo: any[] }) {
             </SwiperSlide>
           ))}
         </Swiper>
+
+        {/* Subtle Navigation Arrows */}
+        <button className="swiper-button-prev-news absolute left-0 top-[50%] -translate-y-1/2 z-30 w-10 h-10 bg-black/30 backdrop-blur-md rounded-full border border-white/10 flex items-center justify-center text-white/70 hover:bg-[#e91e63] hover:text-white transition-all shadow-xl active:scale-90 opacity-0 group-hover:opacity-100 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+        <button className="swiper-button-next-news absolute right-0 top-[50%] -translate-y-1/2 z-30 w-10 h-10 bg-black/30 backdrop-blur-md rounded-full border border-white/10 flex items-center justify-center text-white/70 hover:bg-[#e91e63] hover:text-white transition-all shadow-xl active:scale-90 opacity-0 group-hover:opacity-100 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
+            </svg>
+        </button>
         
         {/* Swiper Custom Styles integrated for this look */}
         <style jsx global>{`
-          .news-swiper-container .news-pagination-bullet {
+          .news-swiper-container .swiper-pagination-bullet {
             background: rgba(255, 255, 255, 0.2) !important;
             opacity: 1 !important;
-            width: 12px !important;
-            height: 12px !important;
+            width: 8px !important;
+            height: 8px !important;
+            margin: 0 5px !important;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1);
           }
-          .news-swiper-container .news-pagination-bullet-active {
+          .news-swiper-container .swiper-pagination-bullet-active {
             background: #e91e63 !important;
-            width: 40px !important;
-            border-radius: 6px !important;
+            width: 24px !important;
+            border-radius: 4px !important;
             box-shadow: 0 0 20px rgba(233, 30, 99, 0.5);
-            border-color: transparent;
           }
           .news-swiper-container .swiper {
-            padding-bottom: 60px !important;
+            padding-bottom: 40px !important;
             overflow: visible !important;
+          }
+          .news-swiper-container .swiper-pagination {
+            bottom: 0 !important;
           }
         `}</style>
       </div>

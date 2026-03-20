@@ -4,11 +4,12 @@ import React from 'react';
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Autoplay, Pagination } from "swiper/modules";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 export default function SwiperGallery({ images, heightClass = 'h-[340px]' }: { images: any[], heightClass?: string }) {
   const [isMounted, setIsMounted] = React.useState(false);
+  const swiperId = React.useId().replace(/:/g, ''); // Generate unique ID for this instance
 
   React.useEffect(() => {
     setIsMounted(true);
@@ -19,13 +20,13 @@ export default function SwiperGallery({ images, heightClass = 'h-[340px]' }: { i
 
   return (
     <section className="w-full">
-      <div className="w-full relative gallery-swiper-container">
+      <div className={`w-full relative gallery-swiper-container group/carousel ${heightClass}`}>
         <Swiper
-          modules={[Pagination, Autoplay]}
+          modules={[Pagination, Autoplay, Navigation]}
+          navigation={true}
           pagination={{
             clickable: true,
-            dynamicBullets: true,
-            modifierClass: 'swiper-pagination-custom-'
+            dynamicBullets: false
           }}
           autoplay={{ delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true }}
           loop
@@ -36,7 +37,7 @@ export default function SwiperGallery({ images, heightClass = 'h-[340px]' }: { i
           slidesPerView={1}
           centeredSlides={false}
           spaceBetween={0}
-          className="rounded-3xl shadow-xl h-full w-full"
+          className={`rounded-3xl shadow-xl ${heightClass} w-full`}
         >
           {images.map((img, idx) => (
             <SwiperSlide key={img._id || idx} className="w-full px-0">
@@ -78,23 +79,61 @@ export default function SwiperGallery({ images, heightClass = 'h-[340px]' }: { i
           ))}
         </Swiper>
 
-        {/* Custom Styles for Pagination (Matching NextMatchCarousel) */}
+        {/* Navigation is now handled by Swiper default buttons styled below */}
+
+      {/* Custom Styles for Pagination (Matching NextMatchCarousel) */}
         <style jsx global>{`
+            .gallery-swiper-container .swiper-button-prev,
+            .gallery-swiper-container .swiper-button-next {
+                width: 32px !important;
+                height: 32px !important;
+                border-radius: 50% !important;
+                background: rgba(0, 0, 0, 0.45) !important;
+                backdrop-filter: blur(8px) !important;
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                top: 50% !important;
+                transform: translateY(-50%) !important;
+                transition: all 0.3s ease !important;
+            }
+            .gallery-swiper-container .swiper-button-prev:after,
+            .gallery-swiper-container .swiper-button-next:after {
+                font-size: 12px !important;
+                font-weight: 900 !important;
+                color: #fff !important;
+            }
+            .gallery-swiper-container .swiper-button-prev:hover,
+            .gallery-swiper-container .swiper-button-next:hover {
+                background: #e91e63 !important;
+                border-color: #e91e63 !important;
+                transform: translateY(-50%) scale(1.1) !important;
+            }
+            .gallery-swiper-container .swiper-button-prev { left: 16px !important; }
+            .gallery-swiper-container .swiper-button-next { right: 16px !important; }
+
+            .gallery-swiper-container .swiper-pagination {
+                bottom: 12px !important;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 40;
+            }
             .gallery-swiper-container .swiper-pagination-bullet {
-                background: rgba(255, 255, 255, 0.5);
-                opacity: 0.7;
+                background: rgba(255, 255, 255, 0.4);
+                opacity: 1;
                 width: 8px;
                 height: 8px;
-                margin: 0 4px !important;
+                margin: 0 5px !important;
                 transition: all 0.3s ease;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.3);
             }
             .gallery-swiper-container .swiper-pagination-bullet-active {
-                background: #fff;
-                opacity: 1;
+                background: #00b4e6;
                 width: 24px;
                 border-radius: 4px;
-                box-shadow: 0 0 10px rgba(255,255,255,0.7);
+            }
+            .swiper-button-disabled {
+                opacity: 0 !important;
+                pointer-events: none;
             }
             .custom-scrollbar::-webkit-scrollbar {
                 width: 4px;

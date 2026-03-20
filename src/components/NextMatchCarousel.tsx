@@ -3,9 +3,9 @@
 import { formatLocaleLong } from "@/lib/formatDate";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import "swiper/css";
+import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Autoplay, Pagination } from "swiper/modules";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // Types matching the Backend response
@@ -54,10 +54,14 @@ export default function NextMatchCarousel({ matches }: { matches: Match[] }) {
     return (
         <div className="w-full next-match-swiper relative group">
             <Swiper
-                modules={[Pagination, Autoplay]}
+                modules={[Pagination, Autoplay, Navigation]}
+                navigation={{
+                    nextEl: '.swiper-button-next-match',
+                    prevEl: '.swiper-button-prev-match',
+                }}
                 pagination={{
                     clickable: true,
-                    dynamicBullets: true,
+                    dynamicBullets: false,
                 }}
                 autoplay={{ delay: 6000, disableOnInteraction: false }}
                 loop={matches.length > 1}
@@ -111,7 +115,7 @@ export default function NextMatchCarousel({ matches }: { matches: Match[] }) {
                             </div>
 
                             {/* Right Teams */}
-                            <div className="px-6 md:px-12 py-8 flex items-center justify-center h-full relative z-10 bg-white/5 backdrop-blur-[2px]">
+                            <div className="px-6 md:px-12 py-8 pb-16 lg:pb-8 flex items-center justify-center h-full relative z-10 bg-white/5 backdrop-blur-[2px]">
                                 <div className="flex items-center justify-center gap-4 sm:gap-12 w-full max-w-lg relative z-20">
                                     {/* Home */}
                                     <div className="flex flex-col items-center gap-3 w-1/3 text-center group/team">
@@ -177,10 +181,29 @@ export default function NextMatchCarousel({ matches }: { matches: Match[] }) {
                 ))}
             </Swiper>
 
+            <button className="swiper-button-prev-match absolute left-2 sm:left-4 top-[50%] -translate-y-1/2 z-30 w-10 h-10 bg-black/30 backdrop-blur-md rounded-full border border-white/10 flex items-center justify-center text-white/70 hover:bg-[#e91e63] hover:text-white transition-all shadow-xl active:scale-90 opacity-0 group-hover:opacity-100 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button className="swiper-button-next-match absolute right-2 sm:right-4 top-[50%] -translate-y-1/2 z-30 w-10 h-10 bg-black/30 backdrop-blur-md rounded-full border border-white/10 flex items-center justify-center text-white/70 hover:bg-[#e91e63] hover:text-white transition-all shadow-xl active:scale-90 opacity-0 group-hover:opacity-100 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+
             {/* Custom Styles for Pagination */}
             <style jsx global>{`
+        .next-match-swiper .swiper-pagination {
+            bottom: 6px !important;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 40;
+        }
         .next-match-swiper .swiper-pagination-bullet {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.3);
             opacity: 1;
             width: 8px;
             height: 8px;
@@ -189,9 +212,13 @@ export default function NextMatchCarousel({ matches }: { matches: Match[] }) {
         }
         .next-match-swiper .swiper-pagination-bullet-active {
             background: #e91e63 !important;
-            width: 32px;
+            width: 24px;
             border-radius: 4px;
-            box-shadow: 0 0 15px rgba(233, 30, 99, 0.5);
+            box-shadow: 0 0 15px rgba(233, 30, 99, 0.4);
+        }
+        .next-match-swiper .swiper-button-disabled {
+            opacity: 0.2 !important;
+            pointer-events: none;
         }
       `}</style>
         </div>

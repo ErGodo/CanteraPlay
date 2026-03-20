@@ -36,7 +36,7 @@ export default function Gallery({
           </div>
         </div>
       ) : (
-        <div className="w-full relative rounded-[32px] overflow-hidden shadow-2xl border border-slate-800/40">
+        <div className="w-full relative">
           <SwiperGallery images={images} heightClass={heightClass} />
           
           {/* Bottom decorative bar */}

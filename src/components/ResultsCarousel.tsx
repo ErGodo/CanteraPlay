@@ -86,7 +86,7 @@ export default function ResultsCarousel({ results }: { results: ResultItem[] }) 
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         navigation
-        pagination={{ clickable: true, dynamicBullets: true }}
+        pagination={{ clickable: true, dynamicBullets: false }}
         autoplay={{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }}
         loop={results.length > 1}
         allowTouchMove
@@ -109,7 +109,7 @@ export default function ResultsCarousel({ results }: { results: ResultItem[] }) 
           return (
             <SwiperSlide key={key} className="w-full h-full">
               <div
-                className="w-full h-full relative overflow-hidden bg-slate-950 p-6 flex flex-col justify-center items-center"
+                className="w-full h-full relative overflow-hidden bg-slate-950 p-6 pb-12 sm:pb-6 flex flex-col justify-center items-center"
               >
                 {/* Brand Gradients */}
                 <div className="absolute top-0 right-0 w-64 h-64 bg-[#e91e63]/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
@@ -180,10 +180,51 @@ export default function ResultsCarousel({ results }: { results: ResultItem[] }) 
       
       {/* Custom styles for swiper bullets if needed */}
       <style jsx global>{`
-        .swiper-pagination-bullet { background: #64748b !important; opacity: 0.5 !important; }
-        .swiper-pagination-bullet-active { background: #e91e63 !important; opacity: 1 !important; }
-        .swiper-button-next, .swiper-button-prev { color: #e91e63 !important; transform: scale(0.6); opacity: 0; transition: opacity 0.3s; }
-        .group\/swiper:hover .swiper-button-next, .group\/swiper:hover .swiper-button-prev { opacity: 1; }
+        #results-carousel .swiper-pagination {
+          bottom: 6px !important;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 40;
+        }
+        #results-carousel .swiper-pagination-bullet { 
+          background: rgba(255, 255, 255, 0.3) !important; 
+          opacity: 1 !important; 
+          width: 8px;
+          height: 8px;
+          margin: 0 5px !important;
+          transition: all 0.3s ease;
+        }
+        #results-carousel .swiper-pagination-bullet-active { 
+          background: #e91e63 !important; 
+          width: 24px;
+          border-radius: 4px;
+          box-shadow: 0 0 15px rgba(233, 30, 99, 0.4);
+        }
+        #results-carousel .swiper-button-next, #results-carousel .swiper-button-prev { 
+          color: #fff !important; 
+          background: rgba(0,0,0,0.3);
+          backdrop-filter: blur(8px);
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          border: 1px solid rgba(255,255,255,0.1);
+          transform: translateY(-50%) scale(1); 
+          opacity: 0; 
+          transition: all 0.3s; 
+          z-index: 50;
+        }
+        .group\/swiper:hover .swiper-button-next, .group\/swiper:hover .swiper-button-prev {
+          opacity: 1;
+        }
+        #results-carousel .swiper-button-next::after, #results-carousel .swiper-button-prev::after {
+          font-size: 14px;
+          font-weight: black;
+        }
+        #results-carousel .swiper-button-disabled {
+          opacity: 0.1 !important;
+        }
       `}</style>
     </div>
   );

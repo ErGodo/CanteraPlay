@@ -10,6 +10,7 @@ const outfit = Outfit({
 });
 
 import ClientFixes from "@/components/ClientFixes";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 export const metadata: Metadata = {
   title: "..:: Bienvenidos a Avidela Sport ::.. ",
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body className={`${outfit.variable} font-sans antialiased`} suppressHydrationWarning={true}>
         <ClientFixes />
         {children}
+        <WhatsAppButton />
       </body>
     </html>
   );

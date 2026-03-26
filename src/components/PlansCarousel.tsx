@@ -10,6 +10,7 @@ import "swiper/css/pagination";
 
 import { formatCurrencyCLP } from "@/lib/formatDate";
 import { IconBallFootball, IconCertificate, IconSchool, IconShirtSport } from "@tabler/icons-react";
+import { CreateAthleteModal } from "./auth/CreateAthleteModal";
 
 /* -------------------------------------------------------------------------- */
 /*                                  Internal                                  */
@@ -66,6 +67,7 @@ const getBorderGradient = (type: string) => {
 export default function PlansCarousel({ plans }: { plans: any[] }) {
     const [isMounted, setIsMounted] = useState(false);
     const [selectedPlan, setSelectedPlan] = useState<any>(null);
+    const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 
     useEffect(() => {
         setIsMounted(true);
@@ -267,10 +269,11 @@ export default function PlansCarousel({ plans }: { plans: any[] }) {
                             Serás redirigido a <strong className="text-white">CanteraPlay</strong> de forma segura para completar tu ficha técnica.
                         </p>
 
-                        <a 
-                            href="https://app.canteraplay.com/login"
-                            target="_blank"
-                            rel="noopener noreferrer"
+                        <button 
+                            onClick={() => {
+                                setSelectedPlan(null);
+                                setIsRegisterOpen(true);
+                            }}
                             className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-600 text-white font-black text-[13px] uppercase tracking-widest hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(233,30,99,0.4)] transition-all duration-300"
                         >
                             <span>Ir a Crear Perfil</span>
@@ -280,7 +283,7 @@ export default function PlansCarousel({ plans }: { plans: any[] }) {
                                 <path d="M18 13l-6 6"></path>
                                 <path d="M6 13l6 6"></path>
                             </svg>
-                        </a>
+                        </button>
                         
                         <button 
                             onClick={() => setSelectedPlan(null)}
@@ -291,6 +294,11 @@ export default function PlansCarousel({ plans }: { plans: any[] }) {
                     </div>
                 </div>
             )}
+
+            <CreateAthleteModal 
+                isOpen={isRegisterOpen} 
+                onClose={() => setIsRegisterOpen(false)} 
+            />
         </div>
     );
 }

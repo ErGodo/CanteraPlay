@@ -170,11 +170,20 @@ export default function PlansCarousel({ plans }: { plans: any[] }) {
                                                 )}
                                             </div>
                                             
-                                            <button 
-                                                onClick={() => setSelectedPlan(p)}
-                                                className="w-full mt-6 py-4 rounded-2xl bg-slate-900 group-hover:bg-white group-hover:text-slate-950 font-black text-xs uppercase tracking-[0.2em] border border-slate-800 group-hover:border-transparent transition-all duration-300 transform group-hover:scale-[1.02]">
-                                                Seleccionar Plan
-                                            </button>
+                                            <div className="flex flex-col gap-3 mt-6">
+                                                <button 
+                                                    onClick={() => setSelectedPlan(p)}
+                                                    className="w-full py-4 rounded-2xl bg-slate-900 group-hover:bg-white group-hover:text-slate-950 font-black text-xs uppercase tracking-[0.2em] border border-slate-800 group-hover:border-transparent transition-all duration-300 transform group-hover:scale-[1.02]">
+                                                    Seleccionar Plan
+                                                </button>
+                                                
+                                                <button 
+                                                    onClick={() => window.open('https://app.canteraplay.com/login', '_blank')}
+                                                    className="w-full py-4 rounded-2xl bg-transparent border border-white/30 group-hover:border-white/60 text-white font-black text-xs uppercase tracking-[0.2em] transition-all duration-300"
+                                                >
+                                                    Ya tengo perfil
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

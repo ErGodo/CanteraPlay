@@ -248,33 +248,33 @@ export default function PlansCarousel({ plans }: { plans: any[] }) {
                         {/* Logo header */}
                         <div className="flex items-center gap-3 mb-6">
                             <img 
-                                src="https://app.canteraplay.com/brand/logo_jugador_solo.png" 
-                                alt="CanteraPlay Logo" 
-                                className="h-10 w-10 object-contain drop-shadow-[0_0_15px_rgba(0,229,255,0.3)]"
+                                src="/images/avidela-logo.png" 
+                                alt="Avidela Sport Logo" 
+                                className="h-12 w-12 object-contain rounded-full bg-white p-0.5 shadow-md shadow-pink-500/20"
                             />
                             <h2 className="text-xl font-black text-white tracking-widest hidden sm:block">
-                                CANTERA<span className="text-[#00E5FF]">PLAY</span>
+                                AVIDELA<span className="text-pink-500 underline underline-offset-4 decoration-2">SPORT</span>
                             </h2>
                         </div>
 
-                        <h3 className="text-2xl font-black text-white mb-3 leading-tight">
+                        <h3 className="text-2xl font-black text-white mb-3 font-outfit leading-tight">
                             ¡Ya casi eres parte!
                         </h3>
                         
-                        <p className="text-slate-400 mb-8 leading-relaxed text-sm">
-                            Para matricularte en <strong className="text-pink-500 font-bold">{selectedPlan.name}</strong>, primero necesitamos que <strong>crees el perfil del jugador</strong> e inicies sesión en la plataforma del club.
+                        <p className="text-slate-400 mb-8 leading-relaxed text-sm font-medium">
+                            Para matricularte en <strong className="text-pink-500 font-extrabold">{selectedPlan.name}</strong>, primero necesitamos que <strong>crees el perfil del jugador</strong> e inicies sesión en la plataforma oficial del club.
                             <br/><br/>
-                            Serás redirigido a <strong className="text-white">CanteraPlay</strong> de forma segura para completar tu registro.
+                            Serás redirigido a <strong className="text-white">CanteraPlay</strong> de forma segura para completar tu ficha técnica.
                         </p>
 
                         <a 
                             href="https://app.canteraplay.com/login"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-full flex items-center justify-center gap-2 py-4 rounded-xl bg-gradient-to-r from-[#00E5FF] to-blue-500 text-slate-950 font-black text-[13px] uppercase tracking-widest hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(0,229,255,0.4)] transition-all duration-300"
+                            className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-600 text-white font-black text-[13px] uppercase tracking-widest hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(233,30,99,0.4)] transition-all duration-300"
                         >
                             <span>Ir a Crear Perfil</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" strokeWidth="3" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M12 5l0 14"></path>
                                 <path d="M18 13l-6 6"></path>

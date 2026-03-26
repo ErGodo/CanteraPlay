@@ -236,11 +236,11 @@ export default function PlansCarousel({ plans }: { plans: any[] }) {
                     />
                     
                     {/* Modal Content */}
-                    <div className="relative bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-10 max-w-md w-full shadow-2xl flex flex-col items-center text-center animate-in fade-in zoom-in-95 duration-300">
+                    <div className="relative bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-10 max-w-md w-full shadow-2xl flex flex-col items-center text-center animate-in fade-in zoom-in-95 duration-300 font-sans">
                         {/* Close button */}
                         <button 
                             onClick={() => setSelectedPlan(null)}
-                            className="absolute top-4 right-4 p-2 bg-slate-800/50 hover:bg-slate-800 rounded-full text-slate-400 hover:text-white transition-all"
+                            className="absolute top-4 right-4 p-2 bg-slate-800/50 hover:bg-slate-800 rounded-full text-slate-400 hover:text-white transition-all transition-colors"
                         >
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -254,17 +254,17 @@ export default function PlansCarousel({ plans }: { plans: any[] }) {
                                 alt="Avidela Sport Logo" 
                                 className="h-12 w-12 object-contain rounded-full bg-white p-0.5 shadow-md shadow-pink-500/20"
                             />
-                            <h2 className="text-xl font-black text-white tracking-widest hidden sm:block">
+                            <h2 className="text-xl font-black text-white tracking-tighter hidden sm:block uppercase">
                                 AVIDELA<span className="text-pink-500 underline underline-offset-4 decoration-2">SPORT</span>
                             </h2>
                         </div>
 
-                        <h3 className="text-2xl font-black text-white mb-3 font-outfit leading-tight">
+                        <h3 className="text-2xl font-black text-white mb-3 tracking-tight leading-tight uppercase">
                             ¡Ya casi eres parte!
                         </h3>
                         
                         <p className="text-slate-400 mb-8 leading-relaxed text-sm font-medium">
-                            Para matricularte en <strong className="text-pink-500 font-extrabold">{selectedPlan.name}</strong>, primero necesitamos que <strong>crees el perfil del jugador</strong> e inicies sesión en la plataforma oficial del club.
+                            Para matricularte en <strong className="text-pink-500 font-black">{selectedPlan.name}</strong>, primero necesitamos que <strong>crees el perfil del jugador</strong> e inicies sesión en la plataforma oficial del club.
                             <br/><br/>
                             Serás redirigido a <strong className="text-white">CanteraPlay</strong> de forma segura para completar tu ficha técnica.
                         </p>

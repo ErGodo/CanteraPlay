@@ -225,7 +225,7 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
             <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
 
             {/* Modal */}
-            <div className={`relative w-full max-w-md bg-[#0a1a3c] border border-white/10 rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-300 ${isOpen ? "scale-100 translate-y-0" : "scale-95 translate-y-4"}`}>
+            <div className={`relative w-full max-w-md bg-[#0a1a3c] border border-white/10 rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-300 font-sans ${isOpen ? "scale-100 translate-y-0" : "scale-95 translate-y-4"}`}>
 
                 {/* Decorative Top Line */}
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#fc5c9c] to-[#0a1a3c]" />
@@ -243,9 +243,9 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
                                 />
                             </div>
                             <div>
-                                <h2 className="text-xl font-bold text-white mb-2">¡Cuenta Creada!</h2>
-                                <p className="text-sm text-gray-300 leading-relaxed">
-                                    Tu registro fue exitoso para <strong>Avidela Sport</strong>.
+                                <h2 className="text-xl font-black text-white mb-2 tracking-tight uppercase">¡Cuenta Creada!</h2>
+                                <p className="text-sm text-gray-300 leading-relaxed font-medium">
+                                    Tu registro fue exitoso para <strong className="text-[#fc5c9c]">Avidela Sport</strong>.
                                     <br className="mb-2" />
                                     Para finalizar tu inscripción y completar tu perfil de usuario, ingresa ahora a la plataforma.
                                 </p>
@@ -254,7 +254,7 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
                                 onClick={() => {
                                     window.location.href = "https://app.canteraplay.com";
                                 }}
-                                className={`${buttonBase} bg-[#fc5c9c] hover:bg-[#e04080] text-white shadow-lg shadow-[#fc5c9c]/20 cursor-pointer`}
+                                className={`${buttonBase} bg-[#fc5c9c] hover:bg-[#e04080] text-white shadow-lg shadow-[#fc5c9c]/20 cursor-pointer font-bold uppercase tracking-widest`}
                             >
                                 Ir a Cantera Play
                             </button>
@@ -262,7 +262,7 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
                     ) : (
                         <>
                             <div className="flex items-center justify-between mb-6">
-                                <h2 className="text-xl font-bold text-white">Crear Cuenta</h2>
+                                <h2 className="text-xl font-black text-white tracking-tight uppercase">Crear Cuenta</h2>
                                 <button onClick={onClose} className="text-gray-400 hover:text-white transition-colors">
                                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

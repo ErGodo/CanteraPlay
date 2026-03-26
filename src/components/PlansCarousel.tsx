@@ -65,6 +65,7 @@ const getBorderGradient = (type: string) => {
 
 export default function PlansCarousel({ plans }: { plans: any[] }) {
     const [isMounted, setIsMounted] = useState(false);
+    const [selectedPlan, setSelectedPlan] = useState<any>(null);
 
     useEffect(() => {
         setIsMounted(true);
@@ -167,7 +168,9 @@ export default function PlansCarousel({ plans }: { plans: any[] }) {
                                                 )}
                                             </div>
                                             
-                                            <button className="w-full mt-6 py-4 rounded-2xl bg-slate-900 group-hover:bg-white group-hover:text-slate-950 font-black text-xs uppercase tracking-[0.2em] border border-slate-800 group-hover:border-transparent transition-all duration-300 transform group-hover:scale-[1.02]">
+                                            <button 
+                                                onClick={() => setSelectedPlan(p)}
+                                                className="w-full mt-6 py-4 rounded-2xl bg-slate-900 group-hover:bg-white group-hover:text-slate-950 font-black text-xs uppercase tracking-[0.2em] border border-slate-800 group-hover:border-transparent transition-all duration-300 transform group-hover:scale-[1.02]">
                                                 Seleccionar Plan
                                             </button>
                                         </div>
@@ -220,6 +223,74 @@ export default function PlansCarousel({ plans }: { plans: any[] }) {
                     pointer-events: none;
                 }
             `}</style>
+
+            {/* Redirect Modal */}
+            {selectedPlan && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                    {/* Backdrop */}
+                    <div 
+                        className="absolute inset-0 bg-black/60 backdrop-blur-md cursor-pointer transition-opacity" 
+                        onClick={() => setSelectedPlan(null)} 
+                    />
+                    
+                    {/* Modal Content */}
+                    <div className="relative bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-10 max-w-md w-full shadow-2xl flex flex-col items-center text-center animate-in fade-in zoom-in-95 duration-300">
+                        {/* Close button */}
+                        <button 
+                            onClick={() => setSelectedPlan(null)}
+                            className="absolute top-4 right-4 p-2 bg-slate-800/50 hover:bg-slate-800 rounded-full text-slate-400 hover:text-white transition-all"
+                        >
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+
+                        {/* Logo header */}
+                        <div className="flex items-center gap-3 mb-6">
+                            <img 
+                                src="https://app.canteraplay.com/brand/logo_jugador_solo.png" 
+                                alt="CanteraPlay Logo" 
+                                className="h-10 w-10 object-contain drop-shadow-[0_0_15px_rgba(0,229,255,0.3)]"
+                            />
+                            <h2 className="text-xl font-black text-white tracking-widest hidden sm:block">
+                                CANTERA<span className="text-[#00E5FF]">PLAY</span>
+                            </h2>
+                        </div>
+
+                        <h3 className="text-2xl font-black text-white mb-3 leading-tight">
+                            ¡Ya casi eres parte!
+                        </h3>
+                        
+                        <p className="text-slate-400 mb-8 leading-relaxed text-sm">
+                            Para matricularte en <strong className="text-pink-500 font-bold">{selectedPlan.name}</strong>, primero necesitamos que <strong>crees el perfil del jugador</strong> e inicies sesión en la plataforma del club.
+                            <br/><br/>
+                            Serás redirigido a <strong className="text-white">CanteraPlay</strong> de forma segura para completar tu registro.
+                        </p>
+
+                        <a 
+                            href="https://app.canteraplay.com/login"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full flex items-center justify-center gap-2 py-4 rounded-xl bg-gradient-to-r from-[#00E5FF] to-blue-500 text-slate-950 font-black text-[13px] uppercase tracking-widest hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(0,229,255,0.4)] transition-all duration-300"
+                        >
+                            <span>Ir a Crear Perfil</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M12 5l0 14"></path>
+                                <path d="M18 13l-6 6"></path>
+                                <path d="M6 13l6 6"></path>
+                            </svg>
+                        </a>
+                        
+                        <button 
+                            onClick={() => setSelectedPlan(null)}
+                            className="mt-5 text-slate-500 hover:text-white text-xs font-bold uppercase tracking-widest transition-colors"
+                        >
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

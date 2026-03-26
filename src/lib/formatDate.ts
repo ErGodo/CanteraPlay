@@ -2,16 +2,25 @@
 export function formatDMY(dateInput: string | number | Date) {
   const d = new Date(dateInput);
   if (Number.isNaN(d.getTime())) return "";
-  const dd = String(d.getUTCDate()).padStart(2, "0");
-  const mm = String(d.getUTCMonth() + 1).padStart(2, "0");
-  const yyyy = d.getUTCFullYear();
-  return `${dd}-${mm}-${yyyy}`;
+  // Formatear la fecha forzando la zona horaria del club (Chile)
+  return new Intl.DateTimeFormat("es-CL", { 
+    day: "2-digit", 
+    month: "2-digit", 
+    year: "numeric", 
+    timeZone: "America/Santiago" 
+  }).format(d).replace(/\//g, "-");
 }
 
 export function formatLocaleLong(dateInput: string | number | Date, locale = "es-CL") {
   const d = new Date(dateInput);
   if (Number.isNaN(d.getTime())) return "";
-  return new Intl.DateTimeFormat(locale, { day: "2-digit", month: "long", year: "numeric", timeZone: "UTC" }).format(d);
+  // Aquí usamos America/Santiago para que los partidos se vean en el día correcto en Chile
+  return new Intl.DateTimeFormat(locale, { 
+    day: "2-digit", 
+    month: "long", 
+    year: "numeric", 
+    timeZone: "America/Santiago" 
+  }).format(d);
 }
 
 // Deterministic currency formatting to avoid SSR/CSR mismatch from

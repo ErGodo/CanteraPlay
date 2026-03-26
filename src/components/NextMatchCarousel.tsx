@@ -34,7 +34,12 @@ export default function NextMatchCarousel({ matches }: { matches: Match[] }) {
         if (!dateIso) return '';
         const d = new Date(dateIso);
         // Force 24h format HH:mm
-        return d.toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit', hour12: false });
+        return d.toLocaleTimeString('es-CL', { 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            hour12: false, 
+            timeZone: "America/Santiago" 
+        });
     };
 
     if (!mounted) return (

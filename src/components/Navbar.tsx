@@ -1,5 +1,6 @@
 
 "use client";
+import { IconUser } from "@tabler/icons-react";
 import Image from "next/image";
 import React, { useState } from "react";
 import { FaInstagram } from "react-icons/fa";
@@ -47,7 +48,18 @@ const Navbar = () => {
         <li>
           <a href="#contact" className="hover:text-[#ffd6e6] text-white transition-colors">Contacto</a>
         </li>
-        <li className="flex items-center h-full ml-2">
+        <li className="ml-4">
+          <a 
+            href="https://app.canteraplay.com/login" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="group relative flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#e91e63] to-rose-600 text-white font-black text-[11px] uppercase tracking-widest hover:scale-105 hover:shadow-[0_0_20px_rgba(233,30,99,0.4)] transition-all duration-300 shadow-xl overflow-hidden"
+          >
+            <IconUser size={14} className="group-hover:rotate-12 transition-transform duration-300" />
+            <span>Iniciar Sesión / Mensualidad</span>
+          </a>
+        </li>
+        <li className="flex items-center h-full ml-4">
           <InstagramLinks variant="navbar" />
         </li>
       </ul>
@@ -75,6 +87,18 @@ const Navbar = () => {
             <li><a href="#info" className="block py-2 hover:text-pink-500 transition-colors" onClick={() => setMenuOpen(false)}>Noticias</a></li>
             <li><a href="#results" className="block py-2 hover:text-pink-500 transition-colors" onClick={() => setMenuOpen(false)}>Resultados</a></li>
             <li><a href="#contact" className="block py-2 hover:text-pink-500 transition-colors" onClick={() => setMenuOpen(false)}>Contacto</a></li>
+            <li className="pt-2 pb-4">
+              <a 
+                href="https://app.canteraplay.com/login" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-full relative flex items-center justify-center gap-3 py-4 rounded-2xl bg-gradient-to-r from-[#e91e63] to-rose-600 text-white font-black text-[11px] uppercase tracking-widest shadow-[0_10px_20px_-10px_rgba(233,30,99,0.5)] active:scale-95 transition-all overflow-hidden"
+                onClick={() => setMenuOpen(false)}
+              >
+                <IconUser size={16} />
+                <span>Iniciar Sesión / Mensualidad</span>
+              </a>
+            </li>
             <li className="pt-4 flex flex-col items-center gap-4">
               <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Nuestros Instagrams</span>
               <div className="flex gap-4">

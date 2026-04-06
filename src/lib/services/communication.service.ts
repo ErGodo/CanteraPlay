@@ -7,6 +7,7 @@ export interface WelcomeAthleteDto {
     age: number;
     birthDate: string;
     athleteEmail: string;
+    clubName?: string;
 }
 
 export const communicationService = {

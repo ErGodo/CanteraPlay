@@ -221,12 +221,15 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
                 const ageDate = new Date(ageDiff);
                 const calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
 
+                const selectedClub = clubs.find(c => c.id === form.clubId);
+
                 await communicationService.sendWelcomeAthlete({
                     athleteName: `${form.firstName} ${form.lastName}`,
                     rut: form.rut,
                     age: calculatedAge,
                     birthDate: form.birthDate,
                     athleteEmail: form.email,
+                    clubName: selectedClub?.name,
                 });
             } catch (emailError) {
                 console.error("Email notification failed:", emailError);

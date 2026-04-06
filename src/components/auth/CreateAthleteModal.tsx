@@ -2,6 +2,7 @@
 
 import { auth, db } from "@/lib/firebase";
 import { athleteService, type CreateAthleteDto } from "@/lib/services/athlete.service";
+import { communicationService } from "@/lib/services/communication.service";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import Image from "next/image";
@@ -212,6 +213,26 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
                 console.warn("Firestore save warning:", firestoreError);
             }
 
+            // 4. Send Welcome Emails
+            try {
+                // Determine age for email
+                const birthDateObj = new Date(form.birthDate);
+                const ageDiff = Date.now() - birthDateObj.getTime();
+                const ageDate = new Date(ageDiff);
+                const calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+                await communicationService.sendWelcomeAthlete({
+                    athleteName: `${form.firstName} ${form.lastName}`,
+                    rut: form.rut,
+                    age: calculatedAge,
+                    birthDate: form.birthDate,
+                    athleteEmail: form.email,
+                });
+            } catch (emailError) {
+                console.error("Email notification failed:", emailError);
+                // Non-blocking for the user
+            }
+
             setIsSuccess(true);
 
         } catch (err: unknown) {
@@ -272,7 +293,7 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
                     ) : (
                         <>
                             <div className="flex items-center justify-between mb-6">
-                                <h2 className="text-xl font-black text-white tracking-tight uppercase">Crear Cuenta</h2>
+                                <h2 className="text-xl font-black text-white tracking-tight uppercase">Crear cuenta del Atleta</h2>
                                 <button onClick={onClose} className="text-gray-400 hover:text-white transition-colors">
                                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -428,7 +449,7 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
                                         className={`${buttonBase} bg-[#fc5c9c] hover:bg-[#e04080] text-white shadow-lg shadow-[#fc5c9c]/20`}
                                         disabled={isLoading}
                                     >
-                                        {isLoading ? "Creando..." : "Crear Cuenta"}
+                                        {isLoading ? "Creando..." : "Crear cuenta del Atleta"}
                                     </button>
                                 </div>
                             </form>

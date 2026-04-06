@@ -16,6 +16,7 @@ interface CreateAthleteModalProps {
 interface CreateAthleteForm {
     firstName: string;
     lastName: string;
+    rut: string;
     email: string;
     password: string;
     confirmPassword: string;
@@ -27,6 +28,7 @@ interface CreateAthleteForm {
 const initialForm: CreateAthleteForm = {
     firstName: "",
     lastName: "",
+    rut: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -109,6 +111,11 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
             return;
         }
 
+        if (!form.rut.trim()) {
+            setError("El RUT/DNI/Pasaporte es requerido");
+            return;
+        }
+
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!form.email.trim() || !emailRegex.test(form.email)) {
             setError("Ingresa un correo electrónico válido");
@@ -182,6 +189,9 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
                     birthDate: form.birthDate || undefined,
                     gender: form.gender,
                     athleteStatus: "pending_matricula",
+                    profile: {
+                        idNumber: form.rut,
+                    }
                 };
 
                 createdAthlete = await athleteService.create(athletePayload);
@@ -296,6 +306,17 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
                                             className={inputClass}
                                         />
                                     </div>
+                                </div>
+
+                                <div>
+                                    <label className={labelClass}>RUT / DNI / Pasaporte <span className="text-red-400">*</span></label>
+                                    <input
+                                        type="text"
+                                        value={form.rut}
+                                        onChange={(e) => setForm({ ...form, rut: e.target.value })}
+                                        placeholder="12.345.678-9"
+                                        className={inputClass}
+                                    />
                                 </div>
 
                                 <div>

@@ -16,6 +16,11 @@ export interface Athlete {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         [key: string]: any;
     };
+    profile?: {
+        idNumber?: string;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        [key: string]: any;
+    };
     createdAt: string;
     updatedAt: string;
 }

@@ -8,6 +8,7 @@ export interface WelcomeAthleteDto {
     birthDate: string;
     athleteEmail: string;
     clubName?: string;
+    recaptchaToken?: string;
 }
 
 export const communicationService = {

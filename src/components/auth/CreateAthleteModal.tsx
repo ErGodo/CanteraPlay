@@ -8,10 +8,13 @@ import { doc, setDoc } from "firebase/firestore";
 import Image from "next/image";
 
 import { useEffect, useState } from "react";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 interface CreateAthleteModalProps {
     isOpen: boolean;
     onClose: () => void;
+    onSuccess?: () => void;
+    existingUser?: any;
 }
 
 interface CreateAthleteForm {
@@ -38,8 +41,9 @@ const initialForm: CreateAthleteForm = {
     clubId: "",
 };
 
-export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps) => {
-
+export const CreateAthleteModal = ({ isOpen, onClose, onSuccess, existingUser }: CreateAthleteModalProps) => {
+    const { executeRecaptcha } = useGoogleReCaptcha();
+    const [step, setStep] = useState(1);
     const [form, setForm] = useState<CreateAthleteForm>(initialForm);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
@@ -162,6 +166,15 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
         setIsLoading(true);
 
         try {
+            // 0. Recaptcha check
+            let recaptchaToken = "";
+            if (executeRecaptcha) {
+                try {
+                    recaptchaToken = await executeRecaptcha("register_athlete");
+                } catch (recaptchaError) {
+                    console.error("Recaptcha error:", recaptchaError);
+                }
+            }
             // 1. Create user in Firebase Auth
             let userCredential;
             try {
@@ -230,6 +243,7 @@ export const CreateAthleteModal = ({ isOpen, onClose }: CreateAthleteModalProps)
                     birthDate: form.birthDate,
                     athleteEmail: form.email,
                     clubName: selectedClub?.name,
+                    recaptchaToken: recaptchaToken,
                 });
             } catch (emailError) {
                 console.error("Email notification failed:", emailError);

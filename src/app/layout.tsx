@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
+import ReCaptchaWrapper from "@/components/providers/ReCaptchaProvider";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -8,7 +9,6 @@ const outfit = Outfit({
   variable: "--font-outfit",
   display: "swap",
 });
-
 import ClientFixes from "@/components/ClientFixes";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
@@ -25,9 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${outfit.variable} font-sans antialiased`} suppressHydrationWarning={true}>
-        <ClientFixes />
-        {children}
-        <WhatsAppButton />
+        <ReCaptchaWrapper>
+          <ClientFixes />
+          {children}
+          <WhatsAppButton />
+        </ReCaptchaWrapper>
       </body>
     </html>
   );

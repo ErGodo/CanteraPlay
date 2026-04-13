@@ -22,7 +22,7 @@ export async function getPlayerStats() {
       return {
         _id: stat.athleteId,
         athleteName: athlete ? `${athlete.firstName} ${athlete.lastName}` : 'Desconocido',
-        position: athlete?.position || 'Jugador',
+        position: stat.categoryGlosa || athlete?.position || 'Sin Serie',
         photo: athlete?.photoUrl || null,
         goals: stat.goals,
         assists: stat.assists,

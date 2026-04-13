@@ -212,3 +212,8 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: white !important;
   caret-color: white !important;
 }
+
+/* Hide reCAPTCHA v3 badge (allowed by Google TOS when attribution is in footer/terms) */
+.grecaptcha-badge {
+  visibility: hidden !important;
+}

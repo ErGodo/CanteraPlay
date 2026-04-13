@@ -1,9 +1,8 @@
 "use client";
-import { buildImageUrl } from '@/lib/sanityClient';
 import SectionHeading from '@/components/SectionHeading';
-import type { SanityImageSource } from '@sanity/image-url';
 import Image from 'next/image';
 import { useState } from 'react';
+import { IconUser } from '@tabler/icons-react';
 
 // Simple utility for class merging 
 function cn(...classes: (string | undefined | null | false)[]) {
@@ -21,31 +20,10 @@ type StatItem = {
   goals?: number
   assists?: number
   matches?: number
-  photo?: SanityImageSource & { focusX?: number; focusY?: number } | null
+  photo?: string | null
 }
 
-function getLqip(photo?: StatItem['photo']): string | undefined {
-  if (!photo) return undefined
-  type SanityImageObject = {
-    asset?: { metadata?: { lqip?: string } }
-    metadata?: { lqip?: string }
-    [key: string]: unknown
-  }
 
-  function isSanityImageObject(v: unknown): v is SanityImageObject {
-    return typeof v === 'object' && v !== null && ('asset' in v || 'metadata' in v)
-  }
-
-  if (isSanityImageObject(photo)) {
-    const maybeAsset = photo.asset
-    if (maybeAsset && maybeAsset.metadata && typeof maybeAsset.metadata.lqip === 'string') {
-      return maybeAsset.metadata.lqip
-    }
-    const maybeMeta = photo.metadata
-    if (maybeMeta && typeof maybeMeta.lqip === 'string') return maybeMeta.lqip
-  }
-  return undefined
-}
 
 // ----------------------------------------------------------------------
 // COMPONENTS
@@ -77,17 +55,15 @@ const PlayerRow = ({
       <div className="relative w-12 h-12 sm:w-16 sm:h-16 shrink-0 rounded-2xl overflow-hidden bg-slate-900 border border-slate-700 shadow-md">
         {item.photo ? (
           <Image
-            src={buildImageUrl(item.photo, 64, 64) || ''}
+            src={item.photo || ''}
             alt={item.athleteName || 'Player'}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-110"
-            placeholder={getLqip(item.photo) ? 'blur' : undefined}
-            blurDataURL={getLqip(item.photo)}
             sizes="(max-width: 640px) 48px, 64px"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-slate-800 text-slate-600">
-            <span className="text-[10px] uppercase font-bold">Avidela</span>
+          <div className="w-full h-full flex items-center justify-center bg-slate-800 text-slate-500">
+            <IconUser size={32} stroke={1.5} opacity={0.5} />
           </div>
         )}
       </div>
@@ -179,14 +155,9 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
     .filter((p) => (p.assists ?? 0) > 0)
     .sort((a, b) => (b.assists ?? 0) - (a.assists ?? 0))
 
-  const matchesList = [...list]
-    .filter((p) => (p.matches ?? 0) > 0)
-    .sort((a, b) => (b.matches ?? 0) - (a.matches ?? 0))
-
   const tabs = [
     { id: 'goals', label: 'Goleadores', icon: '⚽', data: goalsList, field: 'goals' },
     { id: 'assists', label: 'Asistencias', icon: '👟', data: assistsList, field: 'assists' },
-    { id: 'matches', label: 'Partidos', icon: '👕', data: matchesList, field: 'matches' },
   ] as const
 
   return (
@@ -198,7 +169,7 @@ export default function PlayerStats({ stats }: { stats?: StatItem[] }) {
       />
 
       {/* --- DESKTOP VIEW (Grid) --- */}
-      <div className="hidden lg:grid grid-cols-3 gap-6 items-start">
+      <div className="hidden lg:grid grid-cols-2 gap-8 items-start w-full">
         {tabs.map((tab) => (
           <StatsCard
             key={tab.id}

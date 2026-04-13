@@ -26,7 +26,7 @@ import { FaInstagram } from "react-icons/fa";
 /* ------------------------------ Footer ------------------------------ */
 function Footer({
   clubName = "Avidela Sports",
-  logoUrl = "/images/avidela-logo.png",
+  logoUrl = "/images/avidela-logo1.png",
   address,
   primary = "#0a1a3c",
   accent = "#e91e63",
@@ -82,7 +82,7 @@ function Footer({
             alt={`${clubName} Logo`}
             width={56}
             height={56}
-            className="rounded-full bg-white p-0.5 shadow-md shrink-0"
+            className="rounded-xl bg-white p-0.5 shadow-md shrink-0"
           />
           <span className="font-extrabold text-base sm:text-lg truncate">{clubName}</span>
         </div>
@@ -203,7 +203,7 @@ export default async function Home() {
   const accent = "#e91e63";
   const gradientB = "#00b4e6";
   const instagram = "https://www.instagram.com/avidelasportacademy/";
-  const logoUrl = "/images/avidela-logo.png";
+  const logoUrl = "/images/avidela-logo1.png";
   const clubName = "Avidela Sport";
 
   // Posición de los auspiciadores: 'right' = columna derecha, 'center' = centrado debajo de Resultados

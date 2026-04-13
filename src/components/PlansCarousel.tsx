@@ -259,7 +259,7 @@ export default function PlansCarousel({ plans }: { plans: any[] }) {
                         {/* Logo header */}
                         <div className="flex items-center gap-3 mb-6">
                             <img 
-                                src="/images/avidela-logo.png" 
+                                src="/images/avidela-logo1.png" 
                                 alt="Avidela Sport Logo" 
                                 className="h-12 w-12 object-contain rounded-full bg-white p-0.5 shadow-md shadow-pink-500/20"
                             />

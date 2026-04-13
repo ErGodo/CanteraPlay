@@ -23,13 +23,13 @@ const Navbar = () => {
     <nav className="w-full flex items-center px-8 py-4 bg-transparent" suppressHydrationWarning>
       <div className="flex items-center gap-3">
         <Image
-          src="/images/avidela-logo.png"
+          src="/images/avidela-logo1.png"
           alt="Avidela Sport Logo"
-          width={56}
-          height={56}
-          className="rounded-full bg-white p-0.5 shadow-md"
+          width={48}
+          height={48}
+          className="rounded-xl object-contain"
         />
-        <span className="font-extrabold text-2xl text-white tracking-tight">
+        <span className="font-extrabold text-xl sm:text-2xl text-white tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
           Avidela Sport
         </span>
       </div>

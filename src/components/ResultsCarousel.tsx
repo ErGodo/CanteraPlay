@@ -1,6 +1,7 @@
 "use client";
 import { formatDMY } from "@/lib/formatDate";
 import React from "react";
+import dynamic from "next/dynamic";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import "swiper/css";
 import "swiper/css/navigation";
@@ -8,8 +9,13 @@ import "swiper/css/pagination";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
+const MatchStatsModal = dynamic(() => import("@/components/MatchStatsModal"), {
+  ssr: false,
+});
+
 type ResultItem = {
   _id?: string;
+  id?: string;
   homeTeam?: any;
   awayTeam?: any;
   homeScore?: number | string;
@@ -23,6 +29,7 @@ type ResultItem = {
 
 export default function ResultsCarousel({ results }: { results: ResultItem[] }) {
   const [mounted, setMounted] = React.useState(false);
+  const [selectedMatch, setSelectedMatch] = React.useState<ResultItem | null>(null);
 
   React.useEffect(() => {
     setMounted(true);
@@ -82,150 +89,179 @@ export default function ResultsCarousel({ results }: { results: ResultItem[] }) 
   const fmtDMY = (d: any) => (d ? formatDMY(d) : "");
 
   return (
-    <div className="w-full h-full group/swiper" id="results-carousel">
-      <Swiper
-        modules={[Navigation, Pagination, Autoplay]}
-        navigation
-        pagination={{ clickable: true, dynamicBullets: false }}
-        autoplay={{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }}
-        loop={results.length > 1}
-        allowTouchMove
-        slidesPerView={1}
-        className="rounded-3xl w-full h-full shadow-2xl border border-slate-800/40"
-      >
-        {results.map((r, idx) => {
-          const homeName = r.homeTeam?.name || (typeof r.homeTeam === 'string' ? r.homeTeam : "Local");
-          const awayName = r.awayTeam?.name || (typeof r.awayTeam === 'string' ? r.awayTeam : "Visitante");
-          
-          const homeLogo = r.homeTeam?.logo;
-          const awayLogo = r.awayTeam?.logo;
+    <>
+      <div className="w-full h-full group/swiper" id="results-carousel">
+        <Swiper
+          modules={[Navigation, Pagination, Autoplay]}
+          navigation
+          pagination={{ clickable: true, dynamicBullets: false }}
+          autoplay={{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+          loop={results.length > 1}
+          allowTouchMove
+          slidesPerView={1}
+          className="rounded-3xl w-full h-full shadow-2xl border border-slate-800/40"
+        >
+          {results.map((r, idx) => {
+            const homeName = r.homeTeam?.name || (typeof r.homeTeam === 'string' ? r.homeTeam : "Local");
+            const awayName = r.awayTeam?.name || (typeof r.awayTeam === 'string' ? r.awayTeam : "Visitante");
+            
+            const homeLogo = r.homeTeam?.logo;
+            const awayLogo = r.awayTeam?.logo;
 
-          const key = r._id || `${idx}`;
-          const badgeText = r.categoryGlosa || r.competition || r.league || r.note || "";
+            const key = r._id || `${idx}`;
+            const badgeText = r.categoryGlosa || r.competition || r.league || r.note || "";
 
-          const homeScore = r.homeScore ?? "—";
-          const awayScore = r.awayScore ?? "—";
+            const homeScore = r.homeScore ?? "—";
+            const awayScore = r.awayScore ?? "—";
 
-          return (
-            <SwiperSlide key={key} className="w-full h-full">
-              <div
-                className="w-full h-full relative overflow-hidden bg-slate-950 p-6 pb-12 sm:pb-6 flex flex-col justify-center items-center"
-              >
-                {/* Brand Gradients */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-[#e91e63]/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#0F8DBF]/10 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2" />
+            return (
+              <SwiperSlide key={key} className="w-full h-full">
+                <div
+                  className="w-full h-full relative overflow-hidden bg-slate-950 p-6 pb-12 sm:pb-6 flex flex-col justify-center items-center"
+                >
+                  {/* Brand Gradients */}
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-[#e91e63]/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
+                  <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#0F8DBF]/10 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2" />
 
-                {badgeText && (
-                  <div className="absolute top-4 sm:top-6 z-20">
-                    <span className="px-3 py-1 text-[10px] sm:text-xs font-black tracking-[0.15em] uppercase rounded-full bg-[#e91e63]/10 text-[#e91e63] border border-[#e91e63]/30 backdrop-blur-md shadow-[0_0_15px_rgba(233,30,99,0.1)]">
-                      {badgeText}
-                    </span>
-                  </div>
-                )}
+                  {badgeText && (
+                    <div className="absolute top-4 sm:top-6 z-20">
+                      <span className="px-3 py-1 text-[10px] sm:text-xs font-black tracking-[0.15em] uppercase rounded-full bg-[#e91e63]/10 text-[#e91e63] border border-[#e91e63]/30 backdrop-blur-md shadow-[0_0_15px_rgba(233,30,99,0.1)]">
+                        {badgeText}
+                      </span>
+                    </div>
+                  )}
 
-                <div className="relative z-10 w-full flex flex-col items-center justify-center gap-6 sm:gap-8 h-full">
-                  {/* Score View Optimized */}
-                  <div className="flex items-center justify-between w-full max-w-lg gap-4 sm:gap-8">
-                    {/* Home Team */}
-                    <div className="flex flex-col items-center gap-3 flex-1">
-                      <div className="relative group/logo w-16 h-16 sm:w-24 sm:h-24 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-1 sm:p-2 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:border-[#e91e63]/30">
-                        <div className="absolute inset-0 bg-white rounded-2xl opacity-90" />
-                        {homeLogo ? (
-                          <img src={homeLogo} alt={homeName} className="relative z-10 object-contain w-full h-full p-1" />
-                        ) : (
-                          <span className="relative z-10 text-xs font-black text-slate-800">LOC</span>
-                        )}
+                  <div className="relative z-10 w-full flex flex-col items-center justify-center gap-6 sm:gap-8 h-full">
+                    {/* Score View Optimized */}
+                    <div className="flex items-center justify-between w-full max-w-lg gap-4 sm:gap-8">
+                      {/* Home Team */}
+                      <div className="flex flex-col items-center gap-3 flex-1">
+                        <div className="relative group/logo w-16 h-16 sm:w-24 sm:h-24 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-1 sm:p-2 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:border-[#e91e63]/30">
+                          <div className="absolute inset-0 bg-white rounded-2xl opacity-90" />
+                          {homeLogo ? (
+                            <img src={homeLogo} alt={homeName} className="relative z-10 object-contain w-full h-full p-1" />
+                          ) : (
+                            <span className="relative z-10 text-xs font-black text-slate-800">LOC</span>
+                          )}
+                        </div>
+                        <span className="text-xs sm:text-sm font-black text-white text-center uppercase tracking-tight line-clamp-1">{homeName}</span>
                       </div>
-                      <span className="text-xs sm:text-sm font-black text-white text-center uppercase tracking-tight line-clamp-1">{homeName}</span>
-                    </div>
 
-                    {/* Result Center */}
-                    <div className="flex flex-col items-center gap-1 sm:gap-2">
-                       <div className="flex items-center gap-2 sm:gap-4">
-                          <span className="text-3xl sm:text-5xl font-black text-white tracking-tighter tabular-nums drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-                            {homeScore}
-                          </span>
-                          <span className="text-[#e91e63] text-xl sm:text-3xl font-black animate-pulse">-</span>
-                          <span className="text-3xl sm:text-5xl font-black text-white tracking-tighter tabular-nums drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-                            {awayScore}
-                          </span>
-                       </div>
-                       <div className="text-[9px] sm:text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]" suppressHydrationWarning>
-                         {fmtDMY(r.date)}
-                       </div>
-                    </div>
-
-                    {/* Away Team */}
-                    <div className="flex flex-col items-center gap-3 flex-1">
-                      <div className="relative group/logo w-16 h-16 sm:w-24 sm:h-24 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-1 sm:p-2 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:border-[#e91e63]/30">
-                        <div className="absolute inset-0 bg-white rounded-2xl opacity-90" />
-                        {awayLogo ? (
-                          <img src={awayLogo} alt={awayName} className="relative z-10 object-contain w-full h-full p-1" />
-                        ) : (
-                          <span className="relative z-10 text-xs font-black text-slate-800">VIS</span>
-                        )}
+                      {/* Result Center */}
+                      <div className="flex flex-col items-center gap-1 sm:gap-2">
+                         <div className="flex items-center gap-2 sm:gap-4">
+                            <span className="text-3xl sm:text-5xl font-black text-white tracking-tighter tabular-nums drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                              {homeScore}
+                            </span>
+                            <span className="text-[#e91e63] text-xl sm:text-3xl font-black animate-pulse">-</span>
+                            <span className="text-3xl sm:text-5xl font-black text-white tracking-tighter tabular-nums drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                              {awayScore}
+                            </span>
+                         </div>
+                         <div className="text-[9px] sm:text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]" suppressHydrationWarning>
+                           {fmtDMY(r.date)}
+                         </div>
                       </div>
-                      <span className="text-xs sm:text-sm font-black text-white text-center uppercase tracking-tight line-clamp-1">{awayName}</span>
+
+                      {/* Away Team */}
+                      <div className="flex flex-col items-center gap-3 flex-1">
+                        <div className="relative group/logo w-16 h-16 sm:w-24 sm:h-24 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-1 sm:p-2 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:border-[#e91e63]/30">
+                          <div className="absolute inset-0 bg-white rounded-2xl opacity-90" />
+                          {awayLogo ? (
+                            <img src={awayLogo} alt={awayName} className="relative z-10 object-contain w-full h-full p-1" />
+                          ) : (
+                            <span className="relative z-10 text-xs font-black text-slate-800">VIS</span>
+                          )}
+                        </div>
+                        <span className="text-xs sm:text-sm font-black text-white text-center uppercase tracking-tight line-clamp-1">{awayName}</span>
+                      </div>
                     </div>
+
+                    {/* Stats Link */}
+                    <button
+                      onClick={() => setSelectedMatch(r)}
+                      className="group/btn flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 hover:bg-[#e91e63]/15 border border-white/10 hover:border-[#e91e63]/30 transition-all duration-300 cursor-pointer active:scale-95"
+                    >
+                      <span className="text-sm">📊</span>
+                      <span className="text-[11px] font-bold text-slate-400 group-hover/btn:text-[#e91e63] transition-colors uppercase tracking-wider">
+                        Ver Estadísticas
+                      </span>
+                    </button>
                   </div>
+
+                  {/* Bottom line hint */}
+                  <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#e91e63]/20 to-transparent" />
                 </div>
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+        
+        {/* Custom styles for swiper bullets if needed */}
+        <style jsx global>{`
+          #results-carousel .swiper-pagination {
+            bottom: 6px !important;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 40;
+          }
+          #results-carousel .swiper-pagination-bullet { 
+            background: rgba(255, 255, 255, 0.3) !important; 
+            opacity: 1 !important; 
+            width: 8px;
+            height: 8px;
+            margin: 0 5px !important;
+            transition: all 0.3s ease;
+          }
+          #results-carousel .swiper-pagination-bullet-active { 
+            background: #e91e63 !important; 
+            width: 24px;
+            border-radius: 4px;
+            box-shadow: 0 0 15px rgba(233, 30, 99, 0.4);
+          }
+          #results-carousel .swiper-button-next, #results-carousel .swiper-button-prev { 
+            color: #fff !important; 
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(8px);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.1);
+            transform: translateY(-50%) scale(1); 
+            opacity: 0; 
+            transition: all 0.3s; 
+            z-index: 50;
+          }
+          .group\\/swiper:hover .swiper-button-next, .group\\/swiper:hover .swiper-button-prev {
+            opacity: 1;
+          }
+          #results-carousel .swiper-button-next::after, #results-carousel .swiper-button-prev::after {
+            font-size: 14px;
+            font-weight: black;
+          }
+          #results-carousel .swiper-button-disabled {
+            opacity: 0.1 !important;
+          }
+        `}</style>
+      </div>
 
-                {/* Bottom line hint */}
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#e91e63]/20 to-transparent" />
-              </div>
-            </SwiperSlide>
-          );
-        })}
-      </Swiper>
-      
-      {/* Custom styles for swiper bullets if needed */}
-      <style jsx global>{`
-        #results-carousel .swiper-pagination {
-          bottom: 6px !important;
-          height: 32px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 40;
-        }
-        #results-carousel .swiper-pagination-bullet { 
-          background: rgba(255, 255, 255, 0.3) !important; 
-          opacity: 1 !important; 
-          width: 8px;
-          height: 8px;
-          margin: 0 5px !important;
-          transition: all 0.3s ease;
-        }
-        #results-carousel .swiper-pagination-bullet-active { 
-          background: #e91e63 !important; 
-          width: 24px;
-          border-radius: 4px;
-          box-shadow: 0 0 15px rgba(233, 30, 99, 0.4);
-        }
-        #results-carousel .swiper-button-next, #results-carousel .swiper-button-prev { 
-          color: #fff !important; 
-          background: rgba(0,0,0,0.3);
-          backdrop-filter: blur(8px);
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          border: 1px solid rgba(255,255,255,0.1);
-          transform: translateY(-50%) scale(1); 
-          opacity: 0; 
-          transition: all 0.3s; 
-          z-index: 50;
-        }
-        .group\/swiper:hover .swiper-button-next, .group\/swiper:hover .swiper-button-prev {
-          opacity: 1;
-        }
-        #results-carousel .swiper-button-next::after, #results-carousel .swiper-button-prev::after {
-          font-size: 14px;
-          font-weight: black;
-        }
-        #results-carousel .swiper-button-disabled {
-          opacity: 0.1 !important;
-        }
-      `}</style>
-    </div>
+      {/* Stats Modal */}
+      {selectedMatch && (
+        <MatchStatsModal
+          matchId={selectedMatch._id || selectedMatch.id || ""}
+          homeTeamName={selectedMatch.homeTeam?.name || "Local"}
+          awayTeamName={selectedMatch.awayTeam?.name || "Visitante"}
+          homeScore={selectedMatch.homeScore ?? 0}
+          awayScore={selectedMatch.awayScore ?? 0}
+          homeLogo={selectedMatch.homeTeam?.logo || selectedMatch.homeTeam?.logoUrl}
+          awayLogo={selectedMatch.awayTeam?.logo || selectedMatch.awayTeam?.logoUrl}
+          date={fmtDMY(selectedMatch.date)}
+          category={selectedMatch.categoryGlosa || selectedMatch.competition || ""}
+          onClose={() => setSelectedMatch(null)}
+        />
+      )}
+    </>
   );
 }

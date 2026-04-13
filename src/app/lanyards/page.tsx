@@ -31,7 +31,7 @@ export default function LanyardsPage() {
             {/* El Logo */}
             <div className="absolute left-[30px] top-0 h-full w-[180px] z-30 flex items-center justify-center">
               <div className="w-full h-[120px] relative">
-                <Image src="/images/avidela-logo.png" alt="Logo" fill className="object-contain" />
+                <Image src="/images/avidela-logo1.png" alt="Logo" fill className="object-contain" />
               </div>
             </div>
 
@@ -68,7 +68,7 @@ export default function LanyardsPage() {
             {/* Logo */}
             <div className="absolute left-[30px] top-0 h-full w-[180px] z-30 flex items-center justify-center drop-shadow-md">
               <div className="w-full h-[120px] relative">
-                <Image src="/images/avidela-logo.png" alt="Logo" fill className="object-contain pointer-events-none" />
+                <Image src="/images/avidela-logo1.png" alt="Logo" fill className="object-contain pointer-events-none" />
               </div>
             </div>
 
@@ -136,7 +136,7 @@ export default function LanyardsPage() {
                {/* Zona Logo (Izquierda) */}
                <div className="w-[260px] h-full flex items-center justify-center shrink-0 pr-8">
                   <div className="w-[160px] h-[120px] relative">
-                    <Image src="/images/avidela-logo.png" alt="Logo" fill className="object-contain" />
+                    <Image src="/images/avidela-logo1.png" alt="Logo" fill className="object-contain" />
                   </div>
                </div>
 

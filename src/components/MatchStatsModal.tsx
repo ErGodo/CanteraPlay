@@ -93,12 +93,17 @@ export default function MatchStatsModal({
 
             // 4. Generate AI highlight
             generateHighlight(rawEvents, map);
+          } else {
+             // Fallback if fetch fails
+             generateHighlight(rawEvents, {});
           }
         } catch {
           /* athlete fetch failed – continue with callup names */
+          generateHighlight(rawEvents, {});
         }
       } else {
-        // No events – no highlight
+        // No athletes to fetch, just generate highlight
+        generateHighlight(rawEvents, {});
       }
     } catch (err) {
       console.error("Error loading match events:", err);
@@ -404,16 +409,6 @@ export default function MatchStatsModal({
                 </div>
               ))}
             </div>
-          ) : !hasEvents ? (
-            <div className="flex flex-col items-center justify-center py-12 gap-3 text-center">
-              <span className="text-4xl">📋</span>
-              <p className="text-sm text-slate-400 font-semibold">
-                No hay estadísticas registradas para este partido
-              </p>
-              <p className="text-[10px] text-slate-600">
-                Las estadísticas se registran durante o después de cada encuentro
-              </p>
-            </div>
           ) : (
             <>
               {/* AI Analysis */}
@@ -432,6 +427,20 @@ export default function MatchStatsModal({
                   ))}
                 </div>
               )}
+
+              {/* Empty state message IF no events */}
+              {!hasEvents && (
+               <div className="flex flex-col items-center justify-center py-6 gap-3 text-center opacity-80">
+                 <span className="text-3xl">📋</span>
+                 <p className="text-sm text-slate-400 font-semibold">
+                   No hay estadísticas de jugadores registradas
+                 </p>
+                 <p className="text-[10px] text-slate-600">
+                   Las estadísticas individuales se registran durante o después del partido
+                 </p>
+               </div>
+              )}
+
 
               {/* Goals */}
               {goals.length > 0 && (

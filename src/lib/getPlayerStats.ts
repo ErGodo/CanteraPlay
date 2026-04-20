@@ -17,33 +17,62 @@ export async function getPlayerStats() {
     const stats = await statsRes.json();
     const athletes = await athletesRes.json();
 
+    // Create a map for faster and more reliable athlete lookup
+    const athleteMap = new Map();
+    athletes.forEach((a: any) => {
+      athleteMap.set(a.pkAthlete, a);
+    });
+
     const result = stats.reduce((acc: any[], stat: any) => {
-      const athlete = athletes.find((a: any) => a.pkAthlete === stat.athleteId);
+      const athlete = athleteMap.get(stat.athleteId);
       
-      // Si el atleta no se encuentra, lo omitimos para que no aparezca como Desconocido
+      // CRITICAL: Skip if athlete not found in the official club list
       if (!athlete) return acc;
 
-      // Obtener la categoría del atleta desde su perfil (prioridad), sino usamos el del stat, sino Sin Serie
-      const athleteCategory = athlete.athleteClubCategories?.[0]?.clubCategory?.name;
+      const firstName = athlete.firstName || '';
+      const lastName = athlete.lastName || '';
+      const fullName = `${firstName} ${lastName}`.trim();
+
+      // If the name is empty or just whitespace, or suspicious, skip it to avoid "Desconocido"
+      if (!fullName || fullName.toLowerCase() === 'desconocido') return acc;
+
+      // Resolve category: Prioritize the athlete's assigned categories in their profile
+      let category = 'Sin Serie';
+      if (athlete.athleteClubCategories && athlete.athleteClubCategories.length > 0) {
+        // Try to find a non-empty category name
+        for (const accat of athlete.athleteClubCategories) {
+          if (accat.clubCategory && accat.clubCategory.name) {
+            category = accat.clubCategory.name;
+            break;
+          }
+        }
+      } else if (stat.categoryGlosa) {
+        // Fallback to the category from the match stats if profile has no category
+        category = stat.categoryGlosa;
+      } else if (athlete.position) {
+        category = athlete.position;
+      }
       
       acc.push({
         _id: stat.athleteId,
-        athleteName: `${athlete.firstName} ${athlete.lastName}`,
-        position: athleteCategory || stat.categoryGlosa || athlete.position || 'Sin Serie',
+        athleteName: fullName,
+        position: category,
         photo: athlete.photoUrl || null,
-        goals: stat.goals,
-        assists: stat.assists,
-        matches: stat.matches
+        goals: Number(stat.goals) || 0,
+        assists: Number(stat.assists) || 0,
+        matches: Number(stat.matches) || 0
       });
 
       return acc;
     }, []);
 
-    return result;
+    // Final global sort by goals just in case
+    return result.sort((a, b) => (b.goals || 0) - (a.goals || 0));
   } catch (error) {
     console.error('Error fetching backend player stats:', error);
     return [];
   }
 }
+
 
 export type PlayerStat = Awaited<ReturnType<typeof getPlayerStats>>[0]

@@ -17,18 +17,27 @@ export async function getPlayerStats() {
     const stats = await statsRes.json();
     const athletes = await athletesRes.json();
 
-    const result = stats.map((stat: any) => {
+    const result = stats.reduce((acc: any[], stat: any) => {
       const athlete = athletes.find((a: any) => a.pkAthlete === stat.athleteId);
-      return {
+      
+      // Si el atleta no se encuentra, lo omitimos para que no aparezca como Desconocido
+      if (!athlete) return acc;
+
+      // Obtener la categoría del atleta desde su perfil (prioridad), sino usamos el del stat, sino Sin Serie
+      const athleteCategory = athlete.athleteClubCategories?.[0]?.clubCategory?.name;
+      
+      acc.push({
         _id: stat.athleteId,
-        athleteName: athlete ? `${athlete.firstName} ${athlete.lastName}` : 'Desconocido',
-        position: stat.categoryGlosa || athlete?.position || 'Sin Serie',
-        photo: athlete?.photoUrl || null,
+        athleteName: `${athlete.firstName} ${athlete.lastName}`,
+        position: athleteCategory || stat.categoryGlosa || athlete.position || 'Sin Serie',
+        photo: athlete.photoUrl || null,
         goals: stat.goals,
         assists: stat.assists,
         matches: stat.matches
-      };
-    });
+      });
+
+      return acc;
+    }, []);
 
     return result;
   } catch (error) {

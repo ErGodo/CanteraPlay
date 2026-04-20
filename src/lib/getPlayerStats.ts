@@ -67,7 +67,7 @@ export async function getPlayerStats() {
     }, []);
 
     // Final global sort by goals just in case
-    return result.sort((a, b) => (b.goals || 0) - (a.goals || 0));
+    return result.sort((a: any, b: any) => (b.goals || 0) - (a.goals || 0));
   } catch (error) {
     console.error('Error fetching backend player stats:', error);
     return [];

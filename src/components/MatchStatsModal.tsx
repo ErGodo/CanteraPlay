@@ -440,18 +440,20 @@ export default function MatchStatsModal({
                     <span className="text-base">⚽</span> Goles
                   </h4>
                   <div className="space-y-2">
-                    {goals.map((e) => (
+                    {goals.map((e) => {
+                      const isGenericRival = !e.player;
+                      return (
                       <EventRow
                         key={e.id}
-                        icon={e.type === "OWN_GOAL" ? "🔴" : "⚽"}
-                        name={getName(e.player || {}, athleteMap)}
+                        icon={e.type === "OWN_GOAL" && !isGenericRival ? "🔴" : "⚽"}
+                        name={isGenericRival ? "Equipo Rival" : getName(e.player || {}, athleteMap)}
                         detail={
-                          e.type === "OWN_GOAL" ? "Autogol" : "Gol"
+                          isGenericRival ? "Gol" : (e.type === "OWN_GOAL" ? "Autogol" : "Gol")
                         }
                         minute={e.minute}
-                        accent="emerald"
+                        accent={isGenericRival ? "red" : "emerald"}
                       />
-                    ))}
+                    )})}
                   </div>
                 </div>
               )}

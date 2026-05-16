@@ -26,7 +26,7 @@ export default function SwiperGallery({ images, heightClass = 'h-[340px]' }: { i
           navigation={true}
           pagination={{
             clickable: true,
-            dynamicBullets: false
+            dynamicBullets: true
           }}
           autoplay={{ delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true }}
           loop
@@ -66,7 +66,7 @@ export default function SwiperGallery({ images, heightClass = 'h-[340px]' }: { i
                 ) : null}
 
                 {img.caption && (
-                  <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[92%] sm:w-fit sm:max-w-[85%] z-20 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                  <div className="absolute bottom-16 left-1/2 -translate-x-1/2 w-[92%] sm:w-fit sm:max-w-[85%] z-20 animate-in fade-in slide-in-from-bottom-4 duration-700">
                     <div className="backdrop-blur-xl bg-black/70 border border-white/10 text-white text-xs sm:text-sm leading-relaxed px-5 py-3 rounded-[20px] shadow-2xl text-center">
                       <div className="max-h-[80px] overflow-y-auto custom-scrollbar font-medium">
                         {img.caption}
@@ -111,8 +111,17 @@ export default function SwiperGallery({ images, heightClass = 'h-[340px]' }: { i
             .gallery-swiper-container .swiper-button-next { right: 16px !important; }
 
             .gallery-swiper-container .swiper-pagination {
-                bottom: 12px !important;
-                height: 40px;
+                bottom: 16px !important;
+                background: rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 100px;
+                padding: 0 10px;
+                width: auto !important;
+                min-width: 60px;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                height: 26px;
                 display: flex;
                 align-items: center;
                 justify-content: center;

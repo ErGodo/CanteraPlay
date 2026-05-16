@@ -24,6 +24,8 @@ import InstagramLinks from "@/components/InstagramLinks";
 import { FaInstagram } from "react-icons/fa";
 
 import Footer from "@/components/Footer";
+import Link from "next/link";
+import { IconMapPin } from "@tabler/icons-react";
 
 /* ------------------------------ Chips & mini componentes ------------------------------ */
 const Pill = ({ children }: { children: React.ReactNode }) => (
@@ -116,6 +118,34 @@ export default async function Home() {
         <div className="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-[#e91e63]/10 rounded-full blur-[120px]" />
         <div className="absolute top-[60%] left-[-10%] w-[600px] h-[600px] bg-[#0F8DBF]/10 rounded-full blur-[120px]" />
       </div>
+
+      {/* QUICK ACTION BAR: Entrenamientos */}
+      <section className="relative z-10 mx-auto w-full max-w-[95%] px-4 sm:px-6 lg:px-8 mt-[-2rem] sm:mt-[-3rem] mb-12">
+        <div className="bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-3xl p-4 sm:p-6 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-4 md:gap-8">
+          <div className="flex flex-col text-center md:text-left">
+            <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">¿Buscando dónde entrenar?</h3>
+            <p className="text-slate-400 text-sm sm:text-base font-medium">Descubre nuestras sedes en Santiago para niños y adultos</p>
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Link 
+              href="/entrenamientos#horarios" 
+              className="group relative flex items-center gap-2 px-6 py-3 rounded-full bg-pink-600/10 border border-pink-500/30 text-pink-500 font-bold hover:bg-pink-600 hover:text-white transition-all shadow-[0_0_15px_rgba(233,30,99,0.1)] hover:shadow-[0_0_20px_rgba(233,30,99,0.4)]"
+            >
+              <div className="absolute inset-0 rounded-full bg-pink-500 animate-ping opacity-20 group-hover:animate-none"></div>
+              <IconMapPin className="relative z-10 w-5 h-5 group-hover:-translate-y-1 transition-transform" />
+              <span className="relative z-10">Sede Ñuñoa</span>
+            </Link>
+            <Link 
+              href="/entrenamientos#horarios" 
+              className="group relative flex items-center gap-2 px-6 py-3 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 font-bold hover:bg-blue-500 hover:text-white transition-all shadow-[0_0_15px_rgba(59,130,246,0.1)] hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]"
+            >
+              <div className="absolute inset-0 rounded-full bg-blue-500 animate-ping opacity-20 group-hover:animate-none"></div>
+              <IconMapPin className="relative z-10 w-5 h-5 group-hover:-translate-y-1 transition-transform" />
+              <span className="relative z-10">Sede San Miguel</span>
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* MOMENTOS + CARDS DE PLANES */}
       <section

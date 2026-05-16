@@ -13,6 +13,7 @@ import sponsor from './sponsor'
 import standings from './standings'
 import team from './team'
 import testimonial from './testimonial'
+import trainingPhoto from './trainingPhoto'
 
 // Single exported array of schema types for Sanity studio
 export const schemaTypes = [
@@ -30,4 +31,5 @@ export const schemaTypes = [
 	testimonial,
 	playerStat,
 	team,
+	trainingPhoto,
 ]

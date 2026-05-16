@@ -3,7 +3,7 @@ import React from 'react';
 export default function WhatsAppButton() {
   // ¡Cambia este número por el WhatsApp oficial del club!
   // Se ha actualizado el número de contacto proporcionado por el club
-  const phoneNumber = "56938997570"; 
+  const phoneNumber = "56961094001"; 
   const message = "Hola,%20quisiera%20más%20información%20sobre%20Avidela%20Sport";
   const href = `https://wa.me/${phoneNumber}?text=${message}`;
 

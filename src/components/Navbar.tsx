@@ -2,6 +2,7 @@
 "use client";
 import { IconUser } from "@tabler/icons-react";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 import { FaInstagram } from "react-icons/fa";
 import InstagramLinks from "./InstagramLinks";
@@ -29,24 +30,27 @@ const Navbar = () => {
           height={48}
           className="rounded-xl object-contain"
         />
-        <span className="font-extrabold text-xl sm:text-2xl text-white tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
+        <Link href="/" className="font-extrabold text-xl sm:text-2xl text-white tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
           Avidela Sport
-        </span>
+        </Link>
       </div>
       <div className="flex-1" />
       {/* Desktop menu */}
       <ul className="hidden md:flex gap-6 font-semibold drop-shadow-md items-center">
         <li>
-          <a href="#plans" className="hover:text-[#ffd6e6] text-white transition-colors">Planes</a>
+          <Link href="/entrenamientos" className="hover:text-[#ffd6e6] text-white transition-colors">Entrenamientos</Link>
         </li>
         <li>
-          <a href="#info" className="hover:text-[#ffd6e6] text-white transition-colors">Noticias</a>
+          <a href="/#plans" className="hover:text-[#ffd6e6] text-white transition-colors">Planes</a>
         </li>
         <li>
-          <a href="#results" className="hover:text-[#ffd6e6] text-white transition-colors">Resultados</a>
+          <a href="/#info" className="hover:text-[#ffd6e6] text-white transition-colors">Noticias</a>
         </li>
         <li>
-          <a href="#contact" className="hover:text-[#ffd6e6] text-white transition-colors">Contacto</a>
+          <a href="/#results" className="hover:text-[#ffd6e6] text-white transition-colors">Resultados</a>
+        </li>
+        <li>
+          <a href="/#contact" className="hover:text-[#ffd6e6] text-white transition-colors">Contacto</a>
         </li>
         <li className="ml-4">
           <a 
@@ -83,10 +87,11 @@ const Navbar = () => {
             ${menuOpen ? "opacity-100 translate-y-0 scale-100 pointer-events-auto" : "opacity-0 -translate-y-4 scale-95 pointer-events-none"}`}
         >
           <ul className="px-4 py-3 space-y-1.5 font-semibold text-white">
-            <li><a href="#plans" className="block py-2 hover:text-pink-500 transition-colors" onClick={() => setMenuOpen(false)}>Planes</a></li>
-            <li><a href="#info" className="block py-2 hover:text-pink-500 transition-colors" onClick={() => setMenuOpen(false)}>Noticias</a></li>
-            <li><a href="#results" className="block py-2 hover:text-pink-500 transition-colors" onClick={() => setMenuOpen(false)}>Resultados</a></li>
-            <li><a href="#contact" className="block py-2 hover:text-pink-500 transition-colors" onClick={() => setMenuOpen(false)}>Contacto</a></li>
+            <li><Link href="/entrenamientos" className="block py-2 hover:text-pink-500 transition-colors" onClick={() => setMenuOpen(false)}>Entrenamientos</Link></li>
+            <li><a href="/#plans" className="block py-2 hover:text-pink-500 transition-colors" onClick={() => setMenuOpen(false)}>Planes</a></li>
+            <li><a href="/#info" className="block py-2 hover:text-pink-500 transition-colors" onClick={() => setMenuOpen(false)}>Noticias</a></li>
+            <li><a href="/#results" className="block py-2 hover:text-pink-500 transition-colors" onClick={() => setMenuOpen(false)}>Resultados</a></li>
+            <li><a href="/#contact" className="block py-2 hover:text-pink-500 transition-colors" onClick={() => setMenuOpen(false)}>Contacto</a></li>
             <li className="pt-2 pb-4">
               <a 
                 href="https://app.canteraplay.com/login" 

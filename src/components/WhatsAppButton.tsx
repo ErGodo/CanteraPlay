@@ -1,18 +1,9 @@
 "use client";
 import React from 'react';
-import { usePathname } from 'next/navigation';
 
 export default function WhatsAppButton() {
-  const pathname = usePathname();
-  
-  // ¡Cambia estos números por los oficiales del club!
-  const defaultNumber = "56961094001";
-  const trainingNumber = "56938997570";
-  
-  // Si estamos en la página de entrenamientos, usamos el número de Avidela
-  const isTrainingPage = pathname?.startsWith('/entrenamientos');
-  const phoneNumber = isTrainingPage ? trainingNumber : defaultNumber;
-  
+  // Número global de Avidela Sport
+  const phoneNumber = "56938997570";
   const message = "Hola,%20quisiera%20más%20información%20sobre%20Avidela%20Sport";
   const href = `https://wa.me/${phoneNumber}?text=${message}`;
 

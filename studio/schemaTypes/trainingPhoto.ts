@@ -23,8 +23,8 @@ export default {
             type: 'string',
             options: {
                 list: [
-                    { title: 'Ñuñoa', value: 'Ñuñoa' },
-                    { title: 'San Miguel', value: 'San Miguel' },
+                    { title: 'Francisco Meneses', value: 'Francisco Meneses' },
+                    { title: 'Estadio Nacional', value: 'Estadio Nacional' },
                 ],
                 layout: 'radio',
             },

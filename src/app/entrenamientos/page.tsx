@@ -9,11 +9,11 @@ import Link from "next/link";
 import React from "react";
 
 export const metadata: Metadata = {
-    title: "Entrenamientos de Fútbol en Santiago | Ñuñoa y San Miguel | Avidela Sport",
-    description: "Entrena fútbol en Santiago con Avidela Sport. Clases para niños desde 3 años y adultos en Ñuñoa y San Miguel. Primera clase gratis. Inscríbete hoy.",
+    title: "Entrenamientos de Fútbol en Santiago | Francisco Meneses y Estadio Nacional | Avidela Sport",
+    description: "Entrena fútbol en Santiago con Avidela Sport. Clases para niños desde 3 años y adultos en Francisco Meneses y Estadio Nacional. Primera clase gratis. Inscríbete hoy.",
     openGraph: {
-        title: "Entrenamientos de Fútbol en Santiago | Ñuñoa y San Miguel | Avidela Sport",
-        description: "Entrena fútbol en Santiago con Avidela Sport. Clases para niños desde 3 años y adultos en Ñuñoa y San Miguel. Primera clase gratis. Inscríbete hoy.",
+        title: "Entrenamientos de Fútbol en Santiago | Francisco Meneses y Estadio Nacional | Avidela Sport",
+        description: "Entrena fútbol en Santiago con Avidela Sport. Clases para niños desde 3 años y adultos en Francisco Meneses y Estadio Nacional. Primera clase gratis. Inscríbete hoy.",
         url: "https://avidelasport.com/entrenamientos",
         type: "website",
     }
@@ -23,19 +23,19 @@ const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SportsActivityLocation",
     "name": "Entrenamientos Avidela Sport",
-    "description": "Entrenamientos de fútbol para todas las edades en Ñuñoa y San Miguel.",
+    "description": "Entrenamientos de fútbol para todas las edades en Francisco Meneses y Estadio Nacional.",
     "url": "https://avidelasport.com/entrenamientos",
     "address": [
         {
             "@type": "PostalAddress",
-            "streetAddress": "Guillermo Mann 1420",
-            "addressLocality": "Ñuñoa",
+            "streetAddress": "Francisco Meneses",
+            "addressLocality": "Francisco Meneses",
             "addressRegion": "Santiago"
         },
         {
             "@type": "PostalAddress",
-            "streetAddress": "Gran Avenida José Miguel Carrera 3204",
-            "addressLocality": "San Miguel",
+            "streetAddress": "Gaspar Villarroel & Guillermo Mann",
+            "addressLocality": "Estadio Nacional",
             "addressRegion": "Santiago"
         }
     ]
@@ -78,7 +78,7 @@ export default async function EntrenamientosPage() {
                 <div className="relative z-10 w-full max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
                     <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 flex flex-col items-center">
                         <span className="px-4 py-2 bg-[#e91e63]/10 text-[#e91e63] rounded-full border border-[#e91e63]/30 font-black text-xs uppercase tracking-widest mb-8">
-                            Primera clase gratis en Ñuñoa
+                            Primera clase gratis en Francisco Meneses
                         </span>
                         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-6 drop-shadow-2xl leading-[1.1]">
                             Entrena con <span className="text-pink-500">Avidela Sport</span>
@@ -88,7 +88,7 @@ export default async function EntrenamientosPage() {
                     </div>
 
                     <p className="text-lg md:text-2xl text-slate-300 font-medium max-w-3xl mb-10 leading-relaxed animate-in fade-in slide-in-from-bottom-5 duration-700 delay-150">
-                        Fútbol para todas las edades en Ñuñoa y San Miguel
+                        Fútbol para todas las edades en Francisco Meneses y Estadio Nacional
                     </p>
 
                     <div className="animate-in fade-in zoom-in duration-500 delay-300 flex flex-col sm:flex-row gap-4">
@@ -118,7 +118,7 @@ export default async function EntrenamientosPage() {
 
                 {/* GALERÍA */}
                 <section>
-                    <SectionHeading title="Así son nuestros" highlight=" entrenamientos" subtitle="Fotos reales de nuestras sesiones en Ñuñoa y San Miguel" />
+                    <SectionHeading title="Así son nuestros" highlight=" entrenamientos" subtitle="Fotos reales de nuestras sesiones en Francisco Meneses y Estadio Nacional" />
                     <div className="mt-12">
                         <TrainingGallery photos={trainingPhotos} />
                     </div>
@@ -131,8 +131,8 @@ export default async function EntrenamientosPage() {
                         {[
                             { title: "Formación profesional", desc: "Para todas las edades y niveles", icon: <IconBallFootball className="w-8 h-8" /> },
                             { title: "Ambiente familiar", desc: "Una comunidad unida por el fútbol", icon: <IconUsers className="w-8 h-8" /> },
-                            { title: "Dos ubicaciones", desc: "Entrena en Ñuñoa o San Miguel", icon: <IconMapPin className="w-8 h-8" /> },
-                            { title: "Prueba gratis", desc: "Tu primera clase es gratis (en Ñuñoa)", icon: <IconCheck className="w-8 h-8" /> }
+                            { title: "Dos ubicaciones", desc: "Entrena en Francisco Meneses o Estadio Nacional", icon: <IconMapPin className="w-8 h-8" /> },
+                            { title: "Prueba gratis", desc: "Tu primera clase es gratis (en Francisco Meneses)", icon: <IconCheck className="w-8 h-8" /> }
                         ].map((b, i) => (
                             <div key={i} className="bg-slate-900 border border-slate-800 rounded-3xl p-8 flex flex-col items-center text-center group hover:border-pink-500/50 transition-colors">
                                 <div className="p-4 bg-slate-950 rounded-2xl border border-slate-800 text-pink-500 mb-6 group-hover:scale-110 transition-transform shadow-lg shadow-pink-500/10">

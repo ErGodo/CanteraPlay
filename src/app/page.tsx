@@ -133,7 +133,7 @@ export default async function Home() {
             >
               <div className="absolute inset-0 rounded-full bg-pink-500 animate-ping opacity-20 group-hover:animate-none"></div>
               <IconMapPin className="relative z-10 w-5 h-5 group-hover:-translate-y-1 transition-transform" />
-              <span className="relative z-10">Sede Ñuñoa</span>
+              <span className="relative z-10">Sede Francisco Meneses</span>
             </Link>
             <Link 
               href="/entrenamientos#horarios" 
@@ -141,7 +141,7 @@ export default async function Home() {
             >
               <div className="absolute inset-0 rounded-full bg-blue-500 animate-ping opacity-20 group-hover:animate-none"></div>
               <IconMapPin className="relative z-10 w-5 h-5 group-hover:-translate-y-1 transition-transform" />
-              <span className="relative z-10">Sede San Miguel</span>
+              <span className="relative z-10">Sede Estadio Nacional</span>
             </Link>
           </div>
         </div>

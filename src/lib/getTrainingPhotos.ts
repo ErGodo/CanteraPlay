@@ -17,7 +17,7 @@ export async function getTrainingPhotos() {
         _id: m.id,
         imageUrl: m.url,
         caption: m.title,
-        location: 'Ñuñoa',
+        location: 'Francisco Meneses',
         date: m.createdAt
       }));
     }
@@ -28,7 +28,7 @@ export async function getTrainingPhotos() {
         _id: m.id,
         imageUrl: m.url,
         caption: m.title,
-        location: 'San Miguel',
+        location: 'Estadio Nacional',
         date: m.createdAt
       }));
     }

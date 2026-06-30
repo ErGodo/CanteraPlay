@@ -14,7 +14,7 @@ export default function TrainingGallery({ photos }: { photos: any[] }) {
         <div className="w-full">
             {/* Filter */}
             <div className="flex justify-center gap-4 mb-8">
-                {["Todas", "Ñuñoa", "San Miguel"].map(f => (
+                {["Todas", "Francisco Meneses", "Estadio Nacional"].map(f => (
                     <button
                         key={f}
                         onClick={() => setFilter(f)}

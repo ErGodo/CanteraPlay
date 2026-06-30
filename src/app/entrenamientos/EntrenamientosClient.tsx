@@ -4,7 +4,7 @@ import { useState } from "react";
 import { IconMapPin, IconClock, IconCoin, IconCalendar, IconGift } from "@tabler/icons-react";
 
 export default function EntrenamientosClient() {
-    const [activeTab, setActiveTab] = useState<"Ñuñoa" | "San Miguel">("Ñuñoa");
+    const [activeTab, setActiveTab] = useState<"Francisco Meneses" | "Estadio Nacional">("Francisco Meneses");
     const [openFaq, setOpenFaq] = useState<number | null>(0);
 
     const faqs = [
@@ -14,15 +14,15 @@ export default function EntrenamientosClient() {
         },
         {
             q: "¿Qué necesito traer?",
-            a: "Ropa deportiva, zapatillas y agua. En Ñuñoa puedes usar tacos/toperoles, pero en San Miguel SOLO se permiten zapatillas o microtacos."
+            a: "Ropa deportiva, zapatillas y agua. En ambas sedes se permite el uso de zapatillas de fútbol (tacos/toperoles o microtacos)."
         },
         {
             q: "¿Cómo funciona la primera clase gratis?",
-            a: "Escríbenos por WhatsApp, coordinamos el día y vienes sin compromiso. Válido en Ñuñoa."
+            a: "Escríbenos por WhatsApp, coordinamos el día y vienes sin compromiso. Válido en Francisco Meneses."
         },
         {
             q: "¿Los niños pueden probar antes de inscribirse?",
-            a: "Sí, primera clase completamente gratis en Ñuñoa."
+            a: "Sí, primera clase completamente gratis en Francisco Meneses."
         },
         {
             q: "¿Cómo pago la mensualidad?",
@@ -36,29 +36,29 @@ export default function EntrenamientosClient() {
             <div className="flex justify-center mt-12 mb-12">
                 <div className="bg-slate-900 border border-slate-800 p-1.5 rounded-full flex gap-2">
                     <button
-                        onClick={() => setActiveTab("Ñuñoa")}
-                        className={`px-8 py-3 rounded-full font-bold text-lg transition-all duration-300 ${activeTab === "Ñuñoa"
+                        onClick={() => setActiveTab("Francisco Meneses")}
+                        className={`px-8 py-3 rounded-full font-bold text-lg transition-all duration-300 ${activeTab === "Francisco Meneses"
                             ? "bg-gradient-to-r from-pink-500 to-rose-600 text-white shadow-lg"
                             : "text-slate-400 hover:text-white hover:bg-white/5"
                             }`}
                     >
-                        Ñuñoa
+                        Francisco Meneses
                     </button>
                     <button
-                        onClick={() => setActiveTab("San Miguel")}
-                        className={`px-8 py-3 rounded-full font-bold text-lg transition-all duration-300 ${activeTab === "San Miguel"
+                        onClick={() => setActiveTab("Estadio Nacional")}
+                        className={`px-8 py-3 rounded-full font-bold text-lg transition-all duration-300 ${activeTab === "Estadio Nacional"
                             ? "bg-gradient-to-r from-[#0F8DBF] to-blue-600 text-white shadow-lg"
                             : "text-slate-400 hover:text-white hover:bg-white/5"
                             }`}
                     >
-                        San Miguel
+                        Estadio Nacional
                     </button>
                 </div>
             </div>
 
             {/* TAB CONTENT */}
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-                {activeTab === "Ñuñoa" ? (
+                {activeTab === "Francisco Meneses" ? (
                     <div className="flex flex-col gap-12">
                         {/* Dirección */}
                         <div className="flex flex-col md:flex-row items-center justify-between bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 gap-6 shadow-xl">
@@ -67,8 +67,8 @@ export default function EntrenamientosClient() {
                                     <IconMapPin size={28} />
                                 </div>
                                 <div>
-                                    <h3 className="text-white font-bold text-xl mb-1">Cancha Ñuñoa</h3>
-                                    <p className="text-slate-400">Guillermo Mann 1420, Ñuñoa, Santiago</p>
+                                    <h3 className="text-white font-bold text-xl mb-1">Cancha Francisco Meneses</h3>
+                                    <p className="text-slate-400">Francisco Meneses, Ñuñoa, Santiago</p>
                                 </div>
                             </div>
                             <div className="text-sm font-bold text-pink-500 bg-pink-500/10 px-4 py-2 rounded-full border border-pink-500/20">
@@ -123,23 +123,15 @@ export default function EntrenamientosClient() {
                                     <IconMapPin size={28} />
                                 </div>
                                 <div>
-                                    <h3 className="text-white font-bold text-xl mb-1">Cancha San Miguel</h3>
-                                    <p className="text-slate-400">Gran Avenida José Miguel Carrera 3204, San Miguel (dentro del Hospital Barros Luco)</p>
+                                    <h3 className="text-white font-bold text-xl mb-1">Cancha Estadio Nacional</h3>
+                                    <p className="text-slate-400">Gaspar Villarroel & Guillermo Mann, Ñuñoa (Parque Estadio Nacional, Guillermo Mann 1388)</p>
                                 </div>
                             </div>
                         </div>
 
                         {/* Cards */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <ScheduleCard
-                                title="NIÑOS Y JUVENILES (hasta 18 años)"
-                                day="Lunes"
-                                time="19:00 — 20:00"
-                                price="$25.000/mes"
-                                highlight="Primera clase GRATIS"
-                                gradient="from-[#0F8DBF] to-blue-600"
-                            />
-                            <div className="group relative h-full bg-slate-950 rounded-[32px] border border-slate-800 p-8 flex flex-col transition-all duration-500 hover:border-white/10 overflow-hidden shadow-xl">
+                        <div className="flex justify-center">
+                            <div className="w-full max-w-md group relative h-full bg-slate-950 rounded-[32px] border border-slate-800 p-8 flex flex-col transition-all duration-500 hover:border-white/10 overflow-hidden shadow-xl">
                                 <div className="absolute inset-0 bg-gradient-to-br from-amber-500 to-orange-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0" />
                                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 skew-y-12 translate-y-[-50%] z-0" />
 
@@ -156,11 +148,11 @@ export default function EntrenamientosClient() {
                                         <div className="space-y-4">
                                             <div className="flex items-center gap-3 text-slate-300 group-hover:text-white">
                                                 <IconCalendar size={20} className="text-slate-500 group-hover:text-white/80" />
-                                                <span className="font-semibold">Día: Lunes</span>
+                                                <span className="font-semibold">Día: Jueves</span>
                                             </div>
                                             <div className="flex items-center gap-3 text-slate-300 group-hover:text-white">
                                                 <IconClock size={20} className="text-slate-500 group-hover:text-white/80" />
-                                                <span className="font-semibold">Horario: 19:00 — 20:00</span>
+                                                <span className="font-semibold">Horario: 21:00 — 22:00</span>
                                             </div>
                                             <div className="flex flex-col gap-2 mt-4 text-slate-300 group-hover:text-white">
                                                 <div className="flex items-center gap-3">
@@ -187,7 +179,7 @@ export default function EntrenamientosClient() {
                         {/* Mapa */}
                         <div className="w-full aspect-[21/9] min-h-[300px] rounded-3xl overflow-hidden border border-slate-800 shadow-xl">
                             <iframe 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3327.3592864696013!2d-70.6509531!3d-33.498877!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662cf8880625ce5%3A0x6b107b3f9b2afb84!2sGran%20Avenida%20Jos%C3%A9%20Miguel%20Carrera%203204%2C%20San%20Miguel%2C%20Regi%C3%B3n%20Metropolitana!5e0!3m2!1ses-419!2scl!4v1700000000000!5m2!1ses-419!2scl" 
+                                src="https://maps.google.com/maps?q=Gaspar%20Villarroel%20%26%20Guillermo%20Mann,%20%C3%91u%C3%B1oa&t=&z=16&ie=UTF8&iwloc=&output=embed" 
                                 width="100%" 
                                 height="100%" 
                                 style={{ border: 0 }} 

@@ -41,6 +41,9 @@ const Navbar = () => {
           <Link href="/entrenamientos" className="hover:text-[#ffd6e6] text-white transition-colors">Entrenamientos</Link>
         </li>
         <li>
+          <Link href="/series" className="hover:text-[#ffd6e6] text-white transition-colors">Categorías</Link>
+        </li>
+        <li>
           <a href="/#plans" className="hover:text-[#ffd6e6] text-white transition-colors">Planes</a>
         </li>
         <li>
@@ -88,6 +91,7 @@ const Navbar = () => {
         >
           <ul className="px-4 py-3 space-y-1.5 font-semibold text-white">
             <li><Link href="/entrenamientos" className="block py-2 hover:text-pink-500 transition-colors" onClick={() => setMenuOpen(false)}>Entrenamientos</Link></li>
+            <li><Link href="/series" className="block py-2 hover:text-pink-500 transition-colors" onClick={() => setMenuOpen(false)}>Categorías</Link></li>
             <li><a href="/#plans" className="block py-2 hover:text-pink-500 transition-colors" onClick={() => setMenuOpen(false)}>Planes</a></li>
             <li><a href="/#info" className="block py-2 hover:text-pink-500 transition-colors" onClick={() => setMenuOpen(false)}>Noticias</a></li>
             <li><a href="/#results" className="block py-2 hover:text-pink-500 transition-colors" onClick={() => setMenuOpen(false)}>Resultados</a></li>

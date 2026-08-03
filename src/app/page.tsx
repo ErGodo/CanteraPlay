@@ -18,7 +18,9 @@ import { getTestimonials } from "@/lib/getTestimonials";
 // getStandings was removed from this page to avoid unused variable; use the `Competencia` component separately if needed.
 import NextMatchCarousel from "@/components/NextMatchCarousel";
 import PlansCarousel from "@/components/PlansCarousel";
+import BirthdaysSection from "@/components/BirthdaysSection";
 import { getUpcomingMatches } from "@/lib/getUpcomingMatches";
+import { getClubBirthdays } from "@/lib/getClubBirthdays";
 import Image from "next/image";
 import InstagramLinks from "@/components/InstagramLinks";
 import { FaInstagram } from "react-icons/fa";
@@ -71,7 +73,7 @@ const PlanIcon = ({ type }: { type: "matricula" | "partidos" | "combo" }) => {
   // fallback: arco / portería (net)
   return (
     <svg className="w-8 h-8 text-[#0a1a3c]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <rect x="2" y="5" width="20" height="12" rx="1" />
+      <rect x="2" y="5" width="20" height="12" rx="1" strokeWidth="1.5" />
       <path d="M2 9h20" />
       <path d="M2 13h20" />
       <path d="M8 5v12" />
@@ -84,7 +86,7 @@ const PlanIcon = ({ type }: { type: "matricula" | "partidos" | "combo" }) => {
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const [importantInfo, plans, childrenImages, adultImages, upcomingMatches, results, sponsors, testimonials, playerStats] =
+  const [importantInfo, plans, childrenImages, adultImages, upcomingMatches, results, sponsors, testimonials, playerStats, birthdaysData] =
     await Promise.all([
       getNews(),
       getPlans(),
@@ -94,7 +96,8 @@ export default async function Home() {
       getResults(),
       getSponsors(),
       getTestimonials(),
-      getPlayerStats()
+      getPlayerStats(),
+      getClubBirthdays()
     ]);
 
   // Branding
@@ -190,7 +193,15 @@ export default async function Home() {
       </section >
 
       {/* PRÓXIMO PARTIDO */}
-      < PlayerStats stats={playerStats} key="stats-v2" />
+      <PlayerStats stats={playerStats} key="stats-v2" />
+
+      {/* SECCIÓN CUMPLEAÑOS AVIDELA */}
+      <BirthdaysSection
+        todayBirthdays={birthdaysData.todayBirthdays}
+        weekBirthdays={birthdaysData.weekBirthdays}
+        monthBirthdays={birthdaysData.monthBirthdays}
+      />
+
       <section className="mx-auto w-full max-w-[95%] px-4 sm:px-6 lg:px-8 mt-10">
         <div className="rounded-3xl p-[2px] bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 shadow-2xl relative z-10">
           <div

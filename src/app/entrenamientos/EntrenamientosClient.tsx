@@ -95,7 +95,7 @@ export default function EntrenamientosClient() {
                                 gradient="from-purple-500 to-indigo-600"
                             />
                             <ScheduleCard
-                                title="INFANTILES (2012 a 2023)"
+                                title="INFANTILES (3-14 años)"
                                 day="Jueves"
                                 time="18:30 — 20:00"
                                 price="$25.000/mes"
@@ -105,7 +105,7 @@ export default function EntrenamientosClient() {
                         </div>
 
                         <div className="text-center text-slate-500 text-sm font-bold uppercase tracking-widest bg-slate-900/50 py-4 rounded-xl border border-slate-800">
-                            Nota: Los martes son exclusivos para niños y juveniles
+                            Nota: Los martes y jueves en esta sede son exclusivos para niños, infantiles y juveniles
                         </div>
 
                         {/* Mapa */}
@@ -270,9 +270,14 @@ function ScheduleCard({ title, day, time, price, highlight, gradient }: any) {
                             <IconClock size={20} className="text-slate-500 group-hover:text-white/80" />
                             <span className="font-semibold">Horario: {time}</span>
                         </div>
-                        <div className="flex items-center gap-3 text-slate-300 group-hover:text-white">
-                            <IconCoin size={20} className="text-slate-500 group-hover:text-white/80" />
-                            <span className="font-bold text-white">{price}</span>
+                        <div className="flex items-start gap-3 text-slate-300 group-hover:text-white">
+                            <IconCoin size={20} className="text-slate-500 group-hover:text-white/80 shrink-0 mt-0.5" />
+                            <div className="flex flex-col">
+                                <span className="font-bold text-white">{price}</span>
+                                <span className="text-xs font-medium text-slate-400 group-hover:text-white/80 mt-0.5">
+                                    (Incluye acceso a todos los entrenamientos)
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>

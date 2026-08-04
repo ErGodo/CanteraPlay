@@ -77,7 +77,7 @@ export default function EntrenamientosClient() {
                         </div>
 
                         {/* Cards */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                             <ScheduleCard
                                 title="NIÑOS (3-9 años)"
                                 day="Martes"
@@ -93,6 +93,14 @@ export default function EntrenamientosClient() {
                                 price="$25.000/mes"
                                 highlight="Primera clase GRATIS"
                                 gradient="from-purple-500 to-indigo-600"
+                            />
+                            <ScheduleCard
+                                title="INFANTILES (2012 a 2023)"
+                                day="Jueves"
+                                time="18:30 — 20:00"
+                                price="$25.000/mes"
+                                highlight="Primera clase GRATIS"
+                                gradient="from-blue-500 to-cyan-600"
                             />
                         </div>
 
